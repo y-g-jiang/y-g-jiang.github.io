@@ -1,0 +1,161 @@
+/* Global Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+}
+
+.gallery {
+    background-color: #fff;
+    padding: 2em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.gallery h2 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-item img {
+    width: 80%;
+    height: 175px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.grid-item figcaption {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+}
+
+.view-large {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.view-large:hover {
+    color: #23527c;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    clear: both;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* Image Styles */
+
+.grid-item img {
+    transition: transform 0.2s ease-in-out;
+}
+
+.grid-item img:hover {
+    transform: scale(1.1);
+}
+
+/* Caption Styles */
+
+.grid-item figcaption {
+    font-weight: bold;
+    color: #333;
+}
+
+/* View Large Styles */
+
+.view-large {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.view-large:hover {
+    color: #23527c;
+}
+
+/* Footer Styles */
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    clear: both;
+}
+
+footer p {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+}
