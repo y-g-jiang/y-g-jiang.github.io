@@ -7,7 +7,7 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #98c5e2;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -20,7 +20,7 @@ main {
 }
 
 .links-section {
-    background-color: #fff;
+    background-color: #a9d0f0;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -49,7 +49,7 @@ main {
 }
 
 footer {
-    background-color: #333;
+    background-color: #ffffff;
     color: #fff;
     padding: 10px;
     text-align: center;
