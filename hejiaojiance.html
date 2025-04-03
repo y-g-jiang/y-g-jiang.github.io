@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合焦区域检测器 v1.0.1 web version by 姜尧耕 (因为是网页版所以我砍掉了不少功能，大图不太支持，主要为了让大家演算那些宣传图)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center; /* 垂直居中对齐控件 */
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* 标签左对齐 */
+        }
+
+        .slider-label {
+            margin-bottom: 5px;
+        }
+
+        input[type="range"] {
+            width: 200px;
+        }
+
+        .image-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        canvas {
+            max-width: 600px;
+            max-height: 600px;
+            border: 1px solid #ccc;
+        }
+
+        #outputCanvas {
+            /*  可以添加额外的样式，例如突出显示边框等 */
+        }
+    </style>
+</head>
+<body>
+    <h1>合焦区域检测器 v1.0.1 web version by 姜尧耕 (因为是网页版所以我砍掉了不少功能，大图不太支持，主要为了让大家演算那些宣传图)</h1>
+
+    <div class="controls">
+        <input type="file" id="imageUpload" accept="image/*">
+
+        <div class="slider-group">
+            <label for="thresholdFactorSlider" class="slider-label">阈值系数:</label>
+            <input type="range" id="thresholdFactorSlider" min="0.05" max="50.0" value="1.0" step="0.05">
+            <span id="thresholdFactorValue">1.0</span>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <div>
+            <h2>原始图像</h2>
+            <canvas id="originalCanvas"></canvas>
+        </div>
+        <div>
+            <h2>合焦区域 (红色掩膜)</h2>
+            <canvas id="outputCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('imageUpload');
+        const thresholdFactorSlider = document.getElementById('thresholdFactorSlider');
+        const thresholdFactorValue = document.getElementById('thresholdFactorValue');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const outputCanvas = document.getElementById('outputCanvas');
+        const originalCtx = originalCanvas.getContext('2d');
+        const outputCtx = outputCanvas.getContext('2d');
+
+        let currentImage = null; // 存储当前加载的图像数据
+        let varianceMap = null; // 存储方差图 (网页版简化，不直接计算方差图)
+        let lastThresholdFactor = 1.0;
+        let lastImageDataURL = null;
+        const blockSize = 5; // 固定区域大小为 5
+
+        thresholdFactorValue.textContent = thresholdFactorSlider.value;
+
+        thresholdFactorSlider.addEventListener('input', () => {
+            thresholdFactorValue.textContent = thresholdFactorSlider.value;
+            updateDisplay();
+        });
+
+        imageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        originalCanvas.width = img.width;
+                        originalCanvas.height = img.height;
+                        outputCanvas.width = img.width;
+                        outputCanvas.height = img.height;
+                        originalCtx.drawImage(img, 0, 0, img.width, img.height);
+                        currentImage = originalCtx.getImageData(0, 0, img.width, img.height); // 获取图像数据
+                        varianceMap = null; // 清空旧的方差图
+                        lastImageDataURL = event.target.result; // 存储 ImageDataURL
+                        updateDisplay();
+                    }
+                    img.src = event.target.result; // 设置Image对象的源为 DataURL
+                }
+                reader.readAsDataURL(file); // 读取文件为DataURL
+            }
+        });
+
+        function calculateLaplacian(imageData) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+            const laplacianData = new ImageData(width, height).data;
+
+            // 拉普拉斯算子 (离散近似) -  简化版本，只考虑灰度强度变化
+            const kernel = [[0, 1, 0], [1, -4, 1], [0, 1, 0]]; // 更常用的拉普拉斯核
+            // const kernel = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]; // 另一种拉普拉斯核
+
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    let laplacianValue = 0;
+                    for (let ky = -1; ky <= 1; ky++) {
+                        for (let kx = -1; kx <= 1; kx++) {
+                            const pixelIndex = ((y + ky) * width + (x + kx)) * 4;
+                            // 简化灰度处理：只取红色通道作为灰度近似 (网页版简化)
+                            const intensity = data[pixelIndex]; // 红色通道近似灰度
+                            laplacianValue += intensity * kernel[ky + 1][kx + 1];
+                        }
+                    }
+
+                    const outputIndex = (y * width + x) * 4;
+                    // 取绝对值并映射到 0-255 范围 (简化处理)
+                    const absLaplacian = Math.abs(laplacianValue);
+                    laplacianData[outputIndex] = absLaplacian;     // R
+                    laplacianData[outputIndex + 1] = absLaplacian; // G
+                    laplacianData[outputIndex + 2] = absLaplacian; // B
+                    laplacianData[outputIndex + 3] = 255;        // A (不透明)
+                }
+            }
+            return new ImageData(laplacianData, width, height);
+        }
+
+
+        function calculateVarianceMap(laplacianImageData, blockSize) {
+            //  网页版简化：不精确计算方差，而是使用拉普拉斯响应的强度作为焦点指标
+            //  更精确的方差计算需要滑动窗口和统计计算，这里为了简化演示，略过精确方差计算
+            return laplacianImageData; // 直接返回拉普拉斯结果作为近似的 "方差图"
+        }
+
+
+        function applyThresholdMask(originalImageData, varianceMapData, thresholdFactor) {
+            if (!varianceMapData || !originalImageData) return null;
+
+            const width = originalImageData.width;
+            const height = originalImageData.height;
+            const originalData = originalImageData.data;
+            const varianceData = varianceMapData.data;
+            const maskedData = new ImageData(width, height).data;
+
+            let totalVariance = 0;
+            for (let i = 0; i < varianceData.length; i += 4) {
+                totalVariance += varianceData[i]; // 再次简化，只用红色通道近似
+            }
+            const averageVariance = totalVariance / (width * height);
+            const threshold = averageVariance * thresholdFactor;
+
+
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const index = (y * width + x) * 4;
+                    // 再次简化，只用红色通道近似拉普拉斯强度
+                    const currentVariance = varianceData[index];
+
+                    if (currentVariance > threshold) {
+                        // 合焦区域 - 应用红色掩膜 (半透明叠加)
+                        maskedData[index] = Math.min(255, originalData[index] * 0.5 + 255 * 0.5);     // R (红色增强)
+                        maskedData[index + 1] = Math.min(255, originalData[index + 1] * 0.5 ); // G (绿色减弱)
+                        maskedData[index + 2] = Math.min(255, originalData[index + 2] * 0.5 ); // B (蓝色减弱)
+                        maskedData[index + 3] = 255; // A
+                    } else {
+                        // 非合焦区域 -  保持原图颜色
+                        maskedData[index] = originalData[index];
+                        maskedData[index + 1] = originalData[index + 1];
+                        maskedData[index + 2] = originalData[index + 2];
+                        maskedData[index + 3] = 255;
+                    }
+                }
+            }
+            return new ImageData(maskedData, width, height);
+        }
+
+
+        function updateDisplay() {
+            if (!currentImage) return;
+
+            const thresholdFactor = parseFloat(thresholdFactorSlider.value);
+
+            // 缓存优化：只有当参数或图像改变时才重新计算
+            if (currentImage.data && (thresholdFactor !== lastThresholdFactor || lastImageDataURL !== originalCanvas.toDataURL())) {
+                console.log("重新计算合焦区域...");
+                const laplacianImage = calculateLaplacian(currentImage);
+                const calculatedVarianceMap = calculateVarianceMap(laplacianImage, blockSize); // blockSize 固定的值 5
+                varianceMap = calculatedVarianceMap; // 保存方差图 (简化版)
+                lastThresholdFactor = thresholdFactor;
+                lastImageDataURL = originalCanvas.toDataURL(); // 更新 ImageDataURL 缓存
+            } else if (!varianceMap) {
+                console.log("首次计算合焦区域...");
+                const laplacianImage = calculateLaplacian(currentImage);
+                const calculatedVarianceMap = calculateVarianceMap(laplacianImage, blockSize); // blockSize 固定的值 5
+                varianceMap = calculatedVarianceMap;
+                lastThresholdFactor = thresholdFactor;
+                lastImageDataURL = originalCanvas.toDataURL();
+            } else {
+                console.log("使用缓存的方差图...");
+            }
+
+
+            if (varianceMap) {
+                const maskedImage = applyThresholdMask(currentImage, varianceMap, thresholdFactor);
+                if (maskedImage) {
+                    outputCanvas.width = maskedImage.width; // 确保 canvas 尺寸正确 (可能图像尺寸改变)
+                    outputCanvas.height = maskedImage.height;
+                    outputCtx.putImageData(maskedImage, 0, 0);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
