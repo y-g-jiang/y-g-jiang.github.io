@@ -75,10 +75,10 @@
         <!-- 导航按钮 -->
         <nav class="flex justify-center items-center flex-wrap gap-4 my-8">
             <a href="https://y-g-jiang.github.io/index.html" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-5 rounded-lg transition-colors duration-300">
-                &larr; 返回主页
+                &larr; Back to Home
             </a>
             <a href="https://y-g-jiang.github.io/DCBL.html" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-5 rounded-lg transition-colors duration-300 shadow-lg shadow-cyan-500/20">
-                相关文档及黑电平数据库 &rarr;
+                Docs & Black Level DB &rarr;
             </a>
         </nav>
 
@@ -88,55 +88,61 @@
                 
                 <!-- 下载区域 -->
                 <div class="bg-slate-900/50 rounded-lg p-5 mb-8">
-                    <h2 class="text-2xl font-bold text-white mb-4">下载链接 (Download Link)</h2>
+                    <h2 class="text-2xl font-bold text-white mb-4">Download Link</h2>
                     <div class="space-y-3 text-slate-300">
-                        <p><strong>百度网盘:</strong> <a href="https://pan.baidu.com/s/1ePSYAOR0PWk3_V0MxFITWw?pwd=iprm" target="_blank" class="text-cyan-400 hover:underline break-all">https://pan.baidu.com/s/1ePSYAOR0PWk3_V0MxFITWw</a> (密码: iprm)</p>
+                        <p><strong>Baidu Netdisk:</strong> <a href="https://pan.baidu.com/s/1ePSYAOR0PWk3_V0MxFITWw?pwd=iprm" target="_blank" class="text-cyan-400 hover:underline break-all">https://pan.baidu.com/s/1ePSYAOR0PWk3_V0MxFITWw</a> (password: iprm)</p>
                         <p><strong>Google Drive:</strong> <a href="https://drive.google.com/file/d/1sCfFoi2sD5OMoqdDw1Hi9s544KMOpP2u/view?usp=sharing" target="_blank" class="text-cyan-400 hover:underline break-all">https://drive.google.com/file/d/1sCfFoi2sD5OMoqdDw1Hi9s544KMOpP2u/view?usp=sharing</a></p>
                     </div>
-                    <p class="mt-4 text-amber-400 text-sm">本软件仅支持由 Adobe 官方 DNG Converter 转换的 DNG 文件。 <a href="https://helpx.adobe.com/camera-raw/using/adobe-dng-converter.html" target="_blank" class="text-cyan-400 hover:underline font-semibold">点此下载转换器</a></p>
+                    <p class="mt-4 text-amber-400 text-sm">It only supports DNG from the Adobe official DNG Converter. <a href="https://helpx.adobe.com/camera-raw/using/adobe-dng-converter.html" target="_blank" class="text-cyan-400 hover:underline font-semibold">Download it here.</a></p>
                 </div>
 
                 <!-- 软件概述 -->
                 <h2 class="text-2xl font-bold text-white mt-8 mb-4 border-l-4 border-cyan-400 pl-3">Software Overview</h2>
                 <p class="text-slate-300 mb-4 leading-relaxed">
-                    本软件用于修正数码相机在低比特数据下因黑电平不准导致的暗部偏色问题。它通过将DNG的暗部数据对齐到一个精确的浮点黑电平基准，经过两次浮点数缩放，再通过成熟色彩管线整数渲染并抖动融合来实现这一目标。
+                    This software corrects for color casts in the deep shadows of digital cameras—an issue caused by inaccurate black levels when dealing with low-bit data. It achieves this by standardizing the DNG's shadow data against a precise floating-point black level, performing two floating-point scaling operations, rendering the result as an integer through a mature color pipeline and making a dithered fusion.
                 </p>
 
                 <!-- 使用指南 -->
                 <h2 class="text-2xl font-bold text-white mt-8 mb-4 border-l-4 border-cyan-400 pl-3">Interface & Usage Guide</h2>
-                <img src="https://pic-private.zhihu.com/v2-7315be87dc348280517ceb69eceb2b26~resize:1440:q75.png?source=1f5c5e47&expiration=1760129137&auth_key=1760129137-0-0-65d7a994405ea8e6637ba005458dd39a&protocol=v2&sampling=False&animatedImagePlayCount=1&overTime=60&incremental=False&sceneCode=article_draft_web&animatedImageAutoPlay=False&retryCount=3&precoder=False&draft_token=1959439279932576505" referrerpolicy="no-referrer" alt="Software Interface" class="rounded-lg my-6 mx-auto shadow-lg">
-                <p class="text-slate-300 mb-4 leading-relaxed">目前只提供无批处理的版本，批处理速度太慢，我仍在研究如何向量化操作。如果您对批处理版本感兴趣，请联系我。</p>
-                <p class="text-slate-300 mb-4 leading-relaxed"><strong>Step 1:</strong> 点击 <strong class="text-amber-400 font-mono">[Analyze Darks...]</strong></p>
-                <img src="https://pic-private.zhihu.com/v2-903ebaab47c7a9deba715ad186ba8f6f~resize:1440:q75.png?source=1f5c5e47&expiration=1760129486&auth_key=1760129486-0-0-c699776a124d819724a2b98970dca178&protocol=v2&sampling=False&animatedImagePlayCount=1&overTime=60&incremental=False&sceneCode=article_draft_web&animatedImageAutoPlay=False&retryCount=3&precoder=False&draft_token=1959439279932576505" referrerpolicy="no-referrer" alt="Analyze Darks Step" class="rounded-lg my-6 mx-auto shadow-lg">
-                <p class="text-slate-300 mb-4 leading-relaxed">选择一系列盖上镜头盖、在完全相同机身设置下拍摄的全黑暗场文件。分析完成后，会显示以下界面：</p>
-                <img src="https://pic-private.zhihu.com/v2-a9d58d78b99f7167eed1c706374439ae~resize:1440:q75.png?source=1f5c5e47&expiration=1760129283&auth_key=1760129283-0-0-d2455d64d216d3cfb94a356d28370d5e&protocol=v2&sampling=False&animatedImagePlayCount=1&overTime=60&incremental=False&sceneCode=article_draft_web&animatedImageAutoPlay=False&retryCount=3&precoder=False&draft_token=1959439279932576505" referrerpolicy="no-referrer" alt="Analysis Result Chart 1" class="rounded-lg my-6 mx-auto shadow-lg">
-                <img src="https://pic-private.zhihu.com/v2-3529afafe5dbeacf5a6f52b8a0c2ec16~resize:1440:q75.png?source=1f5c5e47&expiration=1760129300&auth_key=1760129300-0-0-453608acaaa49da5cf373112caf0575c&protocol=v2&sampling=False&animatedImagePlayCount=1&overTime=60&incremental=False&sceneCode=article_draft_web&animatedImageAutoPlay=False&retryCount=3&precoder=False&draft_token=1959439279932576505" referrerpolicy="no-referrer" alt="Analysis Result Chart 2" class="rounded-lg my-6 mx-auto shadow-lg">
-                <p class="text-slate-300 mb-4 leading-relaxed">此时，软件内对应的字段已被自动填充。您可以根据输出的折线图对这四个框内的数值进行微调。</p>
-                <img src="https://pic-private.zhihu.com/v2-6c82c8ea6711b418eeb376713eb06168~resize:1440:q75.png?source=1f5c5e47&expiration=1760129328&auth_key=1760129328-0-0-2309b009f36f71ce74d542a20908d089&protocol=v2&sampling=False&animatedImagePlayCount=1&overTime=60&incremental=False&sceneCode=article_draft_web&animatedImageAutoPlay=False&retryCount=3&precoder=False&draft_token=1959439279932576505" referrerpolicy="no-referrer" alt="Auto-populated fields" class="rounded-lg my-6 mx-auto shadow-lg">
-                <p class="text-slate-300 mb-4 leading-relaxed"><strong>Step 2:</strong> 点击 <strong class="text-amber-400 font-mono">[Browse Single File...]</strong>, 然后点击 <strong class="text-amber-400 font-mono">[Convert Single File]</strong> 进行单张转换。</p>
+                <img src="https://pic-private.zhihu.com/v2-7315be87dc348280517ceb69eceb2b26~resize:1440:q75.png?source=1f5c5e47&expiration=1760129137&auth_key=1760129137-0-0-65d7a994405ea8e6637ba005458dd39a" referrerpolicy="no-referrer" alt="Software Interface" class="rounded-lg my-6 mx-auto shadow-lg">
+                <p class="text-slate-300 mb-4 leading-relaxed">Currently, only a version without batch processing is available. Batch processing is too slow, and I am still working on how to vectorize it. If you're interested in a batch version, please contact me.</p>
+                <p class="text-slate-300 mb-4 leading-relaxed"><strong>Step 1:</strong> Click on <strong class="text-amber-400 font-mono">[Analyze Darks...]</strong></p>
+                <img src="https://pic-private.zhihu.com/v2-903ebaab47c7a9deba715ad186ba8f6f~resize:1440:q75.png?source=1f5c5e47&expiration=1760129486&auth_key=1760129486-0-0-c699776a124d819724a2b98970dca178" referrerpolicy="no-referrer" alt="Analyze Darks Step" class="rounded-lg my-6 mx-auto shadow-lg">
+                <p class="text-slate-300 mb-4 leading-relaxed">Select a series of completely black dark frames shot with the lens cap on, using identical camera settings. After the analysis is complete, this interface will be displayed:</p>
+                <img src="https://pic-private.zhihu.com/v2-a9d58d78b99f7167eed1c706374439ae~resize:1440:q75.png?source=1f5c5e47&expiration=1760129283&auth_key=1760129283-0-0-d2455d64d216d3cfb94a356d28370d5e" referrerpolicy="no-referrer" alt="Analysis Result Chart 1" class="rounded-lg my-6 mx-auto shadow-lg">
+                <img src="https://pic-private.zhihu.com/v2-3529afafe5dbeacf5a6f52b8a0c2ec16~resize:1440:q75.png?source=1f5c5e47&expiration=1760129300&auth_key=1760129300-0-0-453608acaaa49da5cf373112caf0575c" referrerpolicy="no-referrer" alt="Analysis Result Chart 2" class="rounded-lg my-6 mx-auto shadow-lg">
+                <p class="text-slate-300 mb-4 leading-relaxed">At this point, the corresponding fields within the software will have been automatically populated. You can slightly modify the values in these four boxes based on the output line chart.</p>
+                <img src="https://pic-private.zhihu.com/v2-6c82c8ea6711b418eeb376713eb06168~resize:1440:q75.png?source=1f5c5e47&expiration=1760129328&auth_key=1760129328-0-0-2309b009f36f71ce74d542a20908d089" referrerpolicy="no-referrer" alt="Auto-populated fields" class="rounded-lg my-6 mx-auto shadow-lg">
+                <p class="text-slate-300 mb-4 leading-relaxed"><strong>Step 2:</strong> Click on <strong class="text-amber-400 font-mono">[Browse Single File...]</strong>, then click on <strong class="text-amber-400 font-mono">[Convert Single File]</strong> to perform the single-file conversion.</p>
 
                 <!-- 性能与可靠性 -->
                 <h2 class="text-2xl font-bold text-white mt-8 mb-4 border-l-4 border-cyan-400 pl-3">Performance & Reliability</h2>
-                <h3 class="text-xl font-semibold text-white mt-6 mb-3">高光恢复能力</h3>
-                <p class="text-slate-300 mb-4 leading-relaxed">理论上与官方解码库无显著差异，实际测试也验证了这一点，您可以放心使用。</p>
-                <h3 class="text-xl font-semibold text-white mt-6 mb-3">欠曝处理能力 (软件核心优势)</h3>
-                <p class="text-slate-300 mb-4 leading-relaxed"><strong>示例 1:</strong> DPReview官方测试标版, 关灯, Panasonic G9, ISO 200。</p>
-                <p class="text-slate-400 text-sm mb-4">左图为LR默认解+5档曝光；右图为使用本软件处理。参数: 黑平衡重置为(142.7, 143, 142.7, 143) & Shadow Precision Multiplier = 16。</p>
+                <h3 class="text-xl font-semibold text-white mt-6 mb-3">Highlight Recovery Capability</h3>
+                <img src="https://pic-private.zhihu.com/v2-196e31b7076fd0a409d2cb61fb5e2954~resize:1440:q75.png?animatedImageAutoPlay=false&auth_key=1760126793-0-0-b7dab8e4192ce0ddff23a99541c44ff8&draft_token=1959439279932576505&expiration=1760126793" referrerpolicy="no-referrer" alt="Highlight recovery comparison" class="rounded-lg my-6 mx-auto shadow-lg">
+                <p class="text-slate-300 mb-4 leading-relaxed">Official decoder's highlight recovery (top) vs. my decoder's highlight recovery (bottom). (Since I don't have a waveform monitor plugin, let's just look at it this way—assume the highest gray level in the image is the clipping point.)</p>
+                <p class="text-slate-300 mb-4 leading-relaxed">Theoretically, there shouldn't be a significant difference (as both methods use semi-official libraries), and this holds true in practice (apart from minor differences in the tonal treatment of the clipped green channel at the very top). You can use it with confidence.</p>
+                
+                <h3 class="text-xl font-semibold text-white mt-6 mb-3">Underexposure Handling (Software's core strength)</h3>
+                <p class="text-slate-300 mb-4 leading-relaxed"><strong>Example 1:</strong> DPReview's official test chart, lights off, Panasonic G9, ISO 200. (<a href='https://www.dpreview.com/reviews/image-comparison/download-image?s3Key=1f101fe6296842a69f5b5f324089590e.rw2' target='_blank' class='text-cyan-400 hover:underline'>Download</a>)</p>
+                <p class="text-slate-400 text-sm mb-4">Image below: Left, Lightroom's default decoding with a direct +5 stop exposure boost; Right, using my software. Parameters: Black balance reset to (142.7, 143, 142.7, 143) & Shadow Precision Multiplier = 16.</p>
                 <img src="https://picx.zhimg.com/80/v2-f0ad15008d5346fa1068ae7a0da03738_720w.png?source=ccfced1a" referrerpolicy="no-referrer" alt="Example 1 Comparison" class="rounded-lg my-6 mx-auto shadow-lg">
-                <p class="text-slate-300 mb-4 leading-relaxed"><strong>示例 2:</strong> DPReview官方测试标版, ETTR -6档, OM-1。</p>
-                <p class="text-slate-400 text-sm mb-4">左图为LR默认解+6.18档曝光；右图为使用本软件处理。参数: 黑平衡重置为(254.90, 254.87, 254.90, 254.87) & Shadow Precision Multiplier = 16。</p>
-                <img src="https://pic-private.zhihu.com/v2-644d155d88f380540b4112c38e6c04bc~resize:1440:q75.png?source=1f5c5e47&expiration=1760128766&auth_key=1760128766-0-0-989048dccdddfad98a99f59629f2aec7&protocol=v2&sampling=False&animatedImagePlayCount=1&overTime=60&incremental=False&sceneCode=article_draft_web&animatedImageAutoPlay=False&retryCount=3&precoder=False&draft_token=1959439279932576505" referrerpolicy="no-referrer" alt="Example 2 Comparison" class="rounded-lg my-6 mx-auto shadow-lg">
+                
+                <p class="text-slate-300 mb-4 mt-6 leading-relaxed"><strong>Example 2:</strong> DPReview's official test chart, ETTR -6 stops, OM System OM-1. (<a href='https://www.dpreview.com/reviews/image-comparison/download-image?s3Key=85d55dcc45c34dc8bc5f9dcb88463735.orf' target='_blank' class='text-cyan-400 hover:underline'>Download</a>)</p>
+                <p class="text-slate-400 text-sm mb-4">Image below: Left, Lightroom's default decoding with a direct +6.18 stop exposure boost; Right, using my software. Parameters: Black balance reset to (254.90, 254.87, 254.90, 254.87) & Shadow Precision Multiplier = 16.</p>
+                <img src="https://pic-private.zhihu.com/v2-644d155d88f380540b4112c38e6c04bc~resize:1440:q75.png?source=1f5c5e47&expiration=1760128766&auth_key=1760128766-0-0-989048dccdddfad98a99f59629f2aec7" referrerpolicy="no-referrer" alt="Example 2 Comparison" class="rounded-lg my-6 mx-auto shadow-lg">
                 
                 <!-- 特别说明 -->
                 <h2 class="text-2xl font-bold text-white mt-8 mb-4 border-l-4 border-cyan-400 pl-3">Special Notes</h2>
-                <p class="text-slate-300 mb-4 leading-relaxed">本软件旨在解决低ISO下因黑电平精度问题导致的暗部偏色。但部分全画幅传感器在极限提亮（如8档以上）后的暗部偏色源于读出噪声本身，而非黑电平精度问题。对于多数全画幅相机，使用本软件有一定改善，但可能对某些相机（如部分佳能机型）效果有限。若您遇到任何问题，请及时告知，我将仔细研究。</p>
+                <p class="text-slate-300 mb-4 leading-relaxed">This software is designed to combat color casts in the shadows at low ISOs, which are caused by black level precision issues. However, some of the color cast in the shadows of full-frame sensors (especially after an 8+ stop push) originates from the shadow Read Noise (RN) itself, not from black level precision problems.</p>
+                <p class="text-slate-300 mb-4 leading-relaxed">For most full-frame cameras, using my software can indeed provide a degree of improvement. However, it may not work as effectively for certain cameras (for example, some Canon models exhibit a strong magenta cast, a result similar to a direct decoding in ACR within Photoshop when color noise reduction and other sliders are set to 0, without clicking 'Open Image'). In such cases, the result often improves dramatically after applying color noise reduction during RAW processing.</p>
+                <p class="text-slate-300 mb-4 leading-relaxed">If you encounter any issues, please inform me promptly, and I will carefully consider whether it is a problem with the software's decoding or a limitation dictated by physical principles.</p>
             
                 <!-- 相关文章 -->
                 <h2 class="text-2xl font-bold text-white mt-8 mb-4 border-l-4 border-cyan-400 pl-3">Related Articles</h2>
                  <div class="space-y-3">
-                    <a href="https://zhuanlan.zhihu.com/p/1957251283590321026" target="_blank" class="block text-cyan-400 hover:underline">这才是真正的色彩科学：从零到正确渲染DNG &rarr;</a>
-                    <a href="https://zhuanlan.zhihu.com/p/1953139822479798709" target="_blank" class="block text-cyan-400 hover:underline">为何我说OM1才是m43画质机：单拍连拍性能综述及偏色完美解决办法 &rarr;</a>
-                    <a href="https://zhuanlan.zhihu.com/p/1959096258582012529" target="_blank" class="block text-cyan-400 hover:underline">神之一手(2)|一种显著改善低bit封装下暗部偏色的办法 &rarr;</a>
+                    <a href="https://zhuanlan.zhihu.com/p/1957251283590321026" target="_blank" class="block text-cyan-400 hover:underline">这才是真正的色彩科学：从零到正确渲染DNG - 知乎 &rarr;</a>
+                    <a href="https://zhuanlan.zhihu.com/p/1953139822479798709" target="_blank" class="block text-cyan-400 hover:underline">为何我说OM1才是m43画质机：单拍连拍性能综述及偏色完美解决办法 - 知乎 &rarr;</a>
+                    <a href="https://zhuanlan.zhihu.com/p/1959096258582012529" target="_blank" class="block text-cyan-400 hover:underline">神之一手(2)|一种显著改善低bit封装下暗部偏色的办法 - 知乎 &rarr;</a>
                 </div>
             </div>
         </main>
