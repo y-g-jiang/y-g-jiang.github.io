@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Color Gamut Visualizer</title>
+    <!-- 使用Tailwind CSS的CDN，无需安装任何东西 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自定义配置以匹配设计文档 */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                        },
+                        blue: {
+                            500: '#3b82f6',
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                        }
+                    }
+                }
+            }
+        }
+
+        /* 为标题创建渐变文字效果 */
+        .gradient-text {
+            background-image: linear-gradient(to right, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* 页面滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-200 font-sans antialiased">
+
+    <!-- 主容器 -->
+    <div class="container mx-auto min-h-screen px-4 py-12 sm:px-6 lg:px-8 flex flex-col justify-center">
+
+        <!-- 头部 -->
+        <header class="text-center">
+            <h1 class="text-4xl sm:text-5xl font-bold gradient-text">
+                Camera Color Gamut Visualizer
+            </h1>
+            <p class="mt-4 text-xl text-slate-400">
+                by 姜尧耕
+            </p>
+        </header>
+
+        <!-- 新增的导航按钮 -->
+        <nav class="flex justify-center items-center gap-4 my-8">
+            <a href="https://y-g-jiang.github.io/index.html" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-5 rounded-lg transition-colors duration-300">
+                返回主页
+            </a>
+            <a href="https://y-g-jiang.github.io/CCGV.html" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-5 rounded-lg transition-colors duration-300 shadow-lg shadow-cyan-500/20">
+                前往相机RAW24色卡矫正后色域数据库
+            </a>
+        </nav>
+
+
+        <!-- 主内容卡片 -->
+        <main>
+            <div class="max-w-4xl mx-auto bg-slate-800/50 border border-slate-700 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:scale-[1.01] hover:border-cyan-400/50">
+                
+             
+
+                <!-- 分割线 -->
+                <hr class="border-slate-700 my-6"/>
+
+                <!-- 链接列表 -->
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-4">相关链接与文档</h2>
+                    <div class="space-y-3">
+
+                        <!-- 新增的链接 -->
+                        <a href="https://zhuanlan.zhihu.com/p/1957251283590321026" target="_blank" class="block text-cyan-400 text-lg hover:underline transition-colors">
+                            这才是真正的色彩科学(上)：从零到正确渲染DNG &rarr;
+                        </a>
+                        <a href="https://zhuanlan.zhihu.com/p/1964129715292996682" target="_blank" class="block text-cyan-400 text-lg hover:underline transition-colors">
+                            这才是真正的色彩科学(下)：RAW色域量化与标定引论 &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 补充说明 -->
+
+
+            </div>
+        </main>
+        
+        <!-- 页脚 -->
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 姜尧耕</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
