@@ -30,12 +30,16 @@
             }
         }
 
-        /* 为标题创建渐变文字效果 */
+        /* 为标题和新卡片创建渐变效果 */
         .gradient-text {
             background-image: linear-gradient(to right, #22d3ee, #3b82f6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+        
+        .gradient-bg {
+            background-image: linear-gradient(to right, #22d3ee, #3b82f6);
         }
 
         /* 页面滚动条美化（可选，增加科技感） */
@@ -132,6 +136,22 @@
                     <p><strong class="font-medium text-white">QQ:</strong> 1480125676</p>
                     <p><strong class="font-medium text-white">知乎/B站等:</strong> 姜尧耕</p>
                 </div>
+            </div>
+
+            <!-- 新增的功能卡片区域 -->
+            <div class="md:col-span-2 flex flex-col md:flex-row gap-6 lg:gap-8">
+                <!-- 卡片 1 -->
+                <a href="https://y-g-jiang.github.io/CCGV.html" target="_blank" class="flex-1 gradient-bg rounded-xl p-6 text-center text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20 flex items-center justify-center">
+                    科学标定、反映调色流程的RAW在XYZ下色域数据库
+                </a>
+                <!-- 卡片 2 -->
+                <a href="https://y-g-jiang.github.io/JTJS.html" target="_blank" class="flex-1 gradient-bg rounded-xl p-6 text-center text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20 flex items-center justify-center">
+                    【代表作】一站式镜头缺陷色卡模拟以及白平衡补偿效果评估系统 | 镜头机身全系统显色模拟器
+                </a>
+                <!-- 卡片 3 -->
+                <a href="https://y-g-jiang.github.io/CBLD.html" target="_blank" class="flex-1 gradient-bg rounded-xl p-6 text-center text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20 flex items-center justify-center">
+                    相机黑电平数据库
+                </a>
             </div>
 
             <!-- 卡片 4: 项目经历 (主卡片) -->
