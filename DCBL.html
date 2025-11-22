@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -41,14 +42,27 @@
         ::-webkit-scrollbar {
             width: 8px;
         }
+        
+        /* Light mode default */
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1e293b;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Dark mode overrides */
+        .dark ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
             background: #38bdf8;
         }
     </style>
@@ -63,9 +77,9 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-BvvLFOWL.js"></script>
+  <script type="module" crossorigin src="/assets/index-HTi4sTW0.js"></script>
 </head>
-<body class="bg-slate-900 text-slate-200 font-sans antialiased">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-200 font-sans antialiased transition-colors duration-300">
     <div id="root"></div>
 </body>
 </html>
