@@ -44,7 +44,7 @@ button:disabled { background: #ccc; cursor: not-allowed; }
 <div id="result"></div>
 
 <script>
-const LOCAL_API = 'http://localhost:5096';
+const LOCAL_API = 'http://localhost:5888';  // ✅ 已修改端口5888
 const resultDiv = document.getElementById('result');
 const statusBar = document.getElementById('statusBar');
 const statusIcon = document.getElementById('statusIcon');
@@ -59,7 +59,7 @@ let selectedFile = null;
 // 检测连接
 async function checkConnection() {
     try {
-        const response = await fetch(`${LOCAL_API}/health`);
+        const response = await fetch(`${LOCAL_API}/health`);  // ✅ 访问5888端口
         if (response.ok) {
             const data = await response.json();
             updateStatus(true, `🟢 本地服务已连接 (${data.exiftool_version})`);
@@ -114,7 +114,7 @@ async function readMetadata() {
     form.append('file', selectedFile);
 
     try {
-        const response = await fetch(`${LOCAL_API}/read`, {
+        const response = await fetch(`${LOCAL_API}/read`, {  // ✅ 发送请求到5888端口
             method: 'POST',
             body: form
         });
