@@ -2,108 +2,120 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>ExifTool 远程读取器</title>
+<title>ExifTool 桥梁演示</title>
 <style>
-body { font-family: Arial; padding: 40px; max-width: 800px; margin: 0 auto; }
-button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px; }
-#result { margin-top: 20px; padding: 15px; background: #f5f5f5; white-space: pre-wrap; word-wrap: break-word; display: none; }
-.error { color: red; background-color: #ffeeee !important; }
-#status { padding: 10px; margin-bottom: 20px; border-radius: 5px; }
-.connected { background: #d4edda; color: #155724; }
-.disconnected { background: #f8d7da; color: #721c24; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial; padding: 40px; max-width: 900px; margin: 0 auto; }
+h1 { color: #333; }
+.controls { margin: 20px 0; }
+button { padding: 12px 24px; font-size: 14px; cursor: pointer; margin: 5px; border: none; border-radius: 4px; background: #007bff; color: white; }
+button:disabled { background: #ccc; cursor: not-allowed; }
+.file-info { padding: 10px; background: #e7f3ff; margin: 10px 0; border-radius: 4px; }
+#result { margin-top: 20px; padding: 15px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; display: none; max-height: 600px; overflow-y: auto; }
+.error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+#statusBar { padding: 15px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; }
+.connected { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.disconnected { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-<h1>ExifTool 远程读取器</h1>
+<h1>🛠️ ExifTool 桥梁演示</h1>
 
-<div id="status" class="disconnected">
-  🔴 未检测到本地桥梁服务<br>
-  <small>请在本机运行 <code>server.exe</code> 以启用功能</small>
+<div id="statusBar" class="disconnected">
+  <span id="statusIcon">⏳</span>
+  <span id="statusText">正在检测本地服务...</span>
 </div>
 
-<input type="file" id="fileInput" style="display:none" />
-<button onclick="document.getElementById('fileInput').click()" id="selectBtn" disabled>📁 选择文件</button>
-<button onclick="readMetadata()" id="readBtn" disabled>🔍 读取元数据</button>
+<div class="controls">
+  <input type="file" id="fileInput" style="display:none" />
+  <button onclick="document.getElementById('fileInput').click()" id="selectBtn" disabled>
+    📁 选择文件
+  </button>
+  <button onclick="readMetadata()" id="readBtn" disabled>
+    🔍 读取元数据
+  </button>
+  <button onclick="manualReconnect()" style="background:#6c757d">
+    🔄 重新检测
+  </button>
+</div>
 
+<div id="fileInfo" class="file-info" style="display:none"></div>
 <div id="result"></div>
 
 <script>
-let apiKey = null;
+const LOCAL_API = 'http://localhost:5096';
 const resultDiv = document.getElementById('result');
-const statusDiv = document.getElementById('status');
+const statusBar = document.getElementById('statusBar');
+const statusIcon = document.getElementById('statusIcon');
+const statusText = document.getElementById('statusText');
 const selectBtn = document.getElementById('selectBtn');
 const readBtn = document.getElementById('readBtn');
+const fileInfo = document.getElementById('fileInfo');
 
-// 1. 从URL获取桥梁密钥
-function getBridgeKey() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('bridge_key');
-}
+let isConnected = false;
+let selectedFile = null;
 
-// 2. 检测桥梁服务
-async function checkBridge() {
-    apiKey = getBridgeKey();
-    if (!apiKey) {
-        updateStatus(false, '未从URL获取桥梁密钥');
-        return;
-    }
-
+// 检测连接
+async function checkConnection() {
     try {
-        const response = await fetch('http://localhost:5096/read', {
-            method: 'OPTIONS',
-            headers: { 'Authorization': `Bearer ${apiKey}` }
-        });
-        
+        const response = await fetch(`${LOCAL_API}/health`);
         if (response.ok) {
-            updateStatus(true, '桥梁服务已连接');
-            selectBtn.disabled = false;
-            readBtn.disabled = false;
+            const data = await response.json();
+            updateStatus(true, `🟢 本地服务已连接 (${data.exiftool_version})`);
+            isConnected = true;
         } else {
-            updateStatus(false, '桥梁服务未响应');
+            updateStatus(false, '🔴 服务响应异常');
+            isConnected = false;
         }
     } catch (error) {
-        updateStatus(false, '无法连接本地服务');
+        updateStatus(false, '🔴 请运行 server.py');
+        isConnected = false;
     }
 }
 
 function updateStatus(connected, message) {
-    statusDiv.className = connected ? 'connected' : 'disconnected';
-    statusDiv.innerHTML = connected ? 
-        `🟢 ${message}<br><small>现在可以安全读取本地文件</small>` :
-        `🔴 ${message}<br><small>请在本机运行 <code>server.exe</code> 后刷新页面</small>`;
+    statusBar.className = connected ? 'connected' : 'disconnected';
+    statusIcon.textContent = connected ? '✅' : '❌';
+    statusText.textContent = message;
+    selectBtn.disabled = !connected;
+    readBtn.disabled = !connected;
 }
 
-// 3. 文件选择
-let selectedFile = null;
+function manualReconnect() {
+    statusText.innerHTML = '检测中<span class="spinner"></span>';
+    checkConnection();
+}
+
+// 每2秒检测
+setInterval(checkConnection, 2000);
+checkConnection();
+
+// 文件选择
 document.getElementById('fileInput').addEventListener('change', (e) => {
     selectedFile = e.target.files[0];
     if (selectedFile) {
-        resultDiv.textContent = `已选择: ${selectedFile.name}`;
-        resultDiv.style.display = 'block';
-        resultDiv.className = '';
+        fileInfo.textContent = `文件: ${selectedFile.name} (${(selectedFile.size/1024/1024).toFixed(2)} MB)`;
+        fileInfo.style.display = 'block';
+        resultDiv.style.display = 'none';
     }
 });
 
-// 4. 读取元数据
+// 读取元数据
 async function readMetadata() {
-    if (!selectedFile) {
-        alert('请先选择文件');
-        return;
-    }
+    if (!isConnected) return alert('请先运行 server.py');
+    if (!selectedFile) return alert('请选择文件');
 
-    resultDiv.textContent = '正在读取元数据...';
-    resultDiv.className = '';
+    resultDiv.textContent = '⏳ 正在读取元数据...';
     resultDiv.style.display = 'block';
+    resultDiv.className = '';
 
     const form = new FormData();
     form.append('file', selectedFile);
 
     try {
-        const response = await fetch('http://localhost:5096/read', {
+        const response = await fetch(`${LOCAL_API}/read`, {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`
-            },
             body: form
         });
         
@@ -112,17 +124,14 @@ async function readMetadata() {
         if (data.success) {
             resultDiv.textContent = JSON.stringify(data.data, null, 2);
         } else {
-            resultDiv.textContent = `错误: ${data.error}`;
+            resultDiv.textContent = `❌ 错误: ${data.error}`;
             resultDiv.className = 'error';
         }
     } catch (error) {
-        resultDiv.textContent = `连接失败: ${error.message}\n\n1. 确保server.exe正在运行\n2. 刷新此页面重试`;
+        resultDiv.textContent = `❌ 连接失败: ${error.message}`;
         resultDiv.className = 'error';
     }
 }
-
-// 页面加载时检测桥梁
-checkBridge();
 </script>
 </body>
 </html>
