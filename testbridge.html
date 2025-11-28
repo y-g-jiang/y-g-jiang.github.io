@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ExifTool 远程读取器</title>
+<style>
+body { font-family: Arial; padding: 40px; max-width: 800px; margin: 0 auto; }
+button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px; }
+#result { margin-top: 20px; padding: 15px; background: #f5f5f5; white-space: pre-wrap; word-wrap: break-word; display: none; }
+.error { color: red; background-color: #ffeeee !important; }
+#status { padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+.connected { background: #d4edda; color: #155724; }
+.disconnected { background: #f8d7da; color: #721c24; }
+</style>
+</head>
+<body>
+<h1>ExifTool 远程读取器</h1>
+
+<div id="status" class="disconnected">
+  🔴 未检测到本地桥梁服务<br>
+  <small>请在本机运行 <code>server.exe</code> 以启用功能</small>
+</div>
+
+<input type="file" id="fileInput" style="display:none" />
+<button onclick="document.getElementById('fileInput').click()" id="selectBtn" disabled>📁 选择文件</button>
+<button onclick="readMetadata()" id="readBtn" disabled>🔍 读取元数据</button>
+
+<div id="result"></div>
+
+<script>
+let apiKey = null;
+const resultDiv = document.getElementById('result');
+const statusDiv = document.getElementById('status');
+const selectBtn = document.getElementById('selectBtn');
+const readBtn = document.getElementById('readBtn');
+
+// 1. 从URL获取桥梁密钥
+function getBridgeKey() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('bridge_key');
+}
+
+// 2. 检测桥梁服务
+async function checkBridge() {
+    apiKey = getBridgeKey();
+    if (!apiKey) {
+        updateStatus(false, '未从URL获取桥梁密钥');
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5096/read', {
+            method: 'OPTIONS',
+            headers: { 'Authorization': `Bearer ${apiKey}` }
+        });
+        
+        if (response.ok) {
+            updateStatus(true, '桥梁服务已连接');
+            selectBtn.disabled = false;
+            readBtn.disabled = false;
+        } else {
+            updateStatus(false, '桥梁服务未响应');
+        }
+    } catch (error) {
+        updateStatus(false, '无法连接本地服务');
+    }
+}
+
+function updateStatus(connected, message) {
+    statusDiv.className = connected ? 'connected' : 'disconnected';
+    statusDiv.innerHTML = connected ? 
+        `🟢 ${message}<br><small>现在可以安全读取本地文件</small>` :
+        `🔴 ${message}<br><small>请在本机运行 <code>server.exe</code> 后刷新页面</small>`;
+}
+
+// 3. 文件选择
+let selectedFile = null;
+document.getElementById('fileInput').addEventListener('change', (e) => {
+    selectedFile = e.target.files[0];
+    if (selectedFile) {
+        resultDiv.textContent = `已选择: ${selectedFile.name}`;
+        resultDiv.style.display = 'block';
+        resultDiv.className = '';
+    }
+});
+
+// 4. 读取元数据
+async function readMetadata() {
+    if (!selectedFile) {
+        alert('请先选择文件');
+        return;
+    }
+
+    resultDiv.textContent = '正在读取元数据...';
+    resultDiv.className = '';
+    resultDiv.style.display = 'block';
+
+    const form = new FormData();
+    form.append('file', selectedFile);
+
+    try {
+        const response = await fetch('http://localhost:5096/read', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: form
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            resultDiv.textContent = JSON.stringify(data.data, null, 2);
+        } else {
+            resultDiv.textContent = `错误: ${data.error}`;
+            resultDiv.className = 'error';
+        }
+    } catch (error) {
+        resultDiv.textContent = `连接失败: ${error.message}\n\n1. 确保server.exe正在运行\n2. 刷新此页面重试`;
+        resultDiv.className = 'error';
+    }
+}
+
+// 页面加载时检测桥梁
+checkBridge();
+</script>
+</body>
+</html>
