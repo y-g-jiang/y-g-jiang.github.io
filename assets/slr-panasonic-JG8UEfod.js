@@ -1,0 +1,19 @@
+const a=`<!DOCTYPE lensdatabase SYSTEM "lensfun-database.dtd">
+<lensdatabase version="2">
+
+    <camera>
+        <maker>Panasonic</maker>
+        <model>DMC-L1</model>
+        <mount>4/3 System</mount>
+        <cropfactor>2</cropfactor>
+    </camera>
+
+    <camera>
+        <maker>Panasonic</maker>
+        <model>DMC-L10</model>
+        <mount>4/3 System</mount>
+        <cropfactor>2</cropfactor>
+    </camera>
+
+</lensdatabase>
+`;export{a as default};
