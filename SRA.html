@@ -695,36 +695,44 @@
     }
 
     function findSoundFieldEdge(distanceMeters, spacingMeters, angleDeg) {
-      const upperValue = Math.abs(
-        getCardioidPoint(FRONT_HEMISPHERE_LIMIT, distanceMeters, spacingMeters, angleDeg).phantomAngleRaw
-      );
+      const step = 0.25;
+      let previousOmega = 0;
+      let previousValue =
+        Math.abs(getCardioidPoint(0, distanceMeters, spacingMeters, angleDeg).phantomAngleRaw) - 30;
 
-      if (upperValue < 30) {
-        return {
-          edgeDeg: FRONT_HEMISPHERE_LIMIT,
-          saturates: false
-        };
-      }
+      for (let omega = step; omega <= FRONT_HEMISPHERE_LIMIT; omega += step) {
+        const value =
+          Math.abs(getCardioidPoint(omega, distanceMeters, spacingMeters, angleDeg).phantomAngleRaw) - 30;
 
-      let low = 0;
-      let high = FRONT_HEMISPHERE_LIMIT;
+        if (previousValue < 0 && value >= 0) {
+          let low = previousOmega;
+          let high = omega;
 
-      for (let index = 0; index < 48; index += 1) {
-        const mid = (low + high) / 2;
-        const value = Math.abs(
-          getCardioidPoint(mid, distanceMeters, spacingMeters, angleDeg).phantomAngleRaw
-        );
+          for (let index = 0; index < 40; index += 1) {
+            const mid = (low + high) / 2;
+            const midValue =
+              Math.abs(getCardioidPoint(mid, distanceMeters, spacingMeters, angleDeg).phantomAngleRaw) - 30;
 
-        if (value >= 30) {
-          high = mid;
-        } else {
-          low = mid;
+            if (midValue >= 0) {
+              high = mid;
+            } else {
+              low = mid;
+            }
+          }
+
+          return {
+            edgeDeg: high,
+            saturates: true
+          };
         }
+
+        previousOmega = omega;
+        previousValue = value;
       }
 
       return {
-        edgeDeg: high,
-        saturates: true
+        edgeDeg: FRONT_HEMISPHERE_LIMIT,
+        saturates: false
       };
     }
 
