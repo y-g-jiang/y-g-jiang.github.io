@@ -381,6 +381,7 @@
       folderSourceType: "none",
       dynamicCurveCount: 0,
       isLoadingFolder: false,
+      forcePerCurveColor: false,
     };
 
     const layout = {
@@ -439,6 +440,11 @@
       return `hsl(${hue} 65% 45%)`;
     }
 
+    function colorForCurveIdentity(curve) {
+      const hue = hashString(curve.id || curve.source_file || curve.label) % 360;
+      return `hsl(${hue} 70% 45%)`;
+    }
+
     function uniqueSeries() {
       const seen = new Set();
       const ordered = [];
@@ -468,6 +474,9 @@
     }
 
     function curveColor(curve) {
+      if (state.forcePerCurveColor) {
+        return colorForCurveIdentity(curve);
+      }
       return curve.color || colorForSeriesLabel(curve.series_label);
     }
 
@@ -816,6 +825,18 @@
       clearButton.textContent = "清空";
       clearButton.addEventListener("click", () => setSelection([]));
       toolbar.appendChild(clearButton);
+
+      const colorModeButton = document.createElement("button");
+      colorModeButton.type = "button";
+      colorModeButton.className = state.forcePerCurveColor ? "" : "secondary";
+      colorModeButton.textContent = state.forcePerCurveColor ? "每条不同颜色：开" : "每条不同颜色：关";
+      colorModeButton.addEventListener("click", () => {
+        state.forcePerCurveColor = !state.forcePerCurveColor;
+        renderToolbar();
+        renderControls();
+        render();
+      });
+      toolbar.appendChild(colorModeButton);
 
       for (const label of uniqueSeries()) {
         const button = document.createElement("button");
