@@ -299,7 +299,7 @@
     <aside class="panel sidebar">
       <div>
         <h1>MTF 对焦组查看器</h1>
-        <p id="subtitle" class="subtitle">页面保持原始 cy/px 横轴，不做归一化。当前不保留任何历史 MTF 记录，请选择 CSV 文件夹导入。</p>
+        <p id="subtitle" class="subtitle">页面会把 CSV 频率自动归一到 0~2 cyc/px。当前不保留任何历史 MTF 记录，请选择 CSV 文件夹导入。</p>
       </div>
 
       <div id="dataset-note" class="meta-note"></div>
@@ -508,9 +508,9 @@
       datasetNote.textContent = allCountText ? `分组：${allCountText}` : "分组：暂无曲线";
 
       if (state.dynamicCurveCount > 0) {
-        subtitle.textContent = `页面保持原始 cy/px 横轴，不做归一化。已从“${state.folderLabel}”读入 ${state.dynamicCurveCount} 条 CSV，并按文件名去掉数字后的结果自动归类。`;
+        subtitle.textContent = `页面会把 CSV 频率自动归一到 0~2 cyc/px。已从“${state.folderLabel}”读入 ${state.dynamicCurveCount} 条 CSV，并按文件名去掉数字后的结果自动归类。`;
       } else {
-        subtitle.textContent = "页面保持原始 cy/px 横轴，不做归一化。当前不保留任何历史 MTF 记录，请选择 CSV 文件夹导入。";
+        subtitle.textContent = "页面会把 CSV 频率自动归一到 0~2 cyc/px。当前不保留任何历史 MTF 记录，请选择 CSV 文件夹导入。";
       }
 
       if (state.dynamicCurveCount > 0) {
@@ -624,6 +624,28 @@
       return null;
     }
 
+    function normalizePointsToTwoCycPerPixel(points) {
+      if (!points.length) {
+        return points;
+      }
+
+      const terminalFrequency = points[points.length - 1]?.frequency;
+      const fallbackMaxFrequency = Math.max(...points.map((point) => point.frequency), 0);
+      const referenceFrequency = Number.isFinite(terminalFrequency) && terminalFrequency > 0
+        ? terminalFrequency
+        : fallbackMaxFrequency;
+
+      if (!Number.isFinite(referenceFrequency) || referenceFrequency <= 0) {
+        return points;
+      }
+
+      const scale = 2 / referenceFrequency;
+      return points.map((point) => ({
+        frequency: point.frequency * scale,
+        contrast: point.contrast,
+      }));
+    }
+
     async function buildDynamicCurveFromFile(file) {
       const resolved = resolveDynamicSeries(file.name);
       if (!resolved) {
@@ -631,10 +653,11 @@
       }
 
       const text = await file.text();
-      const points = parseCsvPoints(text);
-      if (!points.length) {
+      const parsedPoints = parseCsvPoints(text);
+      if (!parsedPoints.length) {
         return null;
       }
+      const points = normalizePointsToTwoCycPerPixel(parsedPoints);
 
       const { seriesLabel, sampleId } = resolved;
       return {
@@ -902,7 +925,7 @@
           letter-spacing="0.6"
           pointer-events="none"
         >Jiangtherapee Online
-          <tspan x="${centerX}" dy="1.45em" font-size="22" font-weight="600">y-g-jiang.github.io</tspan>
+          <tspan x="${centerX}" y="${layout.marginTop + plotHeight - 18}" font-size="22" font-weight="600">y-g-jiang.github.io</tspan>
         </text>
       `;
     }
