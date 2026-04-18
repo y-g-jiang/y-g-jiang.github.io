@@ -1,0 +1,1182 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTF 对焦组查看器</title>
+  <style>
+    :root {
+      --bg: #f6f2ea;
+      --panel: rgba(255, 252, 246, 0.92);
+      --panel-soft: rgba(255, 255, 255, 0.72);
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --grid: rgba(31, 41, 55, 0.12);
+      --line: rgba(31, 41, 55, 0.18);
+      --accent: #9a3412;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.12), transparent 26%),
+        linear-gradient(180deg, #fbf7f0 0%, #efe7d7 100%);
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 22px;
+      min-height: 100vh;
+      padding: 22px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar {
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.55rem;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.96rem;
+    }
+
+    .meta-note {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #7c2d12, #c2410c);
+      box-shadow: 0 8px 16px rgba(194, 65, 12, 0.18);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(194, 65, 12, 0.24);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.58;
+      transform: none;
+      box-shadow: none;
+    }
+
+    button.secondary {
+      background: linear-gradient(135deg, #334155, #475569);
+      box-shadow: 0 8px 16px rgba(51, 65, 85, 0.16);
+    }
+
+    .group-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .distance-group {
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .distance-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .distance-header strong {
+      font-size: 0.98rem;
+    }
+
+    .distance-header span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .curve-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    label.curve-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 12px;
+      background: rgba(248, 250, 252, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      cursor: pointer;
+      transition: border-color 0.16s ease, transform 0.16s ease, background 0.16s ease;
+    }
+
+    label.curve-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(154, 52, 18, 0.24);
+      background: rgba(255, 247, 237, 0.9);
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    .swatch {
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .curve-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .curve-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .curve-mtf50 {
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .summary {
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+    }
+
+    .summary h2 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .summary p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+      gap: 10px;
+    }
+
+    .chart-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 4px 8px 0;
+    }
+
+    .chart-title h2 {
+      margin: 0;
+      font-size: 1.18rem;
+    }
+
+    .chart-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .chart-wrap {
+      position: relative;
+      min-height: 760px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 244, 0.94));
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      overflow: hidden;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .empty-state {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-note {
+      padding: 0 8px 6px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 1100px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-wrap {
+        min-height: 640px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .curve-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="panel sidebar">
+      <div>
+        <h1>MTF 对焦组查看器</h1>
+        <p id="subtitle" class="subtitle">页面保持原始 cy/px 横轴，不做归一化。当前不保留任何历史 MTF 记录，请选择 CSV 文件夹导入。</p>
+      </div>
+
+      <div id="dataset-note" class="meta-note"></div>
+
+      <div id="toolbar" class="toolbar"></div>
+
+      <section class="summary">
+        <h2>CSV 数据源</h2>
+        <p id="folder-summary">当前没有任何预置曲线。选择包含 CSV 的文件夹后，页面会按“文件名去掉数字后的结果”自动归类，同类编号会自动延伸。</p>
+        <div class="toolbar">
+          <button id="pick-folder-button" type="button">选择 CSV 文件夹</button>
+          <button id="reload-folder-button" type="button" class="secondary" disabled>刷新 CSV</button>
+        </div>
+        <input id="csv-folder-input" type="file" accept=".csv,text/csv" multiple webkitdirectory hidden>
+      </section>
+
+      <div id="curve-groups" class="group-list"></div>
+
+      <section class="summary">
+        <h2>当前选择</h2>
+        <p id="selection-summary"></p>
+      </section>
+    </aside>
+
+    <main class="panel main">
+      <div class="chart-title">
+        <h2>多曲线叠合图</h2>
+        <p id="axis-note"></p>
+      </div>
+      <div id="xcap-panel" class="summary" style="display:none; margin: 0 8px 6px;">
+        <div style="font-size:0.88rem; color:var(--muted); margin-bottom:10px;">X 轴范围</div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px 16px; font-size:0.92rem;">
+          <label style="display:flex; align-items:center; gap:8px;">
+            <input name="xcap-mode" type="radio" value="full" checked>
+            全部
+          </label>
+          <label style="display:flex; align-items:center; gap:8px;">
+            <input name="xcap-mode" type="radio" value="nyquist">
+            只看奈频 0.5 cy/px
+          </label>
+          <label style="display:flex; align-items:center; gap:8px;">
+            <input name="xcap-mode" type="radio" value="one">
+            仅显示到 1 cy/px
+          </label>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <svg id="chart" viewBox="0 0 1280 780" aria-label="MTF overlay chart"></svg>
+        <div id="empty-state" class="empty-state">请选择 CSV 文件夹后开始查看曲线</div>
+      </div>
+
+      <div class="footer-note">
+        每条已选曲线会在 Contrast = 0.5 处标出 MTF50，并从该点拉出标注线显示数值。
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const curves = [];
+    const chart = document.getElementById("chart");
+    const toolbar = document.getElementById("toolbar");
+    const curveGroups = document.getElementById("curve-groups");
+    const summary = document.getElementById("selection-summary");
+    const axisNote = document.getElementById("axis-note");
+    const emptyState = document.getElementById("empty-state");
+    const subtitle = document.getElementById("subtitle");
+    const datasetNote = document.getElementById("dataset-note");
+    const folderSummary = document.getElementById("folder-summary");
+    const pickFolderButton = document.getElementById("pick-folder-button");
+    const reloadFolderButton = document.getElementById("reload-folder-button");
+    const csvFolderInput = document.getElementById("csv-folder-input");
+
+    const state = {
+      selected: new Set(),
+      capX: null,
+      folderHandle: null,
+      folderLabel: "",
+      folderSourceType: "none",
+      dynamicCurveCount: 0,
+      isLoadingFolder: false,
+    };
+
+    const layout = {
+      width: 1280,
+      height: 780,
+      marginTop: 42,
+      marginRight: 340,
+      marginBottom: 68,
+      marginLeft: 86,
+    };
+
+    const plotWidth = layout.width - layout.marginLeft - layout.marginRight;
+    const plotHeight = layout.height - layout.marginTop - layout.marginBottom;
+    const yMin = 0;
+    const yMax = 1.05;
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function compareSeriesLabel(left, right) {
+      return left.localeCompare(right, "zh-CN", { numeric: true, sensitivity: "base" });
+    }
+
+    function normalizeSeriesLabel(baseName) {
+      return baseName
+        .replace(/\d+/g, " ")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function extractSampleId(baseName, fallback = 0) {
+      const digitMatches = baseName.match(/\d+/g);
+      if (!digitMatches || !digitMatches.length) {
+        return fallback;
+      }
+      const sampleId = Number(digitMatches[digitMatches.length - 1]);
+      return Number.isFinite(sampleId) ? sampleId : fallback;
+    }
+
+    function hashString(value) {
+      let hash = 0;
+      for (const char of value) {
+        hash = (hash * 131 + char.codePointAt(0)) >>> 0;
+      }
+      return hash;
+    }
+
+    function colorForSeriesLabel(label) {
+      const hue = hashString(label) % 360;
+      return `hsl(${hue} 65% 45%)`;
+    }
+
+    function uniqueSeries() {
+      const seen = new Set();
+      const ordered = [];
+      for (const curve of sortCurves(curves)) {
+        if (!seen.has(curve.series_label)) {
+          seen.add(curve.series_label);
+          ordered.push(curve.series_label);
+        }
+      }
+      return ordered;
+    }
+
+    function formatNumber(value) {
+      if (value === null || value === undefined || Number.isNaN(value)) {
+        return "n/a";
+      }
+      if (Math.abs(value) >= 100) {
+        return value.toFixed(0);
+      }
+      if (Math.abs(value) >= 10) {
+        return value.toFixed(2);
+      }
+      if (Math.abs(value) >= 1) {
+        return value.toFixed(3);
+      }
+      return value.toFixed(4);
+    }
+
+    function curveColor(curve) {
+      return curve.color || colorForSeriesLabel(curve.series_label);
+    }
+
+    function datasetHasCyPx() {
+      return curves.some((curve) => curve.frequency_unit === "cy/px");
+    }
+
+    function compareCurves(left, right) {
+      return compareSeriesLabel(left.series_label, right.series_label)
+        || (left.sample_id ?? 0) - (right.sample_id ?? 0)
+        || left.source_file.localeCompare(right.source_file, "zh-CN", { numeric: true, sensitivity: "base" })
+        || left.id.localeCompare(right.id, "zh-CN", { numeric: true, sensitivity: "base" });
+    }
+
+    function sortCurves(items) {
+      return items.slice().sort(compareCurves);
+    }
+
+    function buildSeriesCountText(items) {
+      const parts = sortCurves(items)
+        .reduce((map, curve) => {
+          map.set(curve.series_label, (map.get(curve.series_label) || 0) + 1);
+          return map;
+        }, new Map());
+      return [...parts.entries()]
+        .map(([label, count]) => `${label} ${count} 条`)
+        .join("，");
+    }
+
+    function setFolderBusy(isBusy) {
+      state.isLoadingFolder = isBusy;
+      pickFolderButton.disabled = isBusy;
+      reloadFolderButton.disabled = isBusy || !state.folderHandle;
+    }
+
+    function updateDatasetMeta() {
+      const allCountText = buildSeriesCountText(curves);
+      datasetNote.textContent = allCountText ? `分组：${allCountText}` : "分组：暂无曲线";
+
+      if (state.dynamicCurveCount > 0) {
+        subtitle.textContent = `页面保持原始 cy/px 横轴，不做归一化。已从“${state.folderLabel}”读入 ${state.dynamicCurveCount} 条 CSV，并按文件名去掉数字后的结果自动归类。`;
+      } else {
+        subtitle.textContent = "页面保持原始 cy/px 横轴，不做归一化。当前不保留任何历史 MTF 记录，请选择 CSV 文件夹导入。";
+      }
+
+      if (state.dynamicCurveCount > 0) {
+        const refreshHint = state.folderHandle
+          ? "你继续往这个文件夹里加新 CSV，回到页面或点“刷新 CSV”就会重读。"
+          : "当前浏览器这次是用文件选择方式导入的；如果新增 CSV，请再点一次“选择 CSV 文件夹”。";
+        folderSummary.textContent = `已从“${state.folderLabel}”读取 ${state.dynamicCurveCount} 条：${allCountText}。${refreshHint}`;
+      } else {
+        folderSummary.textContent = "当前没有任何预置曲线。选择包含 CSV 的文件夹后，页面会按“文件名去掉数字后的结果”自动归类，同类编号会自动延伸。";
+      }
+
+      setFolderBusy(state.isLoadingFolder);
+    }
+
+    function replaceCurveDataset(nextCurves) {
+      const previousIds = new Set(curves.map((curve) => curve.id));
+      const previousSelection = new Set(state.selected);
+      const sortedCurves = sortCurves(nextCurves);
+      curves.splice(0, curves.length, ...sortedCurves);
+
+      const nextIds = new Set(curves.map((curve) => curve.id));
+      const nextSelection = new Set();
+
+      for (const id of previousSelection) {
+        if (nextIds.has(id)) {
+          nextSelection.add(id);
+        }
+      }
+
+      for (const curve of curves) {
+        if (!previousIds.has(curve.id)) {
+          nextSelection.add(curve.id);
+        }
+      }
+
+      if (!nextSelection.size && curves.length) {
+        for (const curve of curves) {
+          nextSelection.add(curve.id);
+        }
+      }
+
+      state.selected = nextSelection;
+      updateDatasetMeta();
+      renderToolbar();
+      renderControls();
+      render();
+    }
+
+    function resolveDynamicSeries(fileName) {
+      const trimmedName = fileName.trim();
+      if (!/\.csv$/i.test(trimmedName)) {
+        return null;
+      }
+      const baseName = trimmedName.replace(/\.csv$/i, "");
+      const seriesLabel = normalizeSeriesLabel(baseName);
+      if (!seriesLabel) {
+        return null;
+      }
+      return {
+        seriesLabel,
+        sampleId: extractSampleId(baseName, 0),
+      };
+    }
+
+    function parseCsvPoints(text) {
+      const lines = text
+        .replace(/^\uFEFF/, "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      if (lines.length < 2) {
+        return [];
+      }
+
+      const headers = lines[0].split(",").map((cell) => cell.trim());
+      const frequencyIndex = headers.findIndex((header) => /frequency/i.test(header));
+      const mtfIndex = headers.findIndex((header) => header.toLowerCase() === "mtf");
+
+      if (frequencyIndex < 0 || mtfIndex < 0) {
+        return [];
+      }
+
+      return lines
+        .slice(1)
+        .map((line) => {
+          const cells = line.split(",").map((cell) => cell.trim());
+          const frequency = Number(cells[frequencyIndex]);
+          const contrast = Number(cells[mtfIndex]);
+          if (!Number.isFinite(frequency) || !Number.isFinite(contrast)) {
+            return null;
+          }
+          return { frequency, contrast };
+        })
+        .filter(Boolean);
+    }
+
+    function computeMtf50(points) {
+      for (let index = 1; index < points.length; index += 1) {
+        const previous = points[index - 1];
+        const current = points[index];
+        if (previous.contrast >= 0.5 && current.contrast <= 0.5) {
+          const delta = current.contrast - previous.contrast;
+          if (Math.abs(delta) < 1e-12) {
+            return current.frequency;
+          }
+          const t = (0.5 - previous.contrast) / delta;
+          return previous.frequency + t * (current.frequency - previous.frequency);
+        }
+      }
+      return null;
+    }
+
+    async function buildDynamicCurveFromFile(file) {
+      const resolved = resolveDynamicSeries(file.name);
+      if (!resolved) {
+        return null;
+      }
+
+      const text = await file.text();
+      const points = parseCsvPoints(text);
+      if (!points.length) {
+        return null;
+      }
+
+      const { seriesLabel, sampleId } = resolved;
+      return {
+        id: file.name,
+        label: sampleId > 0 ? `${seriesLabel} #${sampleId}` : seriesLabel,
+        series_label: seriesLabel,
+        sample_id: sampleId,
+        source_file: file.name,
+        frequency_unit: "cy/px",
+        color: colorForSeriesLabel(seriesLabel),
+        max_frequency: Math.max(...points.map((point) => point.frequency), 0),
+        mtf50: computeMtf50(points),
+        points,
+      };
+    }
+
+    async function loadDynamicCurvesFromFiles(files, sourceLabel, sourceType) {
+      setFolderBusy(true);
+      try {
+        const dynamicCurves = sortCurves(
+          (await Promise.all(files.map((file) => buildDynamicCurveFromFile(file)))).filter(Boolean)
+        );
+        state.folderLabel = sourceLabel;
+        state.folderSourceType = sourceType;
+        state.dynamicCurveCount = dynamicCurves.length;
+        replaceCurveDataset(dynamicCurves);
+      } finally {
+        setFolderBusy(false);
+      }
+    }
+
+    async function loadDynamicCurvesFromHandle(handle) {
+      const files = [];
+      for await (const [, entry] of handle.entries()) {
+        if (entry.kind !== "file") {
+          continue;
+        }
+        if (!/\.csv$/i.test(entry.name)) {
+          continue;
+        }
+        files.push(await entry.getFile());
+      }
+      await loadDynamicCurvesFromFiles(files, handle.name, "handle");
+    }
+
+    function niceStep(target) {
+      const safe = Math.max(target, 1e-6);
+      const power = Math.pow(10, Math.floor(Math.log10(safe)));
+      const normalized = safe / power;
+
+      if (normalized <= 1) {
+        return 1 * power;
+      }
+      if (normalized <= 2) {
+        return 2 * power;
+      }
+      if (normalized <= 5) {
+        return 5 * power;
+      }
+      return 10 * power;
+    }
+
+    function xDomain(selectedCurves) {
+      const rawMax = Math.max(1, ...selectedCurves.map((curve) => curve.max_frequency));
+      const cappedMax = state.capX ? Math.min(rawMax, state.capX) : rawMax;
+      const step = niceStep(cappedMax / 8);
+      const max = Math.ceil(cappedMax / step) * step;
+      const ticks = [];
+
+      for (let tick = 0; tick <= max + step * 0.5; tick += step) {
+        ticks.push(Number(tick.toFixed(6)));
+      }
+
+      return { max, ticks };
+    }
+
+    function clipPoints(points, maxX) {
+      if (!points.length) {
+        return points;
+      }
+
+      if (!Number.isFinite(maxX)) {
+        return points;
+      }
+
+      const clipped = points.filter((point) => point.frequency <= maxX);
+      if (clipped.length === points.length) {
+        return clipped;
+      }
+
+      const last = clipped[clipped.length - 1];
+      const next = points[clipped.length];
+      if (last && next && last.frequency !== next.frequency) {
+        const ratio = (maxX - last.frequency) / (next.frequency - last.frequency);
+        if (ratio >= 0 && ratio <= 1) {
+          clipped.push({
+            frequency: maxX,
+            contrast: last.contrast + ratio * (next.contrast - last.contrast),
+          });
+        }
+      }
+      return clipped;
+    }
+
+    function xScale(value, maxX) {
+      return layout.marginLeft + (value / maxX) * plotWidth;
+    }
+
+    function yScale(value) {
+      return layout.marginTop + (1 - (value - yMin) / (yMax - yMin)) * plotHeight;
+    }
+
+    function groupEntries() {
+      const groups = new Map();
+      for (const curve of curves) {
+        if (!groups.has(curve.series_label)) {
+          groups.set(curve.series_label, []);
+        }
+        groups.get(curve.series_label).push(curve);
+      }
+
+      return [...groups.entries()].sort(
+        (a, b) => compareSeriesLabel(a[0], b[0])
+      );
+    }
+
+    function setSelection(ids) {
+      state.selected = new Set(ids);
+      syncControls();
+      render();
+    }
+
+    function syncControls() {
+      const checkboxes = curveGroups.querySelectorAll("input[type='checkbox']");
+      for (const checkbox of checkboxes) {
+        checkbox.checked = state.selected.has(checkbox.value);
+      }
+    }
+
+    function renderToolbar() {
+      toolbar.innerHTML = "";
+
+      if (!curves.length) {
+        return;
+      }
+
+      const allButton = document.createElement("button");
+      allButton.type = "button";
+      allButton.textContent = `全选 ${curves.length} 条`;
+      allButton.addEventListener("click", () => setSelection(curves.map((curve) => curve.id)));
+      toolbar.appendChild(allButton);
+
+      const clearButton = document.createElement("button");
+      clearButton.type = "button";
+      clearButton.className = "secondary";
+      clearButton.textContent = "清空";
+      clearButton.addEventListener("click", () => setSelection([]));
+      toolbar.appendChild(clearButton);
+
+      for (const label of uniqueSeries()) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "secondary";
+        button.textContent = `仅看 ${label}`;
+        button.addEventListener("click", () => {
+          setSelection(curves.filter((curve) => curve.series_label === label).map((curve) => curve.id));
+        });
+        toolbar.appendChild(button);
+      }
+    }
+
+    function renderControls() {
+      curveGroups.innerHTML = groupEntries()
+        .map(([seriesLabel, seriesCurves]) => {
+          const items = seriesCurves
+            .map((curve) => {
+              const mtf50Text = curve.mtf50 == null
+                ? "MTF50: n/a"
+                : `MTF50: ${formatNumber(curve.mtf50)} ${curve.frequency_unit}`;
+              return `
+                <label class="curve-item">
+                  <input type="checkbox" value="${curve.id}">
+                  <span class="swatch" style="background:${curveColor(curve)}"></span>
+                  <span class="curve-meta">
+                    <span class="curve-name">${escapeHtml(curve.label)}</span>
+                    <span class="curve-mtf50">${escapeHtml(mtf50Text)}</span>
+                  </span>
+                </label>
+              `;
+            })
+            .join("");
+
+          return `
+            <section class="distance-group">
+              <div class="distance-header">
+                <strong>${escapeHtml(seriesLabel)}</strong>
+                <span>${seriesCurves.length} 条曲线</span>
+              </div>
+              <div class="curve-grid">${items}</div>
+            </section>
+          `;
+        })
+        .join("");
+
+      for (const checkbox of curveGroups.querySelectorAll("input[type='checkbox']")) {
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            state.selected.add(checkbox.value);
+          } else {
+            state.selected.delete(checkbox.value);
+          }
+          render();
+        });
+      }
+
+      syncControls();
+    }
+
+    function renderSummary(selectedCurves) {
+      if (!curves.length) {
+        summary.textContent = "当前还没有载入任何曲线。";
+        return;
+      }
+
+      if (selectedCurves.length === 0) {
+        summary.textContent = "当前没有选中任何曲线。";
+        return;
+      }
+
+      const pieces = selectedCurves
+        .slice().sort(compareCurves)
+        .map((curve) => {
+          const mtf50Text = curve.mtf50 == null ? "n/a" : formatNumber(curve.mtf50);
+          return `${curve.label} -> MTF50 ${mtf50Text} ${curve.frequency_unit}`;
+        });
+
+      summary.textContent = `已选 ${selectedCurves.length} 条：` + pieces.join(" | ");
+    }
+
+    function labelRows(count, minY, maxY) {
+      if (count === 0) {
+        return [];
+      }
+
+      if (count === 1) {
+        return [(minY + maxY) / 2];
+      }
+
+      const usable = maxY - minY;
+      const spacing = usable / (count - 1);
+      return Array.from({ length: count }, (_, index) => minY + spacing * index);
+    }
+
+    function buildWatermarkMarkup() {
+      const centerX = layout.marginLeft + plotWidth / 2;
+      const centerY = layout.marginTop + plotHeight / 2 - 18;
+      return `
+        <text
+          x="${centerX}"
+          y="${centerY}"
+          text-anchor="middle"
+          fill="rgba(31, 41, 55, 0.11)"
+          font-size="38"
+          font-weight="700"
+          letter-spacing="0.6"
+          pointer-events="none"
+        >Jiangtherapee Online
+          <tspan x="${centerX}" dy="1.45em" font-size="22" font-weight="600">y-g-jiang.github.io</tspan>
+        </text>
+      `;
+    }
+
+    function buildGrid(maxX, ticks, xLabel, unitLabel) {
+      const horizontalTicks = [];
+      for (let tick = 0; tick <= 1.0 + 1e-9; tick += 0.1) {
+        horizontalTicks.push(Number(tick.toFixed(1)));
+      }
+
+      let markup = `
+        <rect x="0" y="0" width="${layout.width}" height="${layout.height}" fill="transparent"></rect>
+        <rect
+          x="${layout.marginLeft}"
+          y="${layout.marginTop}"
+          width="${plotWidth}"
+          height="${plotHeight}"
+          rx="18"
+          fill="rgba(255,255,255,0.72)"
+        ></rect>
+        ${buildWatermarkMarkup()}
+      `;
+
+      for (const tick of ticks) {
+        const x = xScale(tick, maxX);
+        markup += `
+          <line x1="${x}" y1="${layout.marginTop}" x2="${x}" y2="${layout.marginTop + plotHeight}"
+            stroke="var(--grid)" stroke-width="1"></line>
+          <text x="${x}" y="${layout.marginTop + plotHeight + 28}" text-anchor="middle"
+            fill="var(--muted)" font-size="12">${formatNumber(tick)}</text>
+        `;
+      }
+
+      for (const tick of horizontalTicks) {
+        const y = yScale(tick);
+        markup += `
+          <line x1="${layout.marginLeft}" y1="${y}" x2="${layout.marginLeft + plotWidth}" y2="${y}"
+            stroke="var(--grid)" stroke-width="1"></line>
+          <text x="${layout.marginLeft - 14}" y="${y + 4}" text-anchor="end"
+            fill="var(--muted)" font-size="12">${tick.toFixed(1)}</text>
+        `;
+      }
+
+      const mtf50Y = yScale(0.5);
+      markup += `
+        <line
+          x1="${layout.marginLeft}"
+          y1="${mtf50Y}"
+          x2="${layout.marginLeft + plotWidth}"
+          y2="${mtf50Y}"
+          stroke="rgba(154,52,18,0.42)"
+          stroke-width="1.5"
+          stroke-dasharray="8 6"
+        ></line>
+        <text x="${layout.marginLeft + plotWidth - 10}" y="${mtf50Y - 10}" text-anchor="end"
+          fill="rgba(154,52,18,0.9)" font-size="12">Contrast = 0.5</text>
+        <line x1="${layout.marginLeft}" y1="${layout.marginTop}" x2="${layout.marginLeft}" y2="${layout.marginTop + plotHeight}"
+          stroke="var(--line)" stroke-width="1.5"></line>
+        <line x1="${layout.marginLeft}" y1="${layout.marginTop + plotHeight}" x2="${layout.marginLeft + plotWidth}" y2="${layout.marginTop + plotHeight}"
+          stroke="var(--line)" stroke-width="1.5"></line>
+        <text x="${layout.marginLeft + plotWidth / 2}" y="${layout.height - 18}" text-anchor="middle"
+          fill="var(--ink)" font-size="15" font-weight="600">${escapeHtml(xLabel)}</text>
+        <text x="24" y="${layout.marginTop + plotHeight / 2}" text-anchor="middle"
+          fill="var(--ink)" font-size="15" font-weight="600"
+          transform="rotate(-90 24 ${layout.marginTop + plotHeight / 2})">Contrast</text>
+      `;
+
+      axisNote.textContent = `X 轴单位：${unitLabel}`;
+      return markup;
+    }
+
+    function renderChart(selectedCurves) {
+      if (selectedCurves.length === 0) {
+        emptyState.textContent = curves.length
+          ? "请选择至少一条曲线"
+          : "请选择 CSV 文件夹后开始查看曲线";
+        chart.innerHTML = `
+          <rect x="0" y="0" width="${layout.width}" height="${layout.height}" fill="transparent"></rect>
+          <rect
+            x="${layout.marginLeft}"
+            y="${layout.marginTop}"
+            width="${plotWidth}"
+            height="${plotHeight}"
+            rx="18"
+            fill="rgba(255,255,255,0.72)"
+          ></rect>
+          ${buildWatermarkMarkup()}
+        `;
+        emptyState.style.display = "flex";
+        axisNote.textContent = "";
+        return;
+      }
+
+      emptyState.style.display = "none";
+      const domain = xDomain(selectedCurves);
+      const unitLabel = selectedCurves[0].frequency_unit;
+      const rightGuideX = layout.marginLeft + plotWidth + 16;
+      const labelX = rightGuideX + 16;
+
+      let markup = buildGrid(domain.max, domain.ticks, `Spatial Frequency (${unitLabel})`, unitLabel);
+
+      for (const curve of selectedCurves) {
+        const displayPoints = clipPoints(curve.points, domain.max);
+        if (!displayPoints.length) {
+          continue;
+        }
+        const pathData = displayPoints
+          .map((point, index) => {
+            const x = xScale(point.frequency, domain.max);
+            const y = yScale(point.contrast);
+            return `${index === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
+          })
+          .join(" ");
+
+        markup += `
+          <path
+            d="${pathData}"
+            fill="none"
+            stroke="${curveColor(curve)}"
+            stroke-width="2.4"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            opacity="0.9"
+          >
+            <title>${escapeHtml(curve.label)} | MTF50 ${curve.mtf50 == null ? "n/a" : formatNumber(curve.mtf50)}</title>
+          </path>
+        `;
+      }
+
+      const mtf50Curves = selectedCurves
+        .filter((curve) => curve.mtf50 != null)
+        .slice()
+        .sort((a, b) => a.mtf50 - b.mtf50);
+      const rows = labelRows(
+        mtf50Curves.length,
+        layout.marginTop + 20,
+        layout.marginTop + plotHeight - 20
+      );
+
+      mtf50Curves.forEach((curve, index) => {
+        const anchorX = xScale(curve.mtf50, domain.max);
+        const anchorY = yScale(0.5);
+        const rowY = rows[index];
+        const labelText = `${curve.label}  MTF50=${formatNumber(curve.mtf50)} ${curve.frequency_unit}`;
+
+        markup += `
+          <circle cx="${anchorX}" cy="${anchorY}" r="4.3" fill="${curveColor(curve)}" stroke="white" stroke-width="1.5"></circle>
+          <path
+            d="M${anchorX.toFixed(2)},${anchorY.toFixed(2)} L${rightGuideX},${anchorY.toFixed(2)} L${rightGuideX},${rowY.toFixed(2)} L${labelX},${rowY.toFixed(2)}"
+            fill="none"
+            stroke="${curveColor(curve)}"
+            stroke-width="1.8"
+            stroke-dasharray="7 5"
+            opacity="0.92"
+          ></path>
+          <text
+            x="${labelX + 8}"
+            y="${rowY + 4}"
+            fill="${curveColor(curve)}"
+            font-size="12.5"
+            font-weight="600"
+          >${escapeHtml(labelText)}</text>
+        `;
+      });
+
+      chart.innerHTML = markup;
+    }
+
+    function render() {
+      const selectedCurves = curves.filter((curve) => state.selected.has(curve.id));
+      syncCapUI(selectedCurves);
+      renderSummary(selectedCurves);
+      renderChart(selectedCurves);
+    }
+
+    const capPanel = document.getElementById("xcap-panel");
+    const capModeRadios = [...document.querySelectorAll("input[name='xcap-mode']")];
+
+    function syncCapUI(selectedCurves) {
+      capPanel.style.display = datasetHasCyPx() ? "block" : "none";
+
+      if (!datasetHasCyPx()) {
+        state.capX = null;
+        for (const radio of capModeRadios) {
+          radio.checked = radio.value === "full";
+        }
+        return;
+      }
+
+      if (!selectedCurves.length) {
+        return;
+      }
+
+      const allCyPx = selectedCurves.every((curve) => curve.frequency_unit === "cy/px");
+      if (!allCyPx) {
+        state.capX = null;
+        for (const radio of capModeRadios) {
+          radio.checked = radio.value === "full";
+        }
+      }
+    }
+
+    for (const radio of capModeRadios) {
+      radio.addEventListener("change", () => {
+        if (!radio.checked) {
+          return;
+        }
+        if (radio.value === "nyquist") {
+          state.capX = 0.5;
+        } else if (radio.value === "one") {
+          state.capX = 1;
+        } else {
+          state.capX = null;
+        }
+        render();
+      });
+    }
+
+    pickFolderButton.addEventListener("click", async () => {
+      if (window.showDirectoryPicker) {
+        try {
+          const handle = await window.showDirectoryPicker({ mode: "read" });
+          state.folderHandle = handle;
+          await loadDynamicCurvesFromHandle(handle);
+          return;
+        } catch (error) {
+          if (error && error.name === "AbortError") {
+            return;
+          }
+          console.warn("showDirectoryPicker failed, fallback to file input", error);
+        }
+      }
+      csvFolderInput.click();
+    });
+
+    reloadFolderButton.addEventListener("click", async () => {
+      if (!state.folderHandle) {
+        return;
+      }
+      await loadDynamicCurvesFromHandle(state.folderHandle);
+    });
+
+    csvFolderInput.addEventListener("change", async () => {
+      const files = [...csvFolderInput.files];
+      if (!files.length) {
+        return;
+      }
+      const firstPath = files[0].webkitRelativePath || "";
+      const folderLabel = firstPath.includes("/") ? firstPath.split("/")[0] : "所选文件夹";
+      state.folderHandle = null;
+      await loadDynamicCurvesFromFiles(files, folderLabel, "input");
+      csvFolderInput.value = "";
+    });
+
+    window.addEventListener("focus", () => {
+      if (!state.folderHandle || state.isLoadingFolder) {
+        return;
+      }
+      loadDynamicCurvesFromHandle(state.folderHandle).catch((error) => {
+        console.warn("refresh on focus failed", error);
+      });
+    });
+
+    updateDatasetMeta();
+    renderToolbar();
+    renderControls();
+    render();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
