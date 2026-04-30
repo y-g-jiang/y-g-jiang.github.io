@@ -2,18 +2,9 @@ const START_DATE = new Date(2025, 0, 1);
 const END_DATE = new Date(2026, 4, 1);
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// 构建后的页面会从 window.DIARY_ENTRIES 读取真实内容；没有注入数据时使用这里的示例。
-const demoEntries = [
-  { date: "2025-01-01", type: "day", text: "新的一年开始，先把心放稳，把日子写清楚。" },
-  { date: "2025-02-01", type: "month", text: "二月像一次短暂停靠，整理、休息，也继续观察自己。" },
-  { date: "2025-05-01", type: "day", text: "今天适合慢下来，看见自己已经走了不少路。" },
-  { date: "2025-10-01", type: "month", text: "十月把一些旧问题翻出来，也把答案往前推了一点。" },
-  { date: "2026-01-01", type: "day", text: "重新开头，不必喊得很响，先认真过好今天。" },
-  { date: "2026-05-01", type: "day", text: "这一段长时间的记录先收束成一条能回看的线。" },
-];
-const demoNodes = demoEntries.map((entry) => ({ date: entry.date }));
-const customEntries = Array.isArray(window.DIARY_ENTRIES) ? window.DIARY_ENTRIES : demoEntries;
-const customNodes = Array.isArray(window.DIARY_NODES) ? window.DIARY_NODES : demoNodes;
+// 构建后的页面会从 window.DIARY_ENTRIES 读取真实内容；没有注入数据时保持空内容。
+const customEntries = Array.isArray(window.DIARY_ENTRIES) ? window.DIARY_ENTRIES : [];
+const customNodes = Array.isArray(window.DIARY_NODES) ? window.DIARY_NODES : [];
 
 const typeText = {
   day: "日记",
@@ -32,11 +23,13 @@ const state = {
 };
 
 const elements = {
+  toolbar: document.querySelector(".toolbar"),
   track: document.querySelector("#timelineTrack"),
   pointLayer: document.querySelector("#pointLayer"),
   cardLayer: document.querySelector("#cardLayer"),
   monthBands: document.querySelector("#monthBands"),
   statusLine: document.querySelector("#statusLine"),
+  menuButton: document.querySelector("#menuButton"),
   backButton: document.querySelector("#backButton"),
   panLeftButton: document.querySelector("#panLeftButton"),
   panRightButton: document.querySelector("#panRightButton"),
@@ -49,6 +42,10 @@ const allEntries = buildEntries();
 const allNodes = buildNodes(allEntries);
 render();
 
+elements.menuButton.addEventListener("click", () => {
+  setMenuOpen(!elements.toolbar.classList.contains("menu-open"));
+});
+
 elements.buttons.forEach((button) => {
   button.addEventListener("click", () => {
     cancelPanAnimation();
@@ -58,6 +55,7 @@ elements.buttons.forEach((button) => {
     state.panShiftX = null;
     elements.buttons.forEach((item) => item.classList.toggle("active", item === button));
     render();
+    closeMenuOnMobile();
   });
 });
 
@@ -108,10 +106,25 @@ elements.panoramaButton.addEventListener("click", () => {
   state.panorama = true;
   state.panShiftX = null;
   render();
+  closeMenuOnMobile();
 });
 
 window.addEventListener("resize", () => {
+  if (window.innerWidth > 760) {
+    setMenuOpen(false);
+  }
+
   window.requestAnimationFrame(render);
+});
+
+document.addEventListener("click", (event) => {
+  if (!isMobileMenu() || !elements.toolbar.classList.contains("menu-open")) {
+    return;
+  }
+
+  if (!elements.toolbar.contains(event.target)) {
+    setMenuOpen(false);
+  }
 });
 
 function buildEntries() {
@@ -529,6 +542,22 @@ function cancelPanAnimation() {
 
   window.cancelAnimationFrame(state.panAnimation.frame);
   state.panAnimation = null;
+}
+
+function setMenuOpen(open) {
+  elements.toolbar.classList.toggle("menu-open", open);
+  elements.menuButton.setAttribute("aria-expanded", String(open));
+  elements.menuButton.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+}
+
+function closeMenuOnMobile() {
+  if (isMobileMenu()) {
+    setMenuOpen(false);
+  }
+}
+
+function isMobileMenu() {
+  return window.matchMedia("(max-width: 760px)").matches;
 }
 
 function toISO(date) {

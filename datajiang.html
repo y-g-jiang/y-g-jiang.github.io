@@ -13,7 +13,13 @@
           <p class="eyebrow">2025.01.01 至 2026.05.01</p>
         </div>
 
-        <div class="controls">
+        <button id="menuButton" class="menu-button" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="打开菜单">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div id="mobileMenu" class="controls">
           <div class="segmented" role="tablist" aria-label="切换记录类型">
             <button class="mode-button" data-mode="day" type="button">日记</button>
             <button class="mode-button" data-mode="month" type="button">月记</button>
