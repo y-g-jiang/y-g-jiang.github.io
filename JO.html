@@ -64,62 +64,13 @@
         overflow: hidden;
       }
 
-      /* RETRO OVERRIDES */
-      body {
-        font-family: 'Courier New', Courier, monospace !important;
-        letter-spacing: -0.5px;
-      }
-
-      /* Square everything */
-      * {
-        border-radius: 0px !important;
-      }
-
-      /* Hard Shadows instead of soft glows */
-      .shadow-lg, .shadow-xl, .shadow-2xl, .shadow-md, .shadow-sm {
-        box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.4) !important;
-      }
-      
-      html.dark .shadow-lg, html.dark .shadow-xl, html.dark .shadow-2xl, html.dark .shadow-md, html.dark .shadow-sm {
-        box-shadow: 4px 4px 0px 0px rgba(255,255,255,0.2) !important;
-      }
-
-      /* Retro Scrollbars */
-      ::-webkit-scrollbar {
-        width: 14px;
-        height: 14px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #c0c0c0;
-        border: 1px solid #808080;
-      }
-      html.dark ::-webkit-scrollbar-track {
-        background: #333;
-        border: 1px solid #555;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #808080;
-        border: 2px solid #c0c0c0; /* Bevel effect */
-        border-right-color: #404040;
-        border-bottom-color: #404040;
-      }
-      html.dark ::-webkit-scrollbar-thumb {
-        background: #555;
-        border: 2px solid #777;
-        border-right-color: #222;
-        border-bottom-color: #222;
-      }
-
-      /* Inputs feeling */
       input[type="range"] {
-        border: 1px solid #888;
-        height: 8px !important;
+        height: 8px;
       }
     </style>
 
 <!-- Vercount Script -->
 <script defer src="https://cn.vercount.one/js"></script>
-<link rel="stylesheet" href="/index.css">
 <script type="importmap">
 {
   "imports": {
@@ -134,9 +85,10 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-Dqp7qd_O.js"></script>
+  <script type="module" crossorigin src="/assets/index-DqQVd8Nq.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BTv-CzGj.css">
 </head>
-  <body class="bg-gray-200 dark:bg-[#111] text-gray-900 dark:text-gray-200 transition-colors duration-300">
+  <body class="text-gray-900 dark:text-gray-200 transition-colors duration-300">
     <div id="root"></div>
     
     <!-- Hidden Vercount Elements for Tracking -->
