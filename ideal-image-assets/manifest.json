@@ -1,0 +1,635 @@
+{
+    "schema":  1,
+    "source":  "generate_uminho_ideal_sampling_dng.py",
+    "width":  6000,
+    "height":  4000,
+    "previewScale":  4,
+    "previewDisplayGain":  1.1,
+    "blackLevel":  512,
+    "whiteLevel":  16383,
+    "adcBits":  14,
+    "totalFullWellE":  2172000000000,
+    "neutral":  [
+                    0.3432145416736603,
+                    1,
+                    0.7358718514442444
+                ],
+    "asShotNeutral":  [
+                          0.3432145416736603,
+                          1,
+                          0.7358718514442444
+                      ],
+    "unscaledWhiteRaw":  [
+                             705.0880126953125,
+                             2054.365234375,
+                             1511.74951171875
+                         ],
+    "exposureScale":  0.00048676836195791167,
+    "colorMatrix":  [
+                        0.6629,
+                        -0.19,
+                        -0.0483,
+                        -0.4618,
+                        1.2349,
+                        0.255,
+                        -0.0622,
+                        0.1381,
+                        0.6514
+                    ],
+    "leftBgX1":  2640,
+    "chartRect":  [
+                      2740,
+                      2380,
+                      5920,
+                      4000
+                  ],
+    "cloudRect":  [
+                      2620,
+                      2460,
+                      5880,
+                      2935
+                  ],
+    "verticalSweepRect":  [
+                              2810,
+                              3290,
+                              5880,
+                              3425
+                          ],
+    "horizontalSweepRect":  [
+                                2810,
+                                3459,
+                                5880,
+                                3594
+                            ],
+    "linePeriodStart":  220,
+    "linePeriodEnd":  2,
+    "rampRect":  [
+                     2810,
+                     3700,
+                     5880,
+                     3890
+                 ],
+    "faceIds":  [
+                    "253",
+                    "243",
+                    "274",
+                    "282",
+                    "249"
+                ],
+    "exposureEvs":  [
+                        0,
+                        -2.5,
+                        -5,
+                        -7.5,
+                        -10
+                    ],
+    "faces":  [
+                  {
+                      "faceId":  "253",
+                      "col":  0,
+                      "width":  274,
+                      "height":  325,
+                      "x0":  2933,
+                      "rgbPath":  "faces/face_253_rgb_f32.bin",
+                      "maskPath":  "faces/face_253_mask_f32.bin",
+                      "stats":  {
+                                    "face_id":  "253",
+                                    "source_shape":  [
+                                                         696,
+                                                         587,
+                                                         33
+                                                     ],
+                                    "mask_fraction":  0.8221060037612915,
+                                    "median_green_before_gray_gain":  0.25552207231521606,
+                                    "middle_gray_gain":  0.7044401228006211
+                                }
+                  },
+                  {
+                      "faceId":  "243",
+                      "col":  1,
+                      "width":  217,
+                      "height":  325,
+                      "x0":  3591,
+                      "rgbPath":  "faces/face_243_rgb_f32.bin",
+                      "maskPath":  "faces/face_243_mask_f32.bin",
+                      "stats":  {
+                                    "face_id":  "243",
+                                    "source_shape":  [
+                                                         923,
+                                                         616,
+                                                         33
+                                                     ],
+                                    "mask_fraction":  0.8304715752601624,
+                                    "median_green_before_gray_gain":  0.2002353072166443,
+                                    "middle_gray_gain":  0.8989423618745183
+                                }
+                  },
+                  {
+                      "faceId":  "274",
+                      "col":  2,
+                      "width":  203,
+                      "height":  325,
+                      "x0":  4227,
+                      "rgbPath":  "faces/face_274_rgb_f32.bin",
+                      "maskPath":  "faces/face_274_mask_f32.bin",
+                      "stats":  {
+                                    "face_id":  "274",
+                                    "source_shape":  [
+                                                         985,
+                                                         615,
+                                                         33
+                                                     ],
+                                    "mask_fraction":  0.8308711051940918,
+                                    "median_green_before_gray_gain":  0.23764899373054504,
+                                    "middle_gray_gain":  0.7574195757129544
+                                }
+                  },
+                  {
+                      "faceId":  "282",
+                      "col":  3,
+                      "width":  246,
+                      "height":  325,
+                      "x0":  4834,
+                      "rgbPath":  "faces/face_282_rgb_f32.bin",
+                      "maskPath":  "faces/face_282_mask_f32.bin",
+                      "stats":  {
+                                    "face_id":  "282",
+                                    "source_shape":  [
+                                                         748,
+                                                         566,
+                                                         33
+                                                     ],
+                                    "mask_fraction":  0.7987501621246338,
+                                    "median_green_before_gray_gain":  0.06278790533542633,
+                                    "middle_gray_gain":  2.8667941546767923
+                                }
+                  },
+                  {
+                      "faceId":  "249",
+                      "col":  4,
+                      "width":  240,
+                      "height":  325,
+                      "x0":  5466,
+                      "rgbPath":  "faces/face_249_rgb_f32.bin",
+                      "maskPath":  "faces/face_249_mask_f32.bin",
+                      "stats":  {
+                                    "face_id":  "249",
+                                    "source_shape":  [
+                                                         960,
+                                                         710,
+                                                         33
+                                                     ],
+                                    "mask_fraction":  0.8070942163467407,
+                                    "median_green_before_gray_gain":  0.04671299457550049,
+                                    "middle_gray_gain":  3.8533175112349656
+                                }
+                  }
+              ],
+    "faceTiles":  [
+                      {
+                          "faceId":  "253",
+                          "row":  0,
+                          "col":  0,
+                          "exposureEv":  0,
+                          "x0":  2933,
+                          "y0":  360,
+                          "x1":  3207,
+                          "y1":  685
+                      },
+                      {
+                          "faceId":  "253",
+                          "row":  1,
+                          "col":  0,
+                          "exposureEv":  -2.5,
+                          "x0":  2933,
+                          "y0":  755,
+                          "x1":  3207,
+                          "y1":  1080
+                      },
+                      {
+                          "faceId":  "253",
+                          "row":  2,
+                          "col":  0,
+                          "exposureEv":  -5,
+                          "x0":  2933,
+                          "y0":  1150,
+                          "x1":  3207,
+                          "y1":  1475
+                      },
+                      {
+                          "faceId":  "253",
+                          "row":  3,
+                          "col":  0,
+                          "exposureEv":  -7.5,
+                          "x0":  2933,
+                          "y0":  1545,
+                          "x1":  3207,
+                          "y1":  1870
+                      },
+                      {
+                          "faceId":  "253",
+                          "row":  4,
+                          "col":  0,
+                          "exposureEv":  -10,
+                          "x0":  2933,
+                          "y0":  1940,
+                          "x1":  3207,
+                          "y1":  2265
+                      },
+                      {
+                          "faceId":  "243",
+                          "row":  0,
+                          "col":  1,
+                          "exposureEv":  0,
+                          "x0":  3591,
+                          "y0":  360,
+                          "x1":  3808,
+                          "y1":  685
+                      },
+                      {
+                          "faceId":  "243",
+                          "row":  1,
+                          "col":  1,
+                          "exposureEv":  -2.5,
+                          "x0":  3591,
+                          "y0":  755,
+                          "x1":  3808,
+                          "y1":  1080
+                      },
+                      {
+                          "faceId":  "243",
+                          "row":  2,
+                          "col":  1,
+                          "exposureEv":  -5,
+                          "x0":  3591,
+                          "y0":  1150,
+                          "x1":  3808,
+                          "y1":  1475
+                      },
+                      {
+                          "faceId":  "243",
+                          "row":  3,
+                          "col":  1,
+                          "exposureEv":  -7.5,
+                          "x0":  3591,
+                          "y0":  1545,
+                          "x1":  3808,
+                          "y1":  1870
+                      },
+                      {
+                          "faceId":  "243",
+                          "row":  4,
+                          "col":  1,
+                          "exposureEv":  -10,
+                          "x0":  3591,
+                          "y0":  1940,
+                          "x1":  3808,
+                          "y1":  2265
+                      },
+                      {
+                          "faceId":  "274",
+                          "row":  0,
+                          "col":  2,
+                          "exposureEv":  0,
+                          "x0":  4227,
+                          "y0":  360,
+                          "x1":  4430,
+                          "y1":  685
+                      },
+                      {
+                          "faceId":  "274",
+                          "row":  1,
+                          "col":  2,
+                          "exposureEv":  -2.5,
+                          "x0":  4227,
+                          "y0":  755,
+                          "x1":  4430,
+                          "y1":  1080
+                      },
+                      {
+                          "faceId":  "274",
+                          "row":  2,
+                          "col":  2,
+                          "exposureEv":  -5,
+                          "x0":  4227,
+                          "y0":  1150,
+                          "x1":  4430,
+                          "y1":  1475
+                      },
+                      {
+                          "faceId":  "274",
+                          "row":  3,
+                          "col":  2,
+                          "exposureEv":  -7.5,
+                          "x0":  4227,
+                          "y0":  1545,
+                          "x1":  4430,
+                          "y1":  1870
+                      },
+                      {
+                          "faceId":  "274",
+                          "row":  4,
+                          "col":  2,
+                          "exposureEv":  -10,
+                          "x0":  4227,
+                          "y0":  1940,
+                          "x1":  4430,
+                          "y1":  2265
+                      },
+                      {
+                          "faceId":  "282",
+                          "row":  0,
+                          "col":  3,
+                          "exposureEv":  0,
+                          "x0":  4834,
+                          "y0":  360,
+                          "x1":  5080,
+                          "y1":  685
+                      },
+                      {
+                          "faceId":  "282",
+                          "row":  1,
+                          "col":  3,
+                          "exposureEv":  -2.5,
+                          "x0":  4834,
+                          "y0":  755,
+                          "x1":  5080,
+                          "y1":  1080
+                      },
+                      {
+                          "faceId":  "282",
+                          "row":  2,
+                          "col":  3,
+                          "exposureEv":  -5,
+                          "x0":  4834,
+                          "y0":  1150,
+                          "x1":  5080,
+                          "y1":  1475
+                      },
+                      {
+                          "faceId":  "282",
+                          "row":  3,
+                          "col":  3,
+                          "exposureEv":  -7.5,
+                          "x0":  4834,
+                          "y0":  1545,
+                          "x1":  5080,
+                          "y1":  1870
+                      },
+                      {
+                          "faceId":  "282",
+                          "row":  4,
+                          "col":  3,
+                          "exposureEv":  -10,
+                          "x0":  4834,
+                          "y0":  1940,
+                          "x1":  5080,
+                          "y1":  2265
+                      },
+                      {
+                          "faceId":  "249",
+                          "row":  0,
+                          "col":  4,
+                          "exposureEv":  0,
+                          "x0":  5466,
+                          "y0":  360,
+                          "x1":  5706,
+                          "y1":  685
+                      },
+                      {
+                          "faceId":  "249",
+                          "row":  1,
+                          "col":  4,
+                          "exposureEv":  -2.5,
+                          "x0":  5466,
+                          "y0":  755,
+                          "x1":  5706,
+                          "y1":  1080
+                      },
+                      {
+                          "faceId":  "249",
+                          "row":  2,
+                          "col":  4,
+                          "exposureEv":  -5,
+                          "x0":  5466,
+                          "y0":  1150,
+                          "x1":  5706,
+                          "y1":  1475
+                      },
+                      {
+                          "faceId":  "249",
+                          "row":  3,
+                          "col":  4,
+                          "exposureEv":  -7.5,
+                          "x0":  5466,
+                          "y0":  1545,
+                          "x1":  5706,
+                          "y1":  1870
+                      },
+                      {
+                          "faceId":  "249",
+                          "row":  4,
+                          "col":  4,
+                          "exposureEv":  -10,
+                          "x0":  5466,
+                          "y0":  1940,
+                          "x1":  5706,
+                          "y1":  2265
+                      }
+                  ],
+    "masks":  {
+                  "letterText":  "masks/letter_text_u8.bin",
+                  "letterOutline":  "masks/letter_outline_u8.bin",
+                  "cloudText":  "masks/cloud_text_u8.bin",
+                  "cloudOutline":  "masks/cloud_outline_u8.bin"
+              },
+    "metadata":  {
+                     "ideal_width":  6000,
+                     "ideal_height":  4000,
+                     "letterboard":  {
+                                         "text":  "姜尧耕 y-g-jiang.github.io",
+                                         "rows":  54,
+                                         "repeats_per_size":  3,
+                                         "requested_font_sizes_canonical_px":  [
+                                                                                   176,
+                                                                                   152,
+                                                                                   128,
+                                                                                   108,
+                                                                                   92,
+                                                                                   76,
+                                                                                   64,
+                                                                                   52,
+                                                                                   44,
+                                                                                   36,
+                                                                                   28,
+                                                                                   24,
+                                                                                   20,
+                                                                                   17,
+                                                                                   14,
+                                                                                   12,
+                                                                                   10,
+                                                                                   8
+                                                                               ],
+                                         "effective_font_sizes_px":  [
+                                                                         170,
+                                                                         152,
+                                                                         128,
+                                                                         108,
+                                                                         92,
+                                                                         76,
+                                                                         64,
+                                                                         52,
+                                                                         44,
+                                                                         36,
+                                                                         28,
+                                                                         24,
+                                                                         20,
+                                                                         17,
+                                                                         14,
+                                                                         12,
+                                                                         10,
+                                                                         8
+                                                                     ],
+                                         "note":  "direct engine samples this layer at output resolution; raster engine may render it at ideal supersample resolution"
+                                     },
+                     "right_chart":  {
+                                         "side":  "right",
+                                         "gray_ramp_ev_span":  20,
+                                         "line_pair_period_range_canonical_px":  [
+                                                                                     220,
+                                                                                     2
+                                                                                 ],
+                                         "vertical_line_pair_sweep":  {
+                                                                          "start_period_px":  220,
+                                                                          "end_period_px":  2
+                                                                      },
+                                         "horizontal_line_pair_sweep":  {
+                                                                            "start_period_px":  220,
+                                                                            "end_period_px":  2
+                                                                        },
+                                         "color_patch_count":  0,
+                                         "line_pair_sweep_y_canonical_px":  3290,
+                                         "sky_gradient_rect_canonical_px":  [
+                                                                                2620,
+                                                                                2460,
+                                                                                5880,
+                                                                                2935
+                                                                            ],
+                                         "sky_gradient_model":  "Spectral blue-sky gradient: D65 flat white spectrum to Rayleigh-like sky blue, integrated through Sony ILCE-7RM2 spectral responses",
+                                         "sky_gradient_endpoint_camera_rgb":  {
+                                                                                  "white_d65_flat_reflectance_0p92":  [
+                                                                                                                          0.31575742,
+                                                                                                                          0.9200001,
+                                                                                                                          0.67700195
+                                                                                                                      ],
+                                                                                  "sky_blue_rayleigh_lambda_power_minus4_reflectance_peak_0p88":  [
+                                                                                                                                                      0.06152096,
+                                                                                                                                                      0.2573942,
+                                                                                                                                                      0.29044047
+                                                                                                                                                  ]
+                                                                              },
+                                         "sky_gradient_endpoint_spectra":  {
+                                                                               "white":  "reflectance(lambda)=0.92 under D65 before A7RM2 integration",
+                                                                               "sky_blue":  "reflectance(lambda)=0.88 * (550nm / lambda)^4 / max((550nm / lambda)^4) under D65 before A7RM2 integration"
+                                                                           },
+                                         "sky_gradient_direction":  "left white to right sky blue, with slight top-side zenith-blue weighting",
+                                         "former_colored_cloud_replaced_by":  "spectral_sky_gradient",
+                                         "sky_gradient_watermark":  {
+                                                                        "text":  "2026 姜尧耕 y-g-jiang.github.io",
+                                                                        "font_size_px":  68,
+                                                                        "rect_canonical_px":  [
+                                                                                                  2620,
+                                                                                                  2460,
+                                                                                                  5880,
+                                                                                                  2935
+                                                                                              ]
+                                                                    }
+                                     },
+                     "faces":  {
+                                   "face_ids":  [
+                                                    "253",
+                                                    "243",
+                                                    "274",
+                                                    "282",
+                                                    "249"
+                                                ],
+                                   "exposure_rows_ev":  [
+                                                            0,
+                                                            -2.5,
+                                                            -5,
+                                                            -7.5,
+                                                            -10
+                                                        ],
+                                   "target_face_middle_gray_green":  0.18,
+                                   "face_stats":  [
+                                                      {
+                                                          "face_id":  "253",
+                                                          "source_shape":  [
+                                                                               696,
+                                                                               587,
+                                                                               33
+                                                                           ],
+                                                          "mask_fraction":  0.8221060037612915,
+                                                          "median_green_before_gray_gain":  0.25552207231521606,
+                                                          "middle_gray_gain":  0.7044401228006211
+                                                      },
+                                                      {
+                                                          "face_id":  "243",
+                                                          "source_shape":  [
+                                                                               923,
+                                                                               616,
+                                                                               33
+                                                                           ],
+                                                          "mask_fraction":  0.8304715752601624,
+                                                          "median_green_before_gray_gain":  0.2002353072166443,
+                                                          "middle_gray_gain":  0.8989423618745183
+                                                      },
+                                                      {
+                                                          "face_id":  "274",
+                                                          "source_shape":  [
+                                                                               985,
+                                                                               615,
+                                                                               33
+                                                                           ],
+                                                          "mask_fraction":  0.8308711051940918,
+                                                          "median_green_before_gray_gain":  0.23764899373054504,
+                                                          "middle_gray_gain":  0.7574195757129544
+                                                      },
+                                                      {
+                                                          "face_id":  "282",
+                                                          "source_shape":  [
+                                                                               748,
+                                                                               566,
+                                                                               33
+                                                                           ],
+                                                          "mask_fraction":  0.7987501621246338,
+                                                          "median_green_before_gray_gain":  0.06278790533542633,
+                                                          "middle_gray_gain":  2.8667941546767923
+                                                      },
+                                                      {
+                                                          "face_id":  "249",
+                                                          "source_shape":  [
+                                                                               960,
+                                                                               710,
+                                                                               33
+                                                                           ],
+                                                          "mask_fraction":  0.8070942163467407,
+                                                          "median_green_before_gray_gain":  0.04671299457550049,
+                                                          "middle_gray_gain":  3.8533175112349656
+                                                      }
+                                                  ]
+                               }
+                 },
+    "skyColors":  [
+                      [
+                          0.31575742,
+                          0.9200001,
+                          0.67700195
+                      ],
+                      [
+                          0.06152096,
+                          0.2573942,
+                          0.29044047
+                      ]
+                  ]
+}
