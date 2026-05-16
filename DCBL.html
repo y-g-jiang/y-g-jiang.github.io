@@ -81,9 +81,45 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-200 font-sans antialiased transition-colors duration-300">
     <div id="root"></div>
-    <div class="mx-auto my-8 max-w-4xl rounded-lg border border-cyan-200 bg-white px-5 py-4 text-sm text-slate-800 shadow-sm dark:border-cyan-700/60 dark:bg-slate-800 dark:text-slate-100">
-        <span class="font-semibold">输出为DNG：</span>
-        <a class="text-cyan-600 underline decoration-cyan-300 underline-offset-4 hover:text-cyan-700 dark:text-cyan-300 dark:hover:text-cyan-200" href="https://zhuanlan.zhihu.com/p/2001361388094919587" target="_blank" rel="noopener noreferrer">https://zhuanlan.zhihu.com/p/2001361388094919587</a>
-    </div>
+    <script>
+        (() => {
+            const insertDngOutputLink = () => {
+                if (document.getElementById('dng-output-link-box')) return true;
+                const heading = Array.from(document.querySelectorAll('h2'))
+                    .find(el => el.textContent && el.textContent.includes('相关链接与文档'));
+                if (!heading || !heading.parentElement) return false;
+                const linkList = Array.from(heading.parentElement.children)
+                    .find(el => el !== heading && el.querySelector && el.querySelector('a'));
+                if (!linkList) return false;
+
+                const box = document.createElement('div');
+                box.id = 'dng-output-link-box';
+                box.className = 'mb-4 rounded-lg border border-cyan-200 bg-cyan-50 px-4 py-3 text-slate-800 shadow-sm dark:border-cyan-700/60 dark:bg-slate-900/50 dark:text-slate-100';
+
+                const label = document.createElement('span');
+                label.className = 'font-semibold';
+                label.textContent = '输出无偏色的DNG：';
+
+                const link = document.createElement('a');
+                link.className = 'text-cyan-600 underline decoration-cyan-300 underline-offset-4 hover:text-cyan-700 dark:text-cyan-300 dark:hover:text-cyan-200 break-all';
+                link.href = 'https://zhuanlan.zhihu.com/p/2001361388094919587';
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.textContent = 'https://zhuanlan.zhihu.com/p/2001361388094919587';
+
+                box.append(label, link);
+                heading.parentElement.insertBefore(box, linkList);
+                return true;
+            };
+
+            if (!insertDngOutputLink()) {
+                const observer = new MutationObserver(() => {
+                    if (insertDngOutputLink()) observer.disconnect();
+                });
+                observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
+                window.addEventListener('load', insertDngOutputLink, { once: true });
+            }
+        })();
+    </script>
 </body>
 </html>
