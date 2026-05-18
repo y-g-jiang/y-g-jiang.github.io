@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14bit RAW ΔPDR Critical ISO Curves</title>
+  <script src="pdr_camera_data_14bit.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f8;
+      --panel: #ffffff;
+      --line: #d8dde3;
+      --line-strong: #b7c0ca;
+      --text: #20252b;
+      --muted: #66717e;
+      --accent: #1f6f8b;
+      --accent-soft: #e7f1f7;
+      --bad: #a33a2d;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: auto;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+      min-height: 100vh;
+      min-height: 0;
+      align-items: start;
+    }
+
+    aside {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+    }
+
+    .sidebar-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    h2 {
+      margin-bottom: 6px;
+      font-size: 24px;
+    }
+
+    .search {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      padding: 0 10px;
+      background: #fff;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .counts {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .counts {
+      margin-top: 10px;
+    }
+
+    .camera-list {
+      min-height: 0;
+      overflow: auto;
+      padding: 8px;
+    }
+
+    .camera-button {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+      min-height: 38px;
+      border: 0;
+      border-radius: 6px;
+      padding: 7px 8px;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .camera-button:hover {
+      background: #f0f3f5;
+    }
+
+    .camera-button.selected {
+      background: var(--accent-soft);
+      color: #0f4e70;
+      font-weight: 650;
+    }
+
+    .tag {
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    main {
+      min-width: 0;
+      min-height: 0;
+      overflow: visible;
+      padding: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .control {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .control select,
+    .control button {
+      height: 32px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      padding: 0 9px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .control button {
+      min-width: 76px;
+      cursor: pointer;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .metric,
+    .chart-panel,
+    .table-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 10px;
+    }
+
+    .metric .label {
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .metric .value {
+      margin-top: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .chart-panel {
+      margin-bottom: 14px;
+      padding: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #curveChart {
+      display: block;
+      width: 100%;
+      height: 420px;
+    }
+
+    .axis {
+      stroke: #44515e;
+      stroke-width: 1.2;
+    }
+
+    .grid {
+      stroke: #dbe1e7;
+      stroke-width: 1;
+    }
+
+    .axis-label,
+    .tick-label,
+    .empty-label {
+      fill: var(--muted);
+      font-size: 12px;
+    }
+
+    .curve {
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .point {
+      stroke: #fff;
+      stroke-width: 1.4;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 3px 7px;
+      background: #fafbfc;
+      font-size: 12px;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .table-wrap {
+      overflow: visible;
+      position: relative;
+      min-height: 180px;
+    }
+
+    .chart-watermark,
+    .table-watermark {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      color: rgba(47, 59, 70, 0.26);
+      font-size: clamp(20px, 3.33vw, 43px);
+      font-weight: 700;
+      white-space: nowrap;
+      pointer-events: none;
+      transform: rotate(-18deg);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+      mix-blend-mode: multiply;
+    }
+
+    .chart-watermark {
+      inset: 12px 12px 44px 12px;
+    }
+
+    table {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      border-collapse: collapse;
+      background: transparent;
+    }
+
+    th,
+    td {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 9px;
+      text-align: right;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      text-align: left;
+      background: inherit;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #eef2f5;
+      color: #33414f;
+      font-weight: 650;
+    }
+
+    thead th:first-child {
+      z-index: 3;
+      background: #eef2f5;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(250, 251, 252, 0.9);
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .no-solution {
+      color: var(--bad);
+      font-weight: 650;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        display: block;
+        min-height: 100vh;
+      }
+
+      aside {
+        height: 320px;
+        position: static;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      main {
+        overflow: visible;
+      }
+
+      .topbar {
+        display: block;
+      }
+
+      .controls {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="sidebar-head">
+        <h1>14bit 机型</h1>
+        <input class="search" id="search" type="search" placeholder="搜索机型">
+        <div class="counts" id="counts"></div>
+      </div>
+      <div class="camera-list" id="cameraList"></div>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div>
+          <h2>ΔPDR 临界 ISO 曲线</h2>
+        </div>
+        <div class="controls">
+          <label class="control">
+            低位深
+            <select id="lowBitDepth">
+              <option value="12" selected>12 bit</option>
+              <option value="13">13 bit</option>
+              <option value="10">10 bit</option>
+            </select>
+          </label>
+          <label class="control">
+            Y 轴
+            <select id="yScale">
+              <option value="log" selected>log ISO</option>
+              <option value="linear">linear ISO</option>
+            </select>
+          </label>
+          <label class="control">
+            选择
+            <button id="clearSelection" type="button">清空</button>
+          </label>
+        </div>
+      </div>
+
+      <section class="summary" id="summary"></section>
+
+      <section class="chart-panel">
+        <div class="chart-watermark" aria-hidden="true">(C) 2026 姜尧耕 y-g-jiang.github.io</div>
+        <svg id="curveChart" role="img" aria-label="ΔPDR critical ISO curves"></svg>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <div class="table-wrap">
+        <div class="table-watermark" aria-hidden="true">(C) 2026 姜尧耕 y-g-jiang.github.io</div>
+        <table id="lossTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const DATA = window.PDR_CAMERA_DATA;
+    const EFFECTIVE_ADU14 = 16383 - 512;
+    const COLORS = [
+      "#1f6f8b", "#c44e52", "#3b8f5a", "#8064a2", "#d17a22", "#4c78a8",
+      "#b279a2", "#627f2d", "#8c6d31", "#4f8f9f", "#a84d3a", "#6f63b6"
+    ];
+
+    const cameraList = document.getElementById("cameraList");
+    const search = document.getElementById("search");
+    const counts = document.getElementById("counts");
+    const lowBitDepth = document.getElementById("lowBitDepth");
+    const yScale = document.getElementById("yScale");
+    const clearSelection = document.getElementById("clearSelection");
+    const selectedNames = new Set();
+
+    function fmt(value, digits = 0) {
+      if (!Number.isFinite(value)) return "n/a";
+      return new Intl.NumberFormat("en-US", {
+        maximumFractionDigits: digits,
+        minimumFractionDigits: digits,
+      }).format(value);
+    }
+
+    function fmtSig(value, digits = 3) {
+      if (!Number.isFinite(value)) return "n/a";
+      return Number(value).toPrecision(digits);
+    }
+
+    function losses() {
+      const out = [];
+      for (let value = 0.1; value <= 0.6000001; value += 0.1) {
+        out.push(Math.round(value * 1000) / 1000);
+      }
+      return out;
+    }
+
+    function qSqForLowBit(lowBit) {
+      const delta = 2 ** (14 - lowBit);
+      return delta * delta / 12;
+    }
+
+    function pdrThresholdSignal(noiseElectrons, targetSNR) {
+      const t2 = targetSNR * targetSNR;
+      return (t2 / 2) * (1 + Math.sqrt(1 + 4 * noiseElectrons * noiseElectrons / t2));
+    }
+
+    function pdrLossAtIso(camera, rnPoint, iso, lowBit) {
+      const q2 = qSqForLowBit(lowBit);
+      const k14 = camera.fullWellElectronPerPixelNative * camera.nativeIso / iso / EFFECTIVE_ADU14;
+      const n14 = k14 * rnPoint.rndnADU14;
+      const nLow = k14 * Math.sqrt(rnPoint.rndnADU14 * rnPoint.rndnADU14 + q2);
+      const s14 = pdrThresholdSignal(n14, camera.targetSNR);
+      const sLow = pdrThresholdSignal(nLow, camera.targetSNR);
+      return Math.log2(sLow / s14);
+    }
+
+    function criticalIsoForCamera(camera, lossStops, lowBit) {
+      const points = camera.rn
+        .map((point) => ({
+          iso: point.iso,
+          rndn: point.rndnADU14,
+          loss: pdrLossAtIso(camera, point, point.iso, lowBit),
+        }))
+        .filter((point) => Number.isFinite(point.loss))
+        .sort((a, b) => a.iso - b.iso);
+
+      if (!points.length) return null;
+
+      const first = points[0];
+      if (first.loss < lossStops) {
+        return {
+          state: "no_solution_below_native",
+          iso: first.iso,
+          loss: first.loss,
+          rndn: first.rndn,
+        };
+      }
+
+      for (let i = 1; i < points.length; i += 1) {
+        const prev = points[i - 1];
+        const curr = points[i];
+        if (prev.loss >= lossStops && curr.loss <= lossStops) {
+          const x0 = Math.log2(prev.iso);
+          const x1 = Math.log2(curr.iso);
+          const span = prev.loss - curr.loss;
+          const ratio = span === 0 ? 0 : (prev.loss - lossStops) / span;
+          const iso = 2 ** (x0 + ratio * (x1 - x0));
+          return {
+            state: "interpolated",
+            iso,
+            loss: lossStops,
+            rndn: prev.rndn + ratio * (curr.rndn - prev.rndn),
+            bracketingIso: `${fmt(prev.iso)}-${fmt(curr.iso)}`,
+          };
+        }
+      }
+
+      const last = points[points.length - 1];
+      return {
+        state: "above_range",
+        iso: last.iso,
+        loss: last.loss,
+        rndn: last.rndn,
+      };
+    }
+
+    function getSelectedCameras() {
+      return DATA.cameras.filter((camera) => selectedNames.has(camera.camera));
+    }
+
+    function seriesForCamera(camera, lowBit) {
+      return losses().map((loss) => ({
+        loss,
+        result: criticalIsoForCamera(camera, loss, lowBit),
+      }));
+    }
+
+    function validSeriesPoints(camera, lowBit) {
+      return seriesForCamera(camera, lowBit)
+        .filter((point) => point.result && (
+          point.result.state === "interpolated" ||
+          point.result.state === "no_solution_below_native"
+        ))
+        .map((point) => ({
+          x: point.loss,
+          y: point.result.iso,
+          rndn: point.result.rndn,
+          state: point.result.state,
+        }));
+    }
+
+    function renderList() {
+      const query = search.value.trim().toLowerCase();
+      const filtered = DATA.cameras.filter((camera) => camera.camera.toLowerCase().includes(query));
+      cameraList.innerHTML = "";
+      counts.textContent = `${selectedNames.size} selected / ${DATA.cameras.length} cameras`;
+
+      for (const camera of filtered) {
+        const button = document.createElement("button");
+        button.className = `camera-button${selectedNames.has(camera.camera) ? " selected" : ""}`;
+        button.type = "button";
+        button.innerHTML = `<span>${camera.camera}</span><span class="tag">${fmt(camera.megapixels, 1)} MP</span>`;
+        button.addEventListener("click", () => {
+          if (selectedNames.has(camera.camera)) selectedNames.delete(camera.camera);
+          else selectedNames.add(camera.camera);
+          render();
+        });
+        cameraList.appendChild(button);
+      }
+    }
+
+    function renderSummary() {
+      const selected = getSelectedCameras();
+      const lowBit = Number(lowBitDepth.value);
+      const q = Math.sqrt(qSqForLowBit(lowBit));
+      const isoValues = selected
+        .flatMap((camera) => validSeriesPoints(camera, lowBit).map((point) => point.y))
+        .filter(Number.isFinite);
+      const isoRange = isoValues.length
+        ? `${fmt(Math.min(...isoValues))} - ${fmt(Math.max(...isoValues))}`
+        : "n/a";
+      const items = [
+        ["已选机型", fmt(selected.length)],
+        ["ΔPDR 点数", fmt(losses().length)],
+        ["q ADU14", fmt(q, 4)],
+        ["临界 ISO 范围", isoRange],
+      ];
+      document.getElementById("summary").innerHTML = items.map(([label, value]) => (
+        `<div class="metric"><div class="label">${label}</div><div class="value">${value}</div></div>`
+      )).join("");
+    }
+
+    function niceIsoTicks(minIso, maxIso, scale) {
+      if (!Number.isFinite(minIso) || !Number.isFinite(maxIso) || minIso <= 0 || maxIso <= 0) return [];
+      if (scale === "log") {
+        const start = Math.floor(Math.log2(minIso / 100));
+        const end = Math.ceil(Math.log2(maxIso / 100));
+        const ticks = [];
+        for (let ev = start; ev <= end; ev += 1) {
+          const iso = 100 * 2 ** ev;
+          if (iso >= minIso && iso <= maxIso) ticks.push(iso);
+        }
+        return ticks;
+      }
+      const span = maxIso - minIso;
+      const rawStep = span / 5;
+      const pow = 10 ** Math.floor(Math.log10(rawStep || 1));
+      const step = [1, 2, 5, 10].map((m) => m * pow).find((s) => s >= rawStep) || pow;
+      const first = Math.ceil(minIso / step) * step;
+      const ticks = [];
+      for (let iso = first; iso <= maxIso + step * 0.25; iso += step) ticks.push(iso);
+      return ticks;
+    }
+
+    function renderChart() {
+      const svg = document.getElementById("curveChart");
+      const selected = getSelectedCameras();
+      const lowBit = Number(lowBitDepth.value);
+      const lossValues = losses();
+      const width = 980;
+      const height = 420;
+      const margin = { left: 66, right: 24, top: 18, bottom: 52 };
+      const plotW = width - margin.left - margin.right;
+      const plotH = height - margin.top - margin.bottom;
+      const scale = yScale.value;
+
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.innerHTML = "";
+
+      const allSeries = selected.map((camera, index) => ({
+        camera,
+        color: COLORS[index % COLORS.length],
+        points: validSeriesPoints(camera, lowBit),
+      }));
+      const allPoints = allSeries.flatMap((series) => series.points);
+      const xMin = Math.min(...lossValues);
+      const xMax = Math.max(...lossValues);
+      const yValues = allPoints.map((point) => point.y).filter((value) => Number.isFinite(value) && value > 0);
+
+      function add(tag, attrs, text) {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+        for (const [key, value] of Object.entries(attrs || {})) el.setAttribute(key, value);
+        if (text !== undefined) el.textContent = text;
+        svg.appendChild(el);
+        return el;
+      }
+
+      add("rect", { x: 0, y: 0, width, height, fill: "#fff" });
+      add("line", { x1: margin.left, y1: margin.top + plotH, x2: margin.left + plotW, y2: margin.top + plotH, class: "axis" });
+      add("line", { x1: margin.left, y1: margin.top, x2: margin.left, y2: margin.top + plotH, class: "axis" });
+
+      const xMap = (x) => margin.left + ((x - xMin) / (xMax - xMin || 1)) * plotW;
+
+      if (!yValues.length) {
+        add("text", { x: margin.left + plotW / 2, y: margin.top + plotH / 2, "text-anchor": "middle", class: "empty-label" }, "当前选择没有可绘制的临界 ISO");
+        renderLegend(allSeries);
+        return;
+      }
+
+      const yMinRaw = Math.min(...yValues);
+      const yMaxRaw = Math.max(...yValues);
+      let yMin;
+      let yMax;
+      if (scale === "log") {
+        const loEv = Math.floor(Math.log2(yMinRaw / 100)) - 1;
+        const hiEv = Math.ceil(Math.log2(yMaxRaw / 100)) + 1;
+        yMin = Math.max(1, 100 * 2 ** loEv);
+        yMax = 100 * 2 ** hiEv;
+      } else {
+        const span = Math.max(1, yMaxRaw - yMinRaw);
+        yMin = Math.max(0, yMinRaw - span * 0.18);
+        yMax = yMaxRaw + span * 0.22;
+      }
+      const yMap = (y) => {
+        if (scale === "log") {
+          const lo = Math.log2(yMin);
+          const hi = Math.log2(yMax);
+          return margin.top + plotH - ((Math.log2(y) - lo) / (hi - lo || 1)) * plotH;
+        }
+        return margin.top + plotH - ((y - yMin) / (yMax - yMin || 1)) * plotH;
+      };
+
+      for (const loss of lossValues) {
+        const x = xMap(loss);
+        add("line", { x1: x, y1: margin.top, x2: x, y2: margin.top + plotH, class: "grid" });
+        add("text", { x, y: height - 24, "text-anchor": "middle", class: "tick-label" }, loss.toFixed(2));
+      }
+
+      for (const tick of niceIsoTicks(yMin, yMax, scale)) {
+        const y = yMap(tick);
+        add("line", { x1: margin.left, y1: y, x2: margin.left + plotW, y2: y, class: "grid" });
+        add("text", { x: margin.left - 9, y: y + 4, "text-anchor": "end", class: "tick-label" }, fmt(tick));
+      }
+
+      add("text", { x: margin.left + plotW / 2, y: height - 6, "text-anchor": "middle", class: "axis-label" }, "ΔPDR stop");
+      add("text", {
+        x: 16,
+        y: margin.top + plotH / 2,
+        transform: `rotate(-90 16 ${margin.top + plotH / 2})`,
+        "text-anchor": "middle",
+        class: "axis-label",
+      }, scale === "log" ? "ISO (log scale)" : "ISO");
+
+      for (const series of allSeries) {
+        if (!series.points.length) continue;
+        const d = series.points.map((point) => `${xMap(point.x)},${yMap(point.y)}`).join(" ");
+        add("polyline", { points: d, class: "curve", stroke: series.color });
+        for (const point of series.points) {
+          const circle = add("circle", {
+            cx: xMap(point.x),
+            cy: yMap(point.y),
+            r: point.state === "no_solution_below_native" ? 3.4 : 4,
+            fill: series.color,
+            opacity: point.state === "no_solution_below_native" ? 0.55 : 1,
+            class: "point",
+          });
+          circle.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "title")).textContent =
+            `${series.camera.camera}\nΔPDR ${point.x.toFixed(2)}\nISO ${fmt(point.y)}\nrndn ${fmt(point.rndn, 3)} ADU14`;
+        }
+      }
+
+      renderLegend(allSeries);
+    }
+
+    function renderLegend(seriesList) {
+      const legend = document.getElementById("legend");
+      if (!seriesList.length) {
+        legend.innerHTML = `<span class="tag">未选择机型</span>`;
+        return;
+      }
+      legend.innerHTML = seriesList.map((series) => (
+        `<span class="legend-chip"><span class="swatch" style="background:${series.color}"></span>${series.camera.camera}</span>`
+      )).join("");
+    }
+
+    function renderTable() {
+      const cameras = DATA.cameras;
+      const lowBit = Number(lowBitDepth.value);
+      const lossValues = losses();
+      const thead = document.querySelector("#lossTable thead");
+      const tbody = document.querySelector("#lossTable tbody");
+      thead.innerHTML = `<tr><th>机型</th>${lossValues.map((loss) => `<th>${loss.toFixed(2)}</th>`).join("")}</tr>`;
+      tbody.innerHTML = cameras.map((camera) => {
+        const cells = lossValues.map((loss) => {
+          const result = criticalIsoForCamera(camera, loss, lowBit);
+          if (!result) return `<td class="no-solution">无解</td>`;
+          if (result.state === "no_solution_below_native") return `<td>${fmt(result.iso)}</td>`;
+          if (result.state === "above_range") return `<td>&gt; ${fmt(result.iso)}</td>`;
+          return `<td>${fmt(result.iso)}</td>`;
+        }).join("");
+        return `<tr><td>${camera.camera}</td>${cells}</tr>`;
+      }).join("");
+    }
+
+    function render() {
+      renderList();
+      renderSummary();
+      renderChart();
+      renderTable();
+    }
+
+    search.addEventListener("input", renderList);
+    lowBitDepth.addEventListener("change", render);
+    yScale.addEventListener("change", render);
+    clearSelection.addEventListener("click", () => {
+      selectedNames.clear();
+      render();
+    });
+
+    DATA.cameras.sort((a, b) => a.camera.localeCompare(b.camera));
+    render();
+  </script>
+</body>
+</html>
