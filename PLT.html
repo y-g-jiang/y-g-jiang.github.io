@@ -422,6 +422,13 @@
         </div>
         <div class="controls">
           <label class="control">
+            图表
+            <select id="chartMode">
+              <option value="lossIso" selected>ISO → ΔPDR</option>
+              <option value="criticalIso">ΔPDR → 临界 ISO</option>
+            </select>
+          </label>
+          <label class="control">
             低位深
             <select id="lowBitDepth">
               <option value="12" selected>12 bit</option>
@@ -430,7 +437,7 @@
             </select>
           </label>
           <label class="control">
-            Y 轴
+            <span id="scaleLabel">ISO 轴</span>
             <select id="yScale">
               <option value="log" selected>log ISO</option>
               <option value="linear">linear ISO</option>
@@ -472,6 +479,7 @@
     const cameraList = document.getElementById("cameraList");
     const search = document.getElementById("search");
     const counts = document.getElementById("counts");
+    const chartMode = document.getElementById("chartMode");
     const lowBitDepth = document.getElementById("lowBitDepth");
     const yScale = document.getElementById("yScale");
     const clearSelection = document.getElementById("clearSelection");
@@ -488,6 +496,12 @@
     function fmtSig(value, digits = 3) {
       if (!Number.isFinite(value)) return "n/a";
       return Number(value).toPrecision(digits);
+    }
+
+    function fmtStop(value) {
+      if (!Number.isFinite(value)) return "n/a";
+      if (value > 0 && value < 0.01) return value.toPrecision(2);
+      return value.toFixed(value < 0.1 ? 3 : 2);
     }
 
     function losses() {
@@ -593,6 +607,22 @@
         }));
     }
 
+    function lossIsoPoints(camera, lowBit) {
+      return camera.rn
+        .map((point) => ({
+          x: point.iso,
+          y: pdrLossAtIso(camera, point, point.iso, lowBit),
+          rndn: point.rndnADU14,
+        }))
+        .filter((point) => (
+          Number.isFinite(point.x) &&
+          point.x > 0 &&
+          Number.isFinite(point.y) &&
+          point.y >= 0
+        ))
+        .sort((a, b) => a.x - b.x);
+    }
+
     function renderList() {
       const query = search.value.trim().toLowerCase();
       const filtered = DATA.cameras.filter((camera) => camera.camera.toLowerCase().includes(query));
@@ -617,21 +647,51 @@
       const selected = getSelectedCameras();
       const lowBit = Number(lowBitDepth.value);
       const q = Math.sqrt(qSqForLowBit(lowBit));
-      const isoValues = selected
-        .flatMap((camera) => validSeriesPoints(camera, lowBit).map((point) => point.y))
-        .filter(Number.isFinite);
-      const isoRange = isoValues.length
-        ? `${fmt(Math.min(...isoValues))} - ${fmt(Math.max(...isoValues))}`
-        : "n/a";
-      const items = [
-        ["已选机型", fmt(selected.length)],
-        ["ΔPDR 点数", fmt(losses().length)],
-        ["q ADU14", fmt(q, 4)],
-        ["临界 ISO 范围", isoRange],
-      ];
+      let items;
+      if (chartMode.value === "lossIso") {
+        const points = selected.flatMap((camera) => lossIsoPoints(camera, lowBit));
+        const lossesAtIso = points.map((point) => point.y).filter(Number.isFinite);
+        const lossRange = lossesAtIso.length
+          ? `${fmtStop(Math.min(...lossesAtIso))} - ${fmtStop(Math.max(...lossesAtIso))}`
+          : "n/a";
+        items = [
+          ["已选机型", fmt(selected.length)],
+          ["数据点数", fmt(points.length)],
+          ["q ADU14", fmt(q, 4)],
+          ["ΔPDR 范围", lossRange],
+        ];
+      } else {
+        const isoValues = selected
+          .flatMap((camera) => validSeriesPoints(camera, lowBit).map((point) => point.y))
+          .filter(Number.isFinite);
+        const isoRange = isoValues.length
+          ? `${fmt(Math.min(...isoValues))} - ${fmt(Math.max(...isoValues))}`
+          : "n/a";
+        items = [
+          ["已选机型", fmt(selected.length)],
+          ["ΔPDR 点数", fmt(losses().length)],
+          ["q ADU14", fmt(q, 4)],
+          ["临界 ISO 范围", isoRange],
+        ];
+      }
       document.getElementById("summary").innerHTML = items.map(([label, value]) => (
         `<div class="metric"><div class="label">${label}</div><div class="value">${value}</div></div>`
       )).join("");
+    }
+
+    function niceLinearTicks(minValue, maxValue, targetCount = 5) {
+      if (!Number.isFinite(minValue) || !Number.isFinite(maxValue)) return [];
+      const span = maxValue - minValue;
+      if (span <= 0) return [minValue];
+      const rawStep = span / targetCount;
+      const pow = 10 ** Math.floor(Math.log10(rawStep || 1));
+      const step = [1, 2, 5, 10].map((m) => m * pow).find((s) => s >= rawStep) || pow;
+      const first = Math.ceil(minValue / step) * step;
+      const ticks = [];
+      for (let value = first; value <= maxValue + step * 0.25; value += step) {
+        ticks.push(Number(value.toFixed(12)));
+      }
+      return ticks;
     }
 
     function niceIsoTicks(minIso, maxIso, scale) {
@@ -656,17 +716,128 @@
       return ticks;
     }
 
+    function renderLossIsoChart(svg, selected, lowBit, scale) {
+      const width = 980;
+      const height = 420;
+      const margin = { left: 66, right: 24, top: 18, bottom: 52 };
+      const plotW = width - margin.left - margin.right;
+      const plotH = height - margin.top - margin.bottom;
+
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.innerHTML = "";
+
+      const allSeries = selected.map((camera, index) => ({
+        camera,
+        color: COLORS[index % COLORS.length],
+        points: lossIsoPoints(camera, lowBit),
+      }));
+      const allPoints = allSeries.flatMap((series) => series.points);
+      const xValues = allPoints.map((point) => point.x).filter((value) => Number.isFinite(value) && value > 0);
+      const yValues = allPoints.map((point) => point.y).filter((value) => Number.isFinite(value) && value >= 0);
+
+      function add(tag, attrs, text) {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+        for (const [key, value] of Object.entries(attrs || {})) el.setAttribute(key, value);
+        if (text !== undefined) el.textContent = text;
+        svg.appendChild(el);
+        return el;
+      }
+
+      add("rect", { x: 0, y: 0, width, height, fill: "#fff" });
+      add("line", { x1: margin.left, y1: margin.top + plotH, x2: margin.left + plotW, y2: margin.top + plotH, class: "axis" });
+      add("line", { x1: margin.left, y1: margin.top, x2: margin.left, y2: margin.top + plotH, class: "axis" });
+
+      if (!xValues.length || !yValues.length) {
+        add("text", { x: margin.left + plotW / 2, y: margin.top + plotH / 2, "text-anchor": "middle", class: "empty-label" }, "请选择机型以绘制 ISO / ΔPDR 曲线");
+        renderLegend(allSeries);
+        return;
+      }
+
+      const xMinRaw = Math.min(...xValues);
+      const xMaxRaw = Math.max(...xValues);
+      let xMin;
+      let xMax;
+      if (scale === "log") {
+        const loEv = Math.floor(Math.log2(xMinRaw / 100)) - 1;
+        const hiEv = Math.ceil(Math.log2(xMaxRaw / 100)) + 1;
+        xMin = Math.max(1, 100 * 2 ** loEv);
+        xMax = 100 * 2 ** hiEv;
+      } else {
+        const span = Math.max(1, xMaxRaw - xMinRaw);
+        xMin = Math.max(0, xMinRaw - span * 0.12);
+        xMax = xMaxRaw + span * 0.12;
+      }
+
+      const yMin = 0;
+      const yMax = Math.max(0.1, Math.max(...yValues) * 1.12);
+      const xMap = (x) => {
+        if (scale === "log") {
+          const lo = Math.log2(xMin);
+          const hi = Math.log2(xMax);
+          return margin.left + ((Math.log2(x) - lo) / (hi - lo || 1)) * plotW;
+        }
+        return margin.left + ((x - xMin) / (xMax - xMin || 1)) * plotW;
+      };
+      const yMap = (y) => margin.top + plotH - ((y - yMin) / (yMax - yMin || 1)) * plotH;
+
+      for (const tick of niceIsoTicks(xMin, xMax, scale)) {
+        const x = xMap(tick);
+        add("line", { x1: x, y1: margin.top, x2: x, y2: margin.top + plotH, class: "grid" });
+        add("text", { x, y: height - 24, "text-anchor": "middle", class: "tick-label" }, fmt(tick));
+      }
+
+      for (const tick of niceLinearTicks(yMin, yMax, 6)) {
+        const y = yMap(tick);
+        add("line", { x1: margin.left, y1: y, x2: margin.left + plotW, y2: y, class: "grid" });
+        add("text", { x: margin.left - 9, y: y + 4, "text-anchor": "end", class: "tick-label" }, fmtStop(tick));
+      }
+
+      add("text", { x: margin.left + plotW / 2, y: height - 6, "text-anchor": "middle", class: "axis-label" }, scale === "log" ? "ISO (log scale)" : "ISO");
+      add("text", {
+        x: 16,
+        y: margin.top + plotH / 2,
+        transform: `rotate(-90 16 ${margin.top + plotH / 2})`,
+        "text-anchor": "middle",
+        class: "axis-label",
+      }, "ΔPDR loss (stops)");
+
+      for (const series of allSeries) {
+        if (!series.points.length) continue;
+        const d = series.points.map((point) => `${xMap(point.x)},${yMap(point.y)}`).join(" ");
+        add("polyline", { points: d, class: "curve", stroke: series.color });
+        for (const point of series.points) {
+          const circle = add("circle", {
+            cx: xMap(point.x),
+            cy: yMap(point.y),
+            r: 4,
+            fill: series.color,
+            class: "point",
+          });
+          circle.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "title")).textContent =
+            `${series.camera.camera}\nISO ${fmt(point.x)}\nΔPDR ${fmtStop(point.y)} stops\nrndn ${fmt(point.rndn, 3)} ADU14`;
+        }
+      }
+
+      renderLegend(allSeries);
+    }
+
     function renderChart() {
       const svg = document.getElementById("curveChart");
       const selected = getSelectedCameras();
       const lowBit = Number(lowBitDepth.value);
+      const scale = yScale.value;
+
+      if (chartMode.value === "lossIso") {
+        renderLossIsoChart(svg, selected, lowBit, scale);
+        return;
+      }
+
       const lossValues = losses();
       const width = 980;
       const height = 420;
       const margin = { left: 66, right: 24, top: 18, bottom: 52 };
       const plotW = width - margin.left - margin.right;
       const plotH = height - margin.top - margin.bottom;
-      const scale = yScale.value;
 
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
       svg.innerHTML = "";
@@ -797,6 +968,7 @@
     }
 
     function render() {
+      document.getElementById("scaleLabel").textContent = chartMode.value === "lossIso" ? "ISO 轴" : "Y 轴";
       renderList();
       renderSummary();
       renderChart();
@@ -804,6 +976,7 @@
     }
 
     search.addEventListener("input", renderList);
+    chartMode.addEventListener("change", render);
     lowBitDepth.addEventListener("change", render);
     yScale.addEventListener("change", render);
     clearSelection.addEventListener("click", () => {
