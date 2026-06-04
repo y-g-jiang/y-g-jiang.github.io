@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>置顶便签</title>
+  <style id="appStyle">
+    :root {
+      color-scheme: light;
+      --bg: #eef1f4;
+      --panel: #fff8ca;
+      --panel-strong: #f7dc6f;
+      --ink: #24211b;
+      --muted: #6f6a5a;
+      --line: rgba(55, 48, 31, 0.18);
+      --line-strong: rgba(55, 48, 31, 0.32);
+      --button: #fffdf0;
+      --button-hover: #fff3aa;
+      --accent: #2563eb;
+      --danger: #b42318;
+      --shadow: 0 16px 50px rgba(33, 36, 42, 0.18);
+      --radius: 8px;
+      font-family: "Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0)),
+        var(--bg);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      letter-spacing: 0;
+    }
+
+    body.popup,
+    body.pip-body {
+      background: var(--panel);
+      padding: 0;
+      overflow: hidden;
+      display: block;
+    }
+
+    .workspace {
+      width: min(100%, 520px);
+      display: grid;
+      gap: 14px;
+    }
+
+    .home-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 34px;
+      color: #36342f;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .brand-mark {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #f3c94b 0%, #f3c94b 50%, #38bdf8 51%, #38bdf8 100%);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+      flex: 0 0 auto;
+    }
+
+    .support {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .note-dock {
+      display: grid;
+      min-height: 560px;
+    }
+
+    .note-shell {
+      width: min(100%, 480px);
+      height: min(78vh, 620px);
+      min-height: 460px;
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    body.popup .note-shell,
+    body.pip-body .note-shell {
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .toolbar {
+      min-height: 44px;
+      display: grid;
+      grid-template-columns: minmax(80px, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 8px;
+      background: color-mix(in srgb, var(--panel-strong) 42%, var(--panel));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .title-input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font: 700 15px/1.25 "Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    .title-input:focus {
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    .tools {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: nowrap;
+    }
+
+    .tool-button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--button);
+      color: var(--ink);
+      display: inline-grid;
+      place-items: center;
+      padding: 0;
+      font: 700 14px/1 "Segoe UI", system-ui, sans-serif;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .tool-button:hover,
+    .tool-button:focus-visible {
+      background: var(--button-hover);
+      border-color: var(--line-strong);
+      outline: 0;
+    }
+
+    .tool-button.primary {
+      background: #e8f0ff;
+      border-color: rgba(37, 99, 235, 0.34);
+      color: var(--accent);
+    }
+
+    .tool-button.danger {
+      color: var(--danger);
+    }
+
+    .status-line {
+      min-height: 28px;
+      padding: 6px 12px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.34);
+      border-bottom: 1px solid rgba(55, 48, 31, 0.1);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .editor {
+      position: relative;
+      padding: 18px 18px 30px;
+      overflow: auto;
+      outline: none;
+      font: 15px/1.58 "Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      isolation: isolate;
+    }
+
+    .editor:empty::before {
+      content: attr(data-placeholder);
+      color: rgba(52, 48, 38, 0.42);
+      pointer-events: none;
+    }
+
+    .editor::after {
+      content: "y-g-jiang.github.io";
+      position: fixed;
+      left: 50%;
+      top: 56%;
+      z-index: -1;
+      transform: translate(-50%, -50%) rotate(-18deg);
+      color: rgba(77, 69, 42, 0.13);
+      font: 700 42px / 1 "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .editor p {
+      margin: 0 0 10px;
+    }
+
+    .editor ul,
+    .editor ol {
+      padding-left: 1.4em;
+      margin: 8px 0 12px;
+    }
+
+    .image-block {
+      display: grid;
+      gap: 6px;
+      margin: 12px 0;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.46);
+      border: 1px solid rgba(55, 48, 31, 0.16);
+      border-radius: var(--radius);
+      position: relative;
+    }
+
+    .image-block img {
+      display: block;
+      width: 100%;
+      max-height: 62vh;
+      object-fit: contain;
+      border-radius: 5px;
+      background: #fff;
+    }
+
+    .image-remove {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--danger);
+      font: 700 16px/1 "Segoe UI", system-ui, sans-serif;
+      cursor: pointer;
+    }
+
+    .image-remove:hover,
+    .image-remove:focus-visible {
+      background: #fff1ef;
+      outline: 0;
+    }
+
+    .released-panel {
+      display: none;
+      min-height: 260px;
+      padding: 34px;
+      border: 1px dashed rgba(36, 33, 27, 0.32);
+      border-radius: var(--radius);
+      color: var(--muted);
+      place-items: center;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    body.released .released-panel {
+      display: grid;
+    }
+
+    body.released #noteDock {
+      display: none;
+    }
+
+    body.pip-body .home-bar,
+    body.popup .home-bar,
+    body.pip-body .released-panel,
+    body.popup .released-panel {
+      display: none;
+    }
+
+    body.pip-body .workspace,
+    body.popup .workspace {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 10px;
+      }
+
+      .home-bar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .note-shell {
+        width: 100%;
+        height: calc(100vh - 86px);
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .editor::after {
+        font-size: 28px;
+      }
+
+      .tools {
+        justify-content: flex-end;
+      }
+    }
+
+    @media all and (display-mode: picture-in-picture) {
+      body {
+        margin: 0;
+      }
+
+      .status-line {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="workspace" id="workspace">
+    <div class="home-bar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>置顶便签</span>
+      </div>
+      <div class="support" id="supportText">正在检测窗口能力</div>
+    </div>
+
+    <section class="note-dock" id="noteDock" aria-label="便签编辑区">
+      <article class="note-shell" id="noteShell">
+        <div class="toolbar">
+          <input class="title-input" id="noteTitle" value="临时便签" aria-label="便签标题">
+          <div class="tools" aria-label="便签工具">
+            <button class="tool-button primary" id="releaseButton" type="button" title="释放置顶窗口" aria-label="释放置顶窗口">⇱</button>
+            <button class="tool-button" type="button" data-command="bold" title="粗体" aria-label="粗体">B</button>
+            <button class="tool-button" type="button" data-command="italic" title="斜体" aria-label="斜体"><em>I</em></button>
+            <button class="tool-button" type="button" data-command="insertUnorderedList" title="列表" aria-label="列表">•</button>
+            <button class="tool-button" type="button" data-command="hiliteColor" data-value="#fff1a8" title="高亮" aria-label="高亮">▣</button>
+            <button class="tool-button danger" id="clearButton" type="button" title="清空" aria-label="清空">×</button>
+          </div>
+        </div>
+        <div class="status-line" id="statusLine">自动保存</div>
+        <div class="editor" id="editor" contenteditable="true" spellcheck="true" data-placeholder="粘贴文字、截图或图片"></div>
+      </article>
+    </section>
+
+    <section class="released-panel" id="releasedPanel" aria-live="polite">
+      便签窗口已释放。关闭小窗后会回到这里。
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "codex-sticky-note-v1";
+      const params = new URLSearchParams(location.search);
+      const isPopupMode = params.get("window") === "popup";
+
+      const body = document.body;
+      const workspace = document.getElementById("workspace");
+      const noteDock = document.getElementById("noteDock");
+      const noteShell = document.getElementById("noteShell");
+      const noteTitle = document.getElementById("noteTitle");
+      const editor = document.getElementById("editor");
+      const releaseButton = document.getElementById("releaseButton");
+      const clearButton = document.getElementById("clearButton");
+      const statusLine = document.getElementById("statusLine");
+      const supportText = document.getElementById("supportText");
+      const styleTag = document.getElementById("appStyle");
+
+      let saveTimer = 0;
+      let pipWindow = null;
+      let popupWindow = null;
+      let lastStatus = "";
+
+      function setStatus(message) {
+        lastStatus = message;
+        statusLine.textContent = message;
+      }
+
+      function setSupport(message) {
+        supportText.textContent = message;
+      }
+
+      function nowText() {
+        return new Date().toLocaleTimeString("zh-CN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        });
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            return;
+          }
+
+          const state = JSON.parse(raw);
+          noteTitle.value = state.title || "临时便签";
+          editor.innerHTML = state.html || "";
+        } catch (error) {
+          setStatus("读取草稿失败");
+        }
+      }
+
+      function saveNow() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            title: noteTitle.value,
+            html: editor.innerHTML,
+            savedAt: Date.now()
+          }));
+          setStatus(`已保存 ${nowText()}`);
+        } catch (error) {
+          setStatus("保存空间不足，当前内容还在窗口里");
+        }
+      }
+
+      function saveSoon() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveNow, 280);
+      }
+
+      function ownerDoc() {
+        return editor.ownerDocument;
+      }
+
+      function ownerWindow() {
+        return ownerDoc().defaultView || window;
+      }
+
+      function placeCaretAtEnd() {
+        editor.focus();
+        const doc = ownerDoc();
+        const range = doc.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        const selection = ownerWindow().getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      function ensureEditorSelection() {
+        const selection = ownerWindow().getSelection();
+        if (!selection || !selection.rangeCount || !editor.contains(selection.anchorNode)) {
+          placeCaretAtEnd();
+        }
+      }
+
+      function insertText(text) {
+        ensureEditorSelection();
+        ownerDoc().execCommand("insertText", false, text);
+      }
+
+      function insertHtml(html) {
+        ensureEditorSelection();
+        ownerDoc().execCommand("insertHTML", false, html);
+      }
+
+      function escapeAttribute(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      function loadImageFromFile(file) {
+        return new Promise((resolve, reject) => {
+          const url = URL.createObjectURL(file);
+          const image = new Image();
+          image.onload = () => {
+            URL.revokeObjectURL(url);
+            resolve(image);
+          };
+          image.onerror = () => {
+            URL.revokeObjectURL(url);
+            reject(new Error("图片读取失败"));
+          };
+          image.src = url;
+        });
+      }
+
+      async function compressImage(file) {
+        if (file.type === "image/gif" && file.size < 2 * 1024 * 1024) {
+          return blobToDataUrl(file);
+        }
+
+        const image = await loadImageFromFile(file);
+        const maxEdge = 1800;
+        const scale = Math.min(1, maxEdge / Math.max(image.naturalWidth, image.naturalHeight));
+        const width = Math.max(1, Math.round(image.naturalWidth * scale));
+        const height = Math.max(1, Math.round(image.naturalHeight * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d", { alpha: true });
+        context.drawImage(image, 0, 0, width, height);
+
+        const blob = await new Promise((resolve) => {
+          canvas.toBlob((webpBlob) => {
+            if (webpBlob) {
+              resolve(webpBlob);
+              return;
+            }
+
+            canvas.toBlob(resolve, "image/png");
+          }, "image/webp", 0.86);
+        });
+
+        if (!blob) {
+          return blobToDataUrl(file);
+        }
+
+        return blobToDataUrl(blob);
+      }
+
+      async function insertImageFile(file) {
+        setStatus("正在放入图片");
+        const dataUrl = await compressImage(file);
+        const label = escapeAttribute(file.name || "粘贴图片");
+        insertHtml(`
+          <div class="image-block" contenteditable="false">
+            <button class="image-remove" type="button" aria-label="删除图片">×</button>
+            <img src="${dataUrl}" alt="${label}">
+          </div>
+          <p><br></p>
+        `);
+        saveSoon();
+      }
+
+      async function handlePaste(event) {
+        const clipboard = event.clipboardData;
+        if (!clipboard) {
+          return;
+        }
+
+        const items = Array.from(clipboard.items || []);
+        const imageFiles = items
+          .filter((item) => item.kind === "file" && item.type.startsWith("image/"))
+          .map((item) => item.getAsFile())
+          .filter(Boolean);
+
+        event.preventDefault();
+        const text = clipboard.getData("text/plain");
+        if (text) {
+          insertText(text);
+        }
+
+        for (const file of imageFiles) {
+          await insertImageFile(file);
+        }
+
+        saveSoon();
+      }
+
+      async function handleDrop(event) {
+        const files = Array.from(event.dataTransfer?.files || [])
+          .filter((file) => file.type.startsWith("image/"));
+
+        if (!files.length) {
+          return;
+        }
+
+        event.preventDefault();
+        editor.focus();
+        for (const file of files) {
+          await insertImageFile(file);
+        }
+      }
+
+      function runCommand(button) {
+        const command = button.dataset.command;
+        const value = button.dataset.value || null;
+        if (!command) {
+          return;
+        }
+
+        editor.focus();
+        ownerDoc().execCommand(command, false, value);
+        saveSoon();
+      }
+
+      function clearNote() {
+        if (!confirm("清空当前便签？")) {
+          return;
+        }
+
+        editor.innerHTML = "";
+        noteTitle.value = "临时便签";
+        saveNow();
+        editor.focus();
+      }
+
+      function copyStylesToPip(targetDocument) {
+        const style = targetDocument.createElement("style");
+        style.textContent = styleTag.textContent;
+        targetDocument.head.appendChild(style);
+      }
+
+      function updateReleaseButton() {
+        if (isPopupMode) {
+          releaseButton.textContent = "□";
+          releaseButton.title = "普通弹窗";
+          releaseButton.setAttribute("aria-label", "普通弹窗");
+          return;
+        }
+
+        if (pipWindow && !pipWindow.closed) {
+          releaseButton.textContent = "⇲";
+          releaseButton.title = "收回窗口";
+          releaseButton.setAttribute("aria-label", "收回窗口");
+        } else {
+          releaseButton.textContent = "⇱";
+          releaseButton.title = "释放置顶窗口";
+          releaseButton.setAttribute("aria-label", "释放置顶窗口");
+        }
+      }
+
+      async function openPipWindow(autoAttempt = false) {
+        if (isPopupMode) {
+          return;
+        }
+
+        if (!("documentPictureInPicture" in window)) {
+          openFallbackPopup(autoAttempt);
+          return;
+        }
+
+        if (pipWindow && !pipWindow.closed) {
+          pipWindow.focus();
+          return;
+        }
+
+        saveNow();
+        try {
+          pipWindow = await window.documentPictureInPicture.requestWindow({
+            width: 420,
+            height: 560,
+            disallowReturnToOpener: false,
+            preferInitialWindowPlacement: true
+          });
+
+          pipWindow.document.title = noteTitle.value || "置顶便签";
+          pipWindow.document.documentElement.lang = "zh-CN";
+          copyStylesToPip(pipWindow.document);
+          pipWindow.document.body.className = "pip-body";
+          pipWindow.document.body.appendChild(noteShell);
+          body.classList.add("released");
+          updateReleaseButton();
+          setSupport("Document PiP 已打开");
+          setStatus("置顶窗口运行中");
+          pipWindow.addEventListener("pagehide", () => {
+            saveNow();
+            noteDock.appendChild(noteShell);
+            body.classList.remove("released");
+            pipWindow = null;
+            updateReleaseButton();
+            setSupport("Document PiP 可用");
+            setStatus("窗口已收回");
+          }, { once: true });
+        } catch (error) {
+          if (!autoAttempt) {
+            setStatus("浏览器拒绝打开置顶窗口");
+          } else {
+            setStatus("正在尝试普通弹窗");
+            openFallbackPopup(true);
+          }
+        }
+      }
+
+      function openFallbackPopup(autoAttempt = false) {
+        if (popupWindow && !popupWindow.closed) {
+          popupWindow.focus();
+          return;
+        }
+
+        saveNow();
+        const url = new URL(location.href);
+        url.searchParams.set("window", "popup");
+        popupWindow = window.open(
+          url.toString(),
+          "codexStickyNote",
+          "popup=yes,width=430,height=590,left=80,top=80,resizable=yes,scrollbars=no"
+        );
+
+        if (popupWindow) {
+          popupWindow.focus();
+          setStatus("已打开普通弹窗");
+          setSupport("普通弹窗不保证置顶");
+          return;
+        }
+
+        if (!autoAttempt) {
+          setStatus("弹窗被浏览器拦截");
+        } else {
+          setStatus("点击左上按钮打开便签窗口");
+        }
+      }
+
+      function closePipIfOpen() {
+        if (pipWindow && !pipWindow.closed) {
+          pipWindow.close();
+          return true;
+        }
+        return false;
+      }
+
+      function bindEvents() {
+        noteTitle.addEventListener("input", saveSoon);
+        editor.addEventListener("input", saveSoon);
+        editor.addEventListener("paste", handlePaste);
+        editor.addEventListener("drop", handleDrop);
+        editor.addEventListener("dragover", (event) => event.preventDefault());
+        editor.addEventListener("keydown", (event) => {
+          if (event.key === "Tab") {
+            event.preventDefault();
+            insertText("  ");
+            saveSoon();
+          }
+        });
+        editor.addEventListener("click", (event) => {
+          const removeButton = event.target.closest(".image-remove");
+          if (!removeButton) {
+            return;
+          }
+
+          const block = removeButton.closest(".image-block");
+          if (block) {
+            block.remove();
+            saveSoon();
+          }
+        });
+
+        releaseButton.addEventListener("click", () => {
+          if (closePipIfOpen()) {
+            return;
+          }
+          openPipWindow(false);
+        });
+        clearButton.addEventListener("click", clearNote);
+        noteShell.addEventListener("click", (event) => {
+          const button = event.target.closest("button[data-command]");
+          if (button) {
+            runCommand(button);
+          }
+        });
+        window.addEventListener("beforeunload", saveNow);
+        window.addEventListener("storage", (event) => {
+          if (event.key !== STORAGE_KEY || document.hasFocus()) {
+            return;
+          }
+          loadState();
+          if (lastStatus !== "外部内容已同步") {
+            setStatus("外部内容已同步");
+          }
+        });
+      }
+
+      function boot() {
+        body.classList.toggle("popup", isPopupMode);
+        loadState();
+        bindEvents();
+        updateReleaseButton();
+
+        if (isPopupMode) {
+          setSupport("普通弹窗");
+          setStatus("普通浏览器弹窗不能强制最前");
+          editor.focus();
+          return;
+        }
+
+        if ("documentPictureInPicture" in window) {
+          setSupport("Document PiP 可用");
+          openPipWindow(true);
+        } else {
+          setSupport("Document PiP 不可用");
+          openFallbackPopup(true);
+        }
+      }
+
+      boot();
+    })();
+  </script>
+</body>
+</html>
