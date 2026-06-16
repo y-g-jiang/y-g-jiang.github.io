@@ -437,6 +437,13 @@
             </select>
           </label>
           <label class="control">
+            损失模型
+            <select id="lossModel">
+              <option value="pdr" selected>有限 targetSNR</option>
+              <option value="limit">targetSNR → 0</option>
+            </select>
+          </label>
+          <label class="control">
             <span id="scaleLabel">ISO 轴</span>
             <select id="yScale">
               <option value="log" selected>log ISO</option>
@@ -481,6 +488,7 @@
     const counts = document.getElementById("counts");
     const chartMode = document.getElementById("chartMode");
     const lowBitDepth = document.getElementById("lowBitDepth");
+    const lossModel = document.getElementById("lossModel");
     const yScale = document.getElementById("yScale");
     const clearSelection = document.getElementById("clearSelection");
     const selectedNames = new Set();
@@ -524,6 +532,12 @@
 
     function pdrLossAtIso(camera, rnPoint, iso, lowBit) {
       const q2 = qSqForLowBit(lowBit);
+      if (lossModel.value === "limit") {
+        return Math.log2(
+          Math.sqrt(rnPoint.rndnADU14 * rnPoint.rndnADU14 + q2) /
+          rnPoint.rndnADU14
+        );
+      }
       const k14 = camera.fullWellElectronPerPixelNative * camera.nativeIso / iso / EFFECTIVE_ADU14;
       const n14 = k14 * rnPoint.rndnADU14;
       const nLow = k14 * Math.sqrt(rnPoint.rndnADU14 * rnPoint.rndnADU14 + q2);
@@ -658,7 +672,7 @@
           ["已选机型", fmt(selected.length)],
           ["数据点数", fmt(points.length)],
           ["q ADU14", fmt(q, 4)],
-          ["ΔPDR 范围", lossRange],
+          [lossModel.value === "limit" ? "极限损失范围" : "ΔPDR 范围", lossRange],
         ];
       } else {
         const isoValues = selected
@@ -799,7 +813,7 @@
         transform: `rotate(-90 16 ${margin.top + plotH / 2})`,
         "text-anchor": "middle",
         class: "axis-label",
-      }, "ΔPDR loss (stops)");
+      }, lossModel.value === "limit" ? "Noise floor loss limit (stops)" : "ΔPDR loss (stops)");
 
       for (const series of allSeries) {
         if (!series.points.length) continue;
@@ -814,7 +828,7 @@
             class: "point",
           });
           circle.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "title")).textContent =
-            `${series.camera.camera}\nISO ${fmt(point.x)}\nΔPDR ${fmtStop(point.y)} stops\nrndn ${fmt(point.rndn, 3)} ADU14`;
+            `${series.camera.camera}\nISO ${fmt(point.x)}\n${lossModel.value === "limit" ? "limit" : "ΔPDR"} ${fmtStop(point.y)} stops\nrndn ${fmt(point.rndn, 3)} ADU14`;
         }
       }
 
@@ -954,6 +968,17 @@
       const lossValues = losses();
       const thead = document.querySelector("#lossTable thead");
       const tbody = document.querySelector("#lossTable tbody");
+      if (lossModel.value === "limit") {
+        thead.innerHTML = `<tr><th>机型</th><th>native ISO</th><th>最低 ISO 极限损失</th><th>最高 ISO 极限损失</th><th>最低 RN ADU14</th><th>最高 RN ADU14</th></tr>`;
+        tbody.innerHTML = cameras.map((camera) => {
+          const points = lossIsoPoints(camera, lowBit);
+          if (!points.length) return `<tr><td>${camera.camera}</td><td colspan="5" class="no-solution">无数据</td></tr>`;
+          const first = points[0];
+          const last = points[points.length - 1];
+          return `<tr><td>${camera.camera}</td><td>${fmt(camera.nativeIso)}</td><td>${fmtStop(first.y)}</td><td>${fmtStop(last.y)}</td><td>${fmt(first.rndn, 3)}</td><td>${fmt(last.rndn, 3)}</td></tr>`;
+        }).join("");
+        return;
+      }
       thead.innerHTML = `<tr><th>机型</th>${lossValues.map((loss) => `<th>${loss.toFixed(2)}</th>`).join("")}</tr>`;
       tbody.innerHTML = cameras.map((camera) => {
         const cells = lossValues.map((loss) => {
@@ -968,6 +993,10 @@
     }
 
     function render() {
+      if (lossModel.value === "limit" && chartMode.value === "criticalIso") {
+        chartMode.value = "lossIso";
+      }
+      chartMode.querySelector('option[value="criticalIso"]').disabled = lossModel.value === "limit";
       document.getElementById("scaleLabel").textContent = chartMode.value === "lossIso" ? "ISO 轴" : "Y 轴";
       renderList();
       renderSummary();
@@ -978,6 +1007,7 @@
     search.addEventListener("input", renderList);
     chartMode.addEventListener("change", render);
     lowBitDepth.addEventListener("change", render);
+    lossModel.addEventListener("change", render);
     yScale.addEventListener("change", render);
     clearSelection.addEventListener("click", () => {
       selectedNames.clear();
