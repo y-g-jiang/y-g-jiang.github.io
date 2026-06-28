@@ -60,10 +60,11 @@
                   text-decoration: none; font-weight: 600; font-size: 12px; background: rgba(255,255,255,.06); backdrop-filter: blur(10px); white-space: nowrap; }
     a.home-link:hover { border-color: var(--accent); color: #fff; }
     .spacer { flex: 1; }
-    .timeline { flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
+    .timeline { flex: 0 0 auto; display: flex; align-items: stretch; gap: 8px;
                 padding: 4px 16px; border-bottom: 1px solid var(--line);
-                background: rgba(12,18,32,.42); backdrop-filter: var(--glass); height: 36px; z-index: 15; }
-    .timeline canvas { flex: 1 1 0; min-width: 0; height: 34px; border-radius: 6px; }
+                background: rgba(12,18,32,.42); backdrop-filter: var(--glass); min-height: 36px; max-height: 38vh; overflow-y: auto; z-index: 15; }
+    .timeline canvas { flex: 1 1 0; min-width: 0; height: auto; border-radius: 6px; }
+    .timeline > button { flex: none; align-self: flex-start; }
     main {
       flex: 1 1 auto; min-height: 0;
       display: grid;
@@ -217,6 +218,7 @@
   </header>
 
   <div id="timeline" class="timeline">
+    <button id="tlFold" class="icon ghost" title="折叠/展开多轨波形泳道（省竖向空间）">▾轨</button>
     <canvas id="tlCanvas" height="34"></canvas>
     <button id="tlAddKf" class="icon" title="在当前试听起点捕获自动化快照关键帧">＋关键帧</button>
     <button id="tlReset" class="icon ghost" title="时间轴视图复位为整曲">视图复位</button>
@@ -537,19 +539,26 @@ const RT = (() => {
     return [...set];
   }
   let segmentLoader = null;   // 静态版注入：(ctx, token, start, dur) => AudioBuffer
+  function offsetMap(session) {   // token(file||id) → 多轨对齐偏移秒（负=更早）
+    const m = {}; (session.sources || []).forEach(s => { m[s.file || s.id] = +s.offset_s || 0; });
+    return m;
+  }
   async function loadSegments(session) {
     ensureCtx();
     const start = session.start_s, dur = session.duration_s;
     const tokens = usedTokens(session);
-    const key = Math.round(start) + "_" + Math.round(dur) + "|" + tokens.slice().sort().join(",");
+    const off = offsetMap(session);
+    // 缓存键必须含偏移，否则拖动对齐后不重取 → 静默失效
+    const key = Math.round(start) + "_" + Math.round(dur) + "|" + tokens.map(tk => tk + ":" + (off[tk] || 0).toFixed(3)).sort().join(",");
     if (key === loadedKey) return;
     const next = {};
     for (const tk of tokens) {
+      const st = start - (off[tk] || 0);   // 在取片段处实现偏移（getChannels 会对负起点左侧补静音）
       if (segmentLoader) {
-        const b = await segmentLoader(ctx, tk, start, dur);
+        const b = await segmentLoader(ctx, tk, st, dur);
         if (b) next[tk] = b;
       } else {
-        const res = await fetch(`/api/segment?src=${encodeURIComponent(tk)}&start=${start}&dur=${dur}`);
+        const res = await fetch(`/api/segment?src=${encodeURIComponent(tk)}&start=${st}&dur=${dur}`);
         next[tk] = await ctx.decodeAudioData(await res.arrayBuffer());
       }
     }
@@ -1266,7 +1275,7 @@ a.length>D&&(D=a.length,p=0|1.25*D+7200,r=new Int8Array(p));a=u.lame_encode_buff
 })(typeof self !== "undefined" ? self : this);
 
 </script>
-  <script>self.__OFFLINE_WORKER_SRC__="/* \u79bb\u7ebf\u6df7\u97f3\u5efa\u56fe\uff08\u4e0a\u4e0b\u6587\u65e0\u5173\uff09\u2014\u2014\u53ef\u5728 OfflineAudioContext\uff08\u6d4f\u89c8\u5668 worker / \u4e3b\u7ebf\u7a0b / node\uff09\u4e0a\u8fd0\u884c\u3002\n   \u5fe0\u5b9e\u79fb\u690d rt_engine.js \u7684\u8f68\u9053/\u603b\u7ebf\u4fe1\u53f7\u94fe\uff0c\u4f46\u53c2\u6570\u76f4\u63a5\u53d6\u6700\u7ec8\u503c\uff08\u65e0 tune/rebuild\uff09\u3002\n   \u6df7\u54cd IR \u7528\u56fa\u5b9a\u79cd\u5b50 RNG\uff0c\u4fdd\u8bc1\u5206\u6bb5\u6e32\u67d3\u65f6\u5404\u6bb5 IR \u5b8c\u5168\u4e00\u81f4 \u2192 \u8fb9\u754c\u65e0\u7f1d\u3002\n\n   \u7528\u6cd5\uff1arenderMixOffline(ctx, { session, LIB, srcBuffers, sr })\n     - ctx: \u5df2\u5efa\u597d\u7684 OfflineAudioContext\uff08\u58f0\u9053=2\uff0c\u957f\u5ea6=\u5f85\u6e32\u67d3\u5e27\u6570\uff09\n     - srcBuffers: { token: AudioBuffer }\uff08\u8be5\u7247\u6bb5\u5404\u97f3\u6e90\u7684\u591a\u58f0\u9053\u89e3\u7801\u6570\u636e\uff0c\u957f\u5ea6=ctx.length\uff09\n   \u8fde\u63a5\u5230 ctx.destination\uff1b\u8c03\u7528\u65b9\u8d1f\u8d23 startRendering()\u3002 */\n(function (root) {\n  const SRATE = 48000;\n  const dbToLin = (db) => Math.pow(10, db / 20);\n  const clampN = (v, lo, hi) => Math.max(lo, Math.min(hi, v));\n  const WA_TYPE = { peak: \"peaking\", highshelf: \"highshelf\", lowshelf: \"lowshelf\" };\n\n  // \u786e\u5b9a\u6027 RNG\uff08mulberry32\uff09\uff0c\u8ba9\u6bcf\u6bb5\u6e32\u67d3\u7684\u6df7\u54cd IR \u5b8c\u5168\u76f8\u540c\n  function mulberry32(seed) {\n    let a = seed >>> 0;\n    return function () {\n      a |= 0; a = (a + 0x6D2B79F5) | 0;\n      let t = Math.imul(a ^ (a >>> 15), 1 | a);\n      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;\n      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;\n    };\n  }\n  function onePoleLP(buf, fc) { const a = Math.exp(-2 * Math.PI * fc / SRATE); let y = 0; for (let i = 0; i < buf.length; i++) { y = a * y + (1 - a) * buf[i]; buf[i] = y; } }\n  function onePoleHP(buf, fc) { const a = Math.exp(-2 * Math.PI * fc / SRATE); let y = 0, xp = 0; for (let i = 0; i < buf.length; i++) { const x = buf[i]; y = a * (y + x - xp); xp = x; buf[i] = y; } }\n\n  function bandSpecs(ip) {\n    const map = new Map(), order = [];\n    const get = (t, f, q) => { const k = t + \"|\" + f + \"|\" + q; if (!map.has(k)) { map.set(k, { type: t, f, q, terms: [], offset: 0, dn: 0, df: 0, fixed: 0 }); order.push(k); } return map.get(k); };\n    (ip.tone || []).forEach(c => c.bands.forEach(([t, f, q, sc]) => get(t, f, q).terms.push({ key: c.key, scale: sc })));\n    (ip.eq_offset || []).forEach(([t, f, q, off]) => get(t, f, q).offset += off);\n    (ip.dist || []).forEach(([t, f, q, gn, gf]) => { const b = get(t, f, q); b.dn += gn; b.df += gf; });\n    (ip.fixed_eq || []).forEach(([t, f, q, g]) => get(t, f, q).fixed += g);\n    return order.map(k => map.get(k));\n  }\n  // distance \u4e0d\u518d\u505a\u8ddd\u79bb\u6ee4\u6ce2 \u2192 \u4e00\u5f8b\u6309 distance=0 \u53d6\u9891\u5e26\u589e\u76ca\n  function bandGain(spec, tone) {\n    let g = spec.offset + spec.fixed + spec.dn;\n    spec.terms.forEach(t => { const v = (tone && tone[t.key] != null) ? tone[t.key] : 0; g += v * t.scale; });\n    return g;\n  }\n\n  function makeRoomIR(ctx) {\n    const n = Math.floor(SRATE * 0.85), ir = ctx.createBuffer(2, n, SRATE);\n    const pre = Math.floor(22 * SRATE / 1000), decay = 0.5;\n    const rng = mulberry32(13579);\n    for (let c = 0; c < 2; c++) {\n      const d = ir.getChannelData(c);\n      [[0, -17, -18], [13, -22, -20], [31, -24, -26], [49, -28, -25]].forEach(([ms, gl, gr]) => {\n        const idx = pre + Math.floor(ms * SRATE / 1000); if (idx < n) d[idx] += dbToLin(c === 0 ? gl : gr);\n      });\n      const ts = pre + Math.floor(35 * SRATE / 1000);\n      const tail = new Float32Array(n - ts);\n      for (let i = 0; i < tail.length; i++) tail[i] = (rng() * 2 - 1) * Math.exp(-i / (decay * SRATE));\n      onePoleHP(tail, 180); onePoleLP(tail, 5200);\n      let mx = 1e-9; for (let i = 0; i < tail.length; i++) mx = Math.max(mx, Math.abs(tail[i]));\n      const sc = dbToLin(-29) / mx;\n      for (let i = 0; i < tail.length; i++) d[ts + i] += tail[i] * sc;\n    }\n    return ir;\n  }\n  function makeBusIR(ctx, bus) {\n    const pre = clampN(bus.predelay_ms, 0, 80), decay = clampN(bus.decay_s, 0.18, 2.8);\n    const damp = clampN(bus.damping_khz * 1000, 1800, 16000), width = clampN(bus.reverb_width, 0.4, 1.8);\n    const lowcut = clampN((bus.lowcut_khz != null ? bus.lowcut_khz : 0.16) * 1000, 20, 2000);\n    const n = Math.max(64, Math.floor(SRATE * (pre / 1000 + decay * 2.4 + 0.18)));\n    const ir = ctx.createBuffer(2, n, SRATE);\n    const preS = Math.floor(pre * SRATE / 1000), eg = dbToLin(bus.early_db);\n    const refl = [[0, -3.5, -4.5], [9, -7.5, -5.5], [17, -8, -10], [29, -12, -9], [43, -13.5, -15.5], [61, -17, -14]];\n    const rng = mulberry32(24680);\n    const tmp = [new Float32Array(n), new Float32Array(n)];\n    for (let c = 0; c < 2; c++) {\n      const d = tmp[c];\n      refl.forEach(([ms, gl, gr]) => { const idx = preS + Math.floor(ms * SRATE / 1000); if (idx < n) d[idx] += eg * dbToLin(c === 0 ? gl : gr); });\n      const ts = preS + Math.floor(45 * SRATE / 1000);\n      const tail = new Float32Array(Math.max(0, n - ts));\n      for (let i = 0; i < tail.length; i++) tail[i] = (rng() * 2 - 1) * Math.exp(-i / (decay * SRATE));\n      onePoleHP(tail, lowcut); onePoleLP(tail, damp);\n      let mx = 1e-9; for (let i = 0; i < tail.length; i++) mx = Math.max(mx, Math.abs(tail[i]));\n      const sc = dbToLin(bus.tail_db) / mx;\n      for (let i = 0; i < tail.length; i++) d[ts + i] += tail[i] * sc;\n    }\n    const L = ir.getChannelData(0), R = ir.getChannelData(1);\n    for (let i = 0; i < n; i++) { const m = (tmp[0][i] + tmp[1][i]) * 0.5, s = (tmp[0][i] - tmp[1][i]) * 0.5 * width; L[i] = m + s; R[i] = m - s; }\n    return ir;\n  }\n\n  function makeWidth(ctx, input, output, w) {\n    const sp = ctx.createChannelSplitter(2), mg = ctx.createChannelMerger(2);\n    const gLL = ctx.createGain(), gRL = ctx.createGain(), gLR = ctx.createGain(), gRR = ctx.createGain();\n    input.connect(sp);\n    sp.connect(gLL, 0); gLL.connect(mg, 0, 0);\n    sp.connect(gRL, 1); gRL.connect(mg, 0, 0);\n    sp.connect(gLR, 0); gLR.connect(mg, 0, 1);\n    sp.connect(gRR, 1); gRR.connect(mg, 0, 1);\n    mg.connect(output);\n    gLL.gain.value = (1 + w) / 2; gRR.gain.value = (1 + w) / 2; gRL.gain.value = (1 - w) / 2; gLR.gain.value = (1 - w) / 2;\n  }\n\n  function renderMixOffline(ctx, opts) {\n    const { session, LIB, srcBuffers } = opts;\n    const bus = session.bus || {};\n    const biquad = (type, f, q, gain) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; if (q) b.Q.value = q; if (gain != null) b.gain.value = gain; return b; };\n\n    // \u603b\u7ebf\u9aa8\u67b6\uff1abusInput \u2192 [busEQ] \u2192 width \u2192 sum \u2192 (+busReverb) \u2192 comp \u2192 master \u2192 dest\n    const busInput = ctx.createGain();\n    const busEqOut = ctx.createGain();\n    let cur = busInput;\n    (bus.eq || []).forEach(b => { const t = b.type === \"lowshelf\" ? \"lowshelf\" : b.type === \"highshelf\" ? \"highshelf\" : \"peaking\"; const n = biquad(t, clampN(b.f, 20, 20000), clampN(b.q, 0.3, 8), b.gain); cur.connect(n); cur = n; });\n    cur.connect(busEqOut);\n    const widthOut = ctx.createGain();\n    makeWidth(ctx, busEqOut, widthOut, bus.width != null ? bus.width : 1);\n    const busSum = ctx.createGain();\n    widthOut.connect(busSum);\n    if ((bus.reverb_db != null ? bus.reverb_db : -90) > -80) {\n      const send = ctx.createGain(); send.gain.value = dbToLin(bus.reverb_db);\n      const conv = ctx.createConvolver(); conv.normalize = false; conv.buffer = makeBusIR(ctx, bus);\n      const ret = ctx.createGain();\n      widthOut.connect(send); send.connect(conv); conv.connect(ret); ret.connect(busSum);\n    }\n    const comp = ctx.createDynamicsCompressor();\n    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 1.6; comp.attack.value = 0.02; comp.release.value = 0.25;\n    const master = ctx.createGain(); master.gain.value = 1.0;\n    busSum.connect(comp); comp.connect(master); master.connect(ctx.destination);\n\n    // \u623f\u95f4\u6df7\u54cd\uff08\u5171\u4eab\uff09\n    const roomConv = ctx.createConvolver(); roomConv.normalize = false; roomConv.buffer = makeRoomIR(ctx);\n    const roomReturn = ctx.createGain(); roomConv.connect(roomReturn); roomReturn.connect(busInput);\n\n    // \u5404\u6e90\u4e00\u4e2a BufferSource + ChannelSplitter\uff08\u8f68\u9053\u6309\u58f0\u9053\u63a5\u5165\uff09\n    const splitters = {};\n    Object.keys(srcBuffers).forEach(tk => {\n      const buf = srcBuffers[tk];\n      const s = ctx.createBufferSource(); s.buffer = buf; s.loop = false;\n      const sp = ctx.createChannelSplitter(buf.numberOfChannels);\n      s.connect(sp); splitters[tk] = sp; s.start(0);\n    });\n\n    const solo = (session.tracks || []).some(t => t.solo);\n    (session.tracks || []).forEach(tr => {\n      const ip = LIB[tr.instrument]; if (!ip) return;\n      const tk = (tr.source && tr.source.src) || \"main\";\n      const sp = splitters[tk] || splitters.main || splitters[Object.keys(splitters)[0]];\n      if (!sp) return;\n      const nch = (srcBuffers[tk] || srcBuffers.main || Object.values(srcBuffers)[0]).numberOfChannels;\n      const audible = !tr.mute && (!solo || tr.solo);\n      const af = audible ? 1 : 0;\n      const totalDelaySec = ((tr.delay_ms || 0) + (tr.dist_delay_ms || 0)) / 1000;\n      const mkUserEq = (from) => { let c = from; (tr.eq || []).forEach(b => { const t = b.type === \"lowshelf\" ? \"lowshelf\" : b.type === \"highshelf\" ? \"highshelf\" : \"peaking\"; const n = biquad(t, clampN(b.f, 20, 20000), clampN(b.q, 0.3, 8), b.gain); c.connect(n); c = n; }); return c; };\n      const raw = !!tr.raw;\n\n      if (ip.source === \"pair\") {\n        const lch = clampN((tr.source.l || 0), 0, nch - 1), rch = clampN((tr.source.r != null ? tr.source.r : 1), 0, nch - 1);\n        const yawL = ctx.createGain(), yawR = ctx.createGain();\n        yawL.gain.value = dbToLin((tr.yaw_db || 0) / 2); yawR.gain.value = dbToLin(-(tr.yaw_db || 0) / 2);\n        const mg = ctx.createChannelMerger(2);\n        let headL, headR;\n        if (raw) { headL = yawL; headR = yawR; sp.connect(yawL, lch); sp.connect(yawR, rch); }\n        else { const hpL = biquad(\"highpass\", ip.hp_hz, 0.707), hpR = biquad(\"highpass\", ip.hp_hz, 0.707); sp.connect(hpL, lch); sp.connect(hpR, rch); hpL.connect(yawL); hpR.connect(yawR); }\n        yawL.connect(mg, 0, 0); yawR.connect(mg, 0, 1);\n        let chain = mg;\n        if (!raw) (ip.fixed_eq || []).forEach(([t, f, q, g]) => { const b = biquad(WA_TYPE[t] || \"peaking\", f, q, g); chain.connect(b); chain = b; });\n        const wOut = ctx.createGain(); makeWidth(ctx, chain, wOut, tr.width != null ? tr.width : 1);\n        const gain = ctx.createGain(); const ecur = mkUserEq(wOut); ecur.connect(gain);\n        gain.gain.value = dbToLin(tr.gain_db || 0) * af;\n        const delay = ctx.createDelay(0.2); delay.delayTime.value = clampN(totalDelaySec, 0, 0.199); gain.connect(delay);\n        const send = ctx.createGain(); send.gain.value = af * dbToLin(tr.reverb_db != null ? tr.reverb_db : -90); delay.connect(send); send.connect(roomConv);\n        delay.connect(busInput);\n      } else {\n        const ch = clampN((tr.source.ch || 0), 0, nch - 1);\n        let cur2;\n        if (raw) { const head = ctx.createGain(); sp.connect(head, ch); cur2 = mkUserEq(head); }\n        else {\n          const hp = biquad(\"highpass\", ip.hp_hz, 0.707), lp = biquad(\"lowpass\", Math.max(ip.lp_floor, (tr.lp_khz != null ? tr.lp_khz : ip.lp_khz) * 1000), 0.707);\n          sp.connect(hp, ch); hp.connect(lp); let c = lp;\n          bandSpecs(ip).forEach(spec => { const b = biquad(WA_TYPE[spec.type] || \"peaking\", spec.f, spec.q, bandGain(spec, tr.tone)); c.connect(b); c = b; });\n          cur2 = mkUserEq(c);\n        }\n        const delay = ctx.createDelay(0.2); delay.delayTime.value = clampN(totalDelaySec, 0, 0.199);\n        const gain = ctx.createGain(); gain.gain.value = dbToLin(tr.gain_db || 0) * af;\n        const panner = ctx.createStereoPanner(); panner.pan.value = clampN(tr.angle || 0, -1, 1);\n        cur2.connect(delay); delay.connect(gain); gain.connect(panner); panner.connect(busInput);\n        const send = ctx.createGain(); send.gain.value = af * dbToLin(tr.reverb_db != null ? tr.reverb_db : -90); gain.connect(send); send.connect(roomConv);\n      }\n    });\n  }\n\n  const api = { renderMixOffline, SRATE };\n  if (typeof module !== \"undefined\" && module.exports) module.exports = api;\n  else root.OfflineMix = api;\n})(typeof self !== \"undefined\" ? self : this);\n\n/* \u79bb\u7ebf\u6e32\u67d3 Worker\uff1a\u53d6\u7247\u6bb5 \u2192 OfflineAudioContext \u6e32\u67d3\u4e00\u6bb5 \u2192 \u56de\u4f20\u58f0\u9053(Float32, transferable)\u3002\n   \u6bcf\u6bb5\u6e32\u67d3 [chunkStart - preroll, chunkStart + chunkDur]\uff0c\u4e22\u5f03\u524d preroll\uff08\u6df7\u54cd/\u538b\u7f29\u5df2\u70ed\u8eab\uff09\u2192 \u8fb9\u754c\u65e0\u7f1d\u3002 */\n\nasync function fetchSeg(tk, start, dur, decodeCtx) {\n  const r = await fetch(`/api/segment?src=${encodeURIComponent(tk)}&start=${start}&dur=${dur}`);\n  if (!r.ok) throw new Error(\"segment fetch \" + r.status);\n  const ab = await r.arrayBuffer();\n  return await decodeCtx.decodeAudioData(ab);\n}\n\nself.onmessage = async (e) => {\n  const { idx, session, LIB, toks, chunkStart, chunkDur, preroll, sr, chans } = e.data;\n  try {\n    const fetchStart = Math.max(0, chunkStart - preroll);\n    const fetchDur = (chunkStart - fetchStart) + chunkDur;\n    const decodeCtx = new OfflineAudioContext(1, 1, sr);\n    const srcBuffers = {};\n    let len = 0;\n    if (chans) {\n      // \u9759\u6001\u7248\uff1a\u4e3b\u7ebf\u7a0b\u5df2\u5207\u597d\u58f0\u9053\u5e76\u4f20\u5165\uff08{token:[Float32,...]}\uff09\n      for (const tk of Object.keys(chans)) {\n        const arr = chans[tk]; const frames = arr[0] ? arr[0].length : 0;\n        const b = decodeCtx.createBuffer(arr.length, Math.max(1, frames), sr);\n        for (let c = 0; c < arr.length; c++) b.copyToChannel(arr[c], c);\n        srcBuffers[tk] = b; len = Math.max(len, b.length);\n      }\n    } else {\n      for (const tk of toks) { const b = await fetchSeg(tk, fetchStart, fetchDur, decodeCtx); srcBuffers[tk] = b; len = Math.max(len, b.length); }\n    }\n    if (len <= 0) throw new Error(\"empty segment\");\n    const ctx = new OfflineAudioContext(2, len, sr);\n    OfflineMix.renderMixOffline(ctx, { session, LIB, srcBuffers, sr });\n    const rendered = await ctx.startRendering();\n    const discard = Math.round((chunkStart - fetchStart) * sr);\n    let keep = Math.round(chunkDur * sr);\n    keep = Math.min(keep, len - discard);\n    const L = rendered.getChannelData(0).slice(discard, discard + keep);\n    const R = rendered.getChannelData(1).slice(discard, discard + keep);\n    self.postMessage({ idx, ok: true, L, R, n: keep }, [L.buffer, R.buffer]);\n  } catch (err) {\n    self.postMessage({ idx, ok: false, error: String(err && err.message || err) });\n  }\n};\n";</script>
+  <script>self.__OFFLINE_WORKER_SRC__="/* \u79bb\u7ebf\u6df7\u97f3\u5efa\u56fe\uff08\u4e0a\u4e0b\u6587\u65e0\u5173\uff09\u2014\u2014\u53ef\u5728 OfflineAudioContext\uff08\u6d4f\u89c8\u5668 worker / \u4e3b\u7ebf\u7a0b / node\uff09\u4e0a\u8fd0\u884c\u3002\n   \u5fe0\u5b9e\u79fb\u690d rt_engine.js \u7684\u8f68\u9053/\u603b\u7ebf\u4fe1\u53f7\u94fe\uff0c\u4f46\u53c2\u6570\u76f4\u63a5\u53d6\u6700\u7ec8\u503c\uff08\u65e0 tune/rebuild\uff09\u3002\n   \u6df7\u54cd IR \u7528\u56fa\u5b9a\u79cd\u5b50 RNG\uff0c\u4fdd\u8bc1\u5206\u6bb5\u6e32\u67d3\u65f6\u5404\u6bb5 IR \u5b8c\u5168\u4e00\u81f4 \u2192 \u8fb9\u754c\u65e0\u7f1d\u3002\n\n   \u7528\u6cd5\uff1arenderMixOffline(ctx, { session, LIB, srcBuffers, sr })\n     - ctx: \u5df2\u5efa\u597d\u7684 OfflineAudioContext\uff08\u58f0\u9053=2\uff0c\u957f\u5ea6=\u5f85\u6e32\u67d3\u5e27\u6570\uff09\n     - srcBuffers: { token: AudioBuffer }\uff08\u8be5\u7247\u6bb5\u5404\u97f3\u6e90\u7684\u591a\u58f0\u9053\u89e3\u7801\u6570\u636e\uff0c\u957f\u5ea6=ctx.length\uff09\n   \u8fde\u63a5\u5230 ctx.destination\uff1b\u8c03\u7528\u65b9\u8d1f\u8d23 startRendering()\u3002 */\n(function (root) {\n  const SRATE = 48000;\n  const dbToLin = (db) => Math.pow(10, db / 20);\n  const clampN = (v, lo, hi) => Math.max(lo, Math.min(hi, v));\n  const WA_TYPE = { peak: \"peaking\", highshelf: \"highshelf\", lowshelf: \"lowshelf\" };\n\n  // \u786e\u5b9a\u6027 RNG\uff08mulberry32\uff09\uff0c\u8ba9\u6bcf\u6bb5\u6e32\u67d3\u7684\u6df7\u54cd IR \u5b8c\u5168\u76f8\u540c\n  function mulberry32(seed) {\n    let a = seed >>> 0;\n    return function () {\n      a |= 0; a = (a + 0x6D2B79F5) | 0;\n      let t = Math.imul(a ^ (a >>> 15), 1 | a);\n      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;\n      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;\n    };\n  }\n  function onePoleLP(buf, fc) { const a = Math.exp(-2 * Math.PI * fc / SRATE); let y = 0; for (let i = 0; i < buf.length; i++) { y = a * y + (1 - a) * buf[i]; buf[i] = y; } }\n  function onePoleHP(buf, fc) { const a = Math.exp(-2 * Math.PI * fc / SRATE); let y = 0, xp = 0; for (let i = 0; i < buf.length; i++) { const x = buf[i]; y = a * (y + x - xp); xp = x; buf[i] = y; } }\n\n  function bandSpecs(ip) {\n    const map = new Map(), order = [];\n    const get = (t, f, q) => { const k = t + \"|\" + f + \"|\" + q; if (!map.has(k)) { map.set(k, { type: t, f, q, terms: [], offset: 0, dn: 0, df: 0, fixed: 0 }); order.push(k); } return map.get(k); };\n    (ip.tone || []).forEach(c => c.bands.forEach(([t, f, q, sc]) => get(t, f, q).terms.push({ key: c.key, scale: sc })));\n    (ip.eq_offset || []).forEach(([t, f, q, off]) => get(t, f, q).offset += off);\n    (ip.dist || []).forEach(([t, f, q, gn, gf]) => { const b = get(t, f, q); b.dn += gn; b.df += gf; });\n    (ip.fixed_eq || []).forEach(([t, f, q, g]) => get(t, f, q).fixed += g);\n    return order.map(k => map.get(k));\n  }\n  // distance \u4e0d\u518d\u505a\u8ddd\u79bb\u6ee4\u6ce2 \u2192 \u4e00\u5f8b\u6309 distance=0 \u53d6\u9891\u5e26\u589e\u76ca\n  function bandGain(spec, tone) {\n    let g = spec.offset + spec.fixed + spec.dn;\n    spec.terms.forEach(t => { const v = (tone && tone[t.key] != null) ? tone[t.key] : 0; g += v * t.scale; });\n    return g;\n  }\n\n  function makeRoomIR(ctx) {\n    const n = Math.floor(SRATE * 0.85), ir = ctx.createBuffer(2, n, SRATE);\n    const pre = Math.floor(22 * SRATE / 1000), decay = 0.5;\n    const rng = mulberry32(13579);\n    for (let c = 0; c < 2; c++) {\n      const d = ir.getChannelData(c);\n      [[0, -17, -18], [13, -22, -20], [31, -24, -26], [49, -28, -25]].forEach(([ms, gl, gr]) => {\n        const idx = pre + Math.floor(ms * SRATE / 1000); if (idx < n) d[idx] += dbToLin(c === 0 ? gl : gr);\n      });\n      const ts = pre + Math.floor(35 * SRATE / 1000);\n      const tail = new Float32Array(n - ts);\n      for (let i = 0; i < tail.length; i++) tail[i] = (rng() * 2 - 1) * Math.exp(-i / (decay * SRATE));\n      onePoleHP(tail, 180); onePoleLP(tail, 5200);\n      let mx = 1e-9; for (let i = 0; i < tail.length; i++) mx = Math.max(mx, Math.abs(tail[i]));\n      const sc = dbToLin(-29) / mx;\n      for (let i = 0; i < tail.length; i++) d[ts + i] += tail[i] * sc;\n    }\n    return ir;\n  }\n  function makeBusIR(ctx, bus) {\n    const pre = clampN(bus.predelay_ms, 0, 80), decay = clampN(bus.decay_s, 0.18, 2.8);\n    const damp = clampN(bus.damping_khz * 1000, 1800, 16000), width = clampN(bus.reverb_width, 0.4, 1.8);\n    const lowcut = clampN((bus.lowcut_khz != null ? bus.lowcut_khz : 0.16) * 1000, 20, 2000);\n    const n = Math.max(64, Math.floor(SRATE * (pre / 1000 + decay * 2.4 + 0.18)));\n    const ir = ctx.createBuffer(2, n, SRATE);\n    const preS = Math.floor(pre * SRATE / 1000), eg = dbToLin(bus.early_db);\n    const refl = [[0, -3.5, -4.5], [9, -7.5, -5.5], [17, -8, -10], [29, -12, -9], [43, -13.5, -15.5], [61, -17, -14]];\n    const rng = mulberry32(24680);\n    const tmp = [new Float32Array(n), new Float32Array(n)];\n    for (let c = 0; c < 2; c++) {\n      const d = tmp[c];\n      refl.forEach(([ms, gl, gr]) => { const idx = preS + Math.floor(ms * SRATE / 1000); if (idx < n) d[idx] += eg * dbToLin(c === 0 ? gl : gr); });\n      const ts = preS + Math.floor(45 * SRATE / 1000);\n      const tail = new Float32Array(Math.max(0, n - ts));\n      for (let i = 0; i < tail.length; i++) tail[i] = (rng() * 2 - 1) * Math.exp(-i / (decay * SRATE));\n      onePoleHP(tail, lowcut); onePoleLP(tail, damp);\n      let mx = 1e-9; for (let i = 0; i < tail.length; i++) mx = Math.max(mx, Math.abs(tail[i]));\n      const sc = dbToLin(bus.tail_db) / mx;\n      for (let i = 0; i < tail.length; i++) d[ts + i] += tail[i] * sc;\n    }\n    const L = ir.getChannelData(0), R = ir.getChannelData(1);\n    for (let i = 0; i < n; i++) { const m = (tmp[0][i] + tmp[1][i]) * 0.5, s = (tmp[0][i] - tmp[1][i]) * 0.5 * width; L[i] = m + s; R[i] = m - s; }\n    return ir;\n  }\n\n  function makeWidth(ctx, input, output, w) {\n    const sp = ctx.createChannelSplitter(2), mg = ctx.createChannelMerger(2);\n    const gLL = ctx.createGain(), gRL = ctx.createGain(), gLR = ctx.createGain(), gRR = ctx.createGain();\n    input.connect(sp);\n    sp.connect(gLL, 0); gLL.connect(mg, 0, 0);\n    sp.connect(gRL, 1); gRL.connect(mg, 0, 0);\n    sp.connect(gLR, 0); gLR.connect(mg, 0, 1);\n    sp.connect(gRR, 1); gRR.connect(mg, 0, 1);\n    mg.connect(output);\n    gLL.gain.value = (1 + w) / 2; gRR.gain.value = (1 + w) / 2; gRL.gain.value = (1 - w) / 2; gLR.gain.value = (1 - w) / 2;\n  }\n\n  function renderMixOffline(ctx, opts) {\n    const { session, LIB, srcBuffers } = opts;\n    const bus = session.bus || {};\n    const biquad = (type, f, q, gain) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; if (q) b.Q.value = q; if (gain != null) b.gain.value = gain; return b; };\n\n    // \u603b\u7ebf\u9aa8\u67b6\uff1abusInput \u2192 [busEQ] \u2192 width \u2192 sum \u2192 (+busReverb) \u2192 comp \u2192 master \u2192 dest\n    const busInput = ctx.createGain();\n    const busEqOut = ctx.createGain();\n    let cur = busInput;\n    (bus.eq || []).forEach(b => { const t = b.type === \"lowshelf\" ? \"lowshelf\" : b.type === \"highshelf\" ? \"highshelf\" : \"peaking\"; const n = biquad(t, clampN(b.f, 20, 20000), clampN(b.q, 0.3, 8), b.gain); cur.connect(n); cur = n; });\n    cur.connect(busEqOut);\n    const widthOut = ctx.createGain();\n    makeWidth(ctx, busEqOut, widthOut, bus.width != null ? bus.width : 1);\n    const busSum = ctx.createGain();\n    widthOut.connect(busSum);\n    if ((bus.reverb_db != null ? bus.reverb_db : -90) > -80) {\n      const send = ctx.createGain(); send.gain.value = dbToLin(bus.reverb_db);\n      const conv = ctx.createConvolver(); conv.normalize = false; conv.buffer = makeBusIR(ctx, bus);\n      const ret = ctx.createGain();\n      widthOut.connect(send); send.connect(conv); conv.connect(ret); ret.connect(busSum);\n    }\n    const comp = ctx.createDynamicsCompressor();\n    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 1.6; comp.attack.value = 0.02; comp.release.value = 0.25;\n    const master = ctx.createGain(); master.gain.value = 1.0;\n    busSum.connect(comp); comp.connect(master); master.connect(ctx.destination);\n\n    // \u623f\u95f4\u6df7\u54cd\uff08\u5171\u4eab\uff09\n    const roomConv = ctx.createConvolver(); roomConv.normalize = false; roomConv.buffer = makeRoomIR(ctx);\n    const roomReturn = ctx.createGain(); roomConv.connect(roomReturn); roomReturn.connect(busInput);\n\n    // \u5404\u6e90\u4e00\u4e2a BufferSource + ChannelSplitter\uff08\u8f68\u9053\u6309\u58f0\u9053\u63a5\u5165\uff09\n    const splitters = {};\n    Object.keys(srcBuffers).forEach(tk => {\n      const buf = srcBuffers[tk];\n      const s = ctx.createBufferSource(); s.buffer = buf; s.loop = false;\n      const sp = ctx.createChannelSplitter(buf.numberOfChannels);\n      s.connect(sp); splitters[tk] = sp; s.start(0);\n    });\n\n    const solo = (session.tracks || []).some(t => t.solo);\n    (session.tracks || []).forEach(tr => {\n      const ip = LIB[tr.instrument]; if (!ip) return;\n      const tk = (tr.source && tr.source.src) || \"main\";\n      const sp = splitters[tk] || splitters.main || splitters[Object.keys(splitters)[0]];\n      if (!sp) return;\n      const nch = (srcBuffers[tk] || srcBuffers.main || Object.values(srcBuffers)[0]).numberOfChannels;\n      const audible = !tr.mute && (!solo || tr.solo);\n      const af = audible ? 1 : 0;\n      const totalDelaySec = ((tr.delay_ms || 0) + (tr.dist_delay_ms || 0)) / 1000;\n      const mkUserEq = (from) => { let c = from; (tr.eq || []).forEach(b => { const t = b.type === \"lowshelf\" ? \"lowshelf\" : b.type === \"highshelf\" ? \"highshelf\" : \"peaking\"; const n = biquad(t, clampN(b.f, 20, 20000), clampN(b.q, 0.3, 8), b.gain); c.connect(n); c = n; }); return c; };\n      const raw = !!tr.raw;\n\n      if (ip.source === \"pair\") {\n        const lch = clampN((tr.source.l || 0), 0, nch - 1), rch = clampN((tr.source.r != null ? tr.source.r : 1), 0, nch - 1);\n        const yawL = ctx.createGain(), yawR = ctx.createGain();\n        yawL.gain.value = dbToLin((tr.yaw_db || 0) / 2); yawR.gain.value = dbToLin(-(tr.yaw_db || 0) / 2);\n        const mg = ctx.createChannelMerger(2);\n        let headL, headR;\n        if (raw) { headL = yawL; headR = yawR; sp.connect(yawL, lch); sp.connect(yawR, rch); }\n        else { const hpL = biquad(\"highpass\", ip.hp_hz, 0.707), hpR = biquad(\"highpass\", ip.hp_hz, 0.707); sp.connect(hpL, lch); sp.connect(hpR, rch); hpL.connect(yawL); hpR.connect(yawR); }\n        yawL.connect(mg, 0, 0); yawR.connect(mg, 0, 1);\n        let chain = mg;\n        if (!raw) (ip.fixed_eq || []).forEach(([t, f, q, g]) => { const b = biquad(WA_TYPE[t] || \"peaking\", f, q, g); chain.connect(b); chain = b; });\n        const wOut = ctx.createGain(); makeWidth(ctx, chain, wOut, tr.width != null ? tr.width : 1);\n        const gain = ctx.createGain(); const ecur = mkUserEq(wOut); ecur.connect(gain);\n        gain.gain.value = dbToLin(tr.gain_db || 0) * af;\n        const delay = ctx.createDelay(0.2); delay.delayTime.value = clampN(totalDelaySec, 0, 0.199); gain.connect(delay);\n        const send = ctx.createGain(); send.gain.value = af * dbToLin(tr.reverb_db != null ? tr.reverb_db : -90); delay.connect(send); send.connect(roomConv);\n        delay.connect(busInput);\n      } else {\n        const ch = clampN((tr.source.ch || 0), 0, nch - 1);\n        let cur2;\n        if (raw) { const head = ctx.createGain(); sp.connect(head, ch); cur2 = mkUserEq(head); }\n        else {\n          const hp = biquad(\"highpass\", ip.hp_hz, 0.707), lp = biquad(\"lowpass\", Math.max(ip.lp_floor, (tr.lp_khz != null ? tr.lp_khz : ip.lp_khz) * 1000), 0.707);\n          sp.connect(hp, ch); hp.connect(lp); let c = lp;\n          bandSpecs(ip).forEach(spec => { const b = biquad(WA_TYPE[spec.type] || \"peaking\", spec.f, spec.q, bandGain(spec, tr.tone)); c.connect(b); c = b; });\n          cur2 = mkUserEq(c);\n        }\n        const delay = ctx.createDelay(0.2); delay.delayTime.value = clampN(totalDelaySec, 0, 0.199);\n        const gain = ctx.createGain(); gain.gain.value = dbToLin(tr.gain_db || 0) * af;\n        const panner = ctx.createStereoPanner(); panner.pan.value = clampN(tr.angle || 0, -1, 1);\n        cur2.connect(delay); delay.connect(gain); gain.connect(panner); panner.connect(busInput);\n        const send = ctx.createGain(); send.gain.value = af * dbToLin(tr.reverb_db != null ? tr.reverb_db : -90); gain.connect(send); send.connect(roomConv);\n      }\n    });\n  }\n\n  const api = { renderMixOffline, SRATE };\n  if (typeof module !== \"undefined\" && module.exports) module.exports = api;\n  else root.OfflineMix = api;\n})(typeof self !== \"undefined\" ? self : this);\n\n/* \u79bb\u7ebf\u6e32\u67d3 Worker\uff1a\u53d6\u7247\u6bb5 \u2192 OfflineAudioContext \u6e32\u67d3\u4e00\u6bb5 \u2192 \u56de\u4f20\u58f0\u9053(Float32, transferable)\u3002\n   \u6bcf\u6bb5\u6e32\u67d3 [chunkStart - preroll, chunkStart + chunkDur]\uff0c\u4e22\u5f03\u524d preroll\uff08\u6df7\u54cd/\u538b\u7f29\u5df2\u70ed\u8eab\uff09\u2192 \u8fb9\u754c\u65e0\u7f1d\u3002 */\n\nasync function fetchSeg(tk, start, dur, decodeCtx) {\n  const r = await fetch(`/api/segment?src=${encodeURIComponent(tk)}&start=${start}&dur=${dur}`);\n  if (!r.ok) throw new Error(\"segment fetch \" + r.status);\n  const ab = await r.arrayBuffer();\n  return await decodeCtx.decodeAudioData(ab);\n}\n\nself.onmessage = async (e) => {\n  const { idx, session, LIB, toks, chunkStart, chunkDur, preroll, sr, chans } = e.data;\n  try {\n    const fetchStart = Math.max(0, chunkStart - preroll);\n    const fetchDur = (chunkStart - fetchStart) + chunkDur;\n    const decodeCtx = new OfflineAudioContext(1, 1, sr);\n    const srcBuffers = {};\n    let len = 0;\n    if (chans) {\n      // \u9759\u6001\u7248\uff1a\u4e3b\u7ebf\u7a0b\u5df2\u5207\u597d\u58f0\u9053\u5e76\u4f20\u5165\uff08{token:[Float32,...]}\uff09\n      for (const tk of Object.keys(chans)) {\n        const arr = chans[tk]; const frames = arr[0] ? arr[0].length : 0;\n        const b = decodeCtx.createBuffer(arr.length, Math.max(1, frames), sr);\n        for (let c = 0; c < arr.length; c++) b.copyToChannel(arr[c], c);\n        srcBuffers[tk] = b; len = Math.max(len, b.length);\n      }\n    } else {\n      for (const tk of toks) { const b = await fetchSeg(tk, fetchStart, fetchDur, decodeCtx); srcBuffers[tk] = b; len = Math.max(len, b.length); }\n    }\n    if (len <= 0) throw new Error(\"empty segment\");\n    const ctx = new OfflineAudioContext(2, len, sr);\n    OfflineMix.renderMixOffline(ctx, { session, LIB, srcBuffers, sr });\n    const rendered = await ctx.startRendering();\n    // \u9759\u6001\u7248\u4e3b\u7ebf\u7a0b\u5df2\u6309 (chunkStart - preroll) \u5de6\u5bf9\u9f50\u5207\u7247 \u2192 \u4e22\u5f03\u6052\u4e3a preroll\uff1b\u670d\u52a1\u5668\u7248\u7528\u94b3\u5236\u540e\u7684\u5dee\u503c\n    const discard = chans ? Math.round(preroll * sr) : Math.round((chunkStart - fetchStart) * sr);\n    let keep = Math.round(chunkDur * sr);\n    keep = Math.min(keep, len - discard);\n    const L = rendered.getChannelData(0).slice(discard, discard + keep);\n    const R = rendered.getChannelData(1).slice(discard, discard + keep);\n    self.postMessage({ idx, ok: true, L, R, n: keep }, [L.buffer, R.buffer]);\n  } catch (err) {\n    self.postMessage({ idx, ok: false, error: String(err && err.message || err) });\n  }\n};\n";</script>
 <script>
 /* 纯前端离线导出：分段并行(OfflineAudioContext + Web Worker) → 拼接 → 编码(WAV/MP3)。
    渲染瓶颈是混响卷积，单次≈实时的 1/30；分段并行(≈半核)可再快 ~4×。
@@ -1320,26 +1329,25 @@ const OEXPORT = (() => {
   }
 
   const isStatic = () => (typeof STATIC !== "undefined") && (typeof self !== "undefined") && self.__STATIC__;
-  // 静态版：从内存音频库切出该段各音源声道（用于传给 worker / 主线程兜底）
-  function sliceChansFor(toks, c) {
-    const fetchStart = Math.max(0, c.start - c.preroll);
-    const fetchDur = (c.start - fetchStart) + c.dur;
+  function offsetMapOf(session) { const m = {}; (session.sources || []).forEach(s => { m[s.file || s.id] = +s.offset_s || 0; }); return m; }
+  // 静态版：从内存音频库切出该段各音源声道（按 token 偏移；getChannels 对负起点左侧补静音）
+  function sliceChansFor(toks, c, session) {
+    const fetchStart = c.start - c.preroll, fetchDur = c.preroll + c.dur, off = offsetMapOf(session);
     const chans = {}, transfer = [];
-    for (const tk of toks) { const g = STATIC.getChannels(tk, fetchStart, fetchDur); if (g) { chans[tk] = g.channels; g.channels.forEach(a => transfer.push(a.buffer)); } }
+    for (const tk of toks) { const g = STATIC.getChannels(tk, fetchStart - (off[tk] || 0), fetchDur); if (g) { chans[tk] = g.channels; g.channels.forEach(a => transfer.push(a.buffer)); } }
     return { chans, transfer, fetchStart };
   }
 
   // 主线程渲染一段（worker 不可用时的兜底；逻辑与 offline_worker 等价）
   async function renderChunkMain(session, LIB, toks, c) {
-    const fetchStart = Math.max(0, c.start - c.preroll);
-    const fetchDur = (c.start - fetchStart) + c.dur;
+    const fetchStart = c.start - c.preroll, fetchDur = c.preroll + c.dur, off = offsetMapOf(session);
     const srcBuffers = {}; let len = 0;
     if (isStatic()) {
       const decodeCtx = new OfflineAudioContext(1, 1, SR);
-      for (const tk of toks) { const g = STATIC.getChannels(tk, fetchStart, fetchDur); if (!g) continue; const b = decodeCtx.createBuffer(g.channelsCount, g.frames, SR); for (let ch = 0; ch < g.channelsCount; ch++) b.copyToChannel(g.channels[ch], ch); srcBuffers[tk] = b; len = Math.max(len, b.length); }
+      for (const tk of toks) { const g = STATIC.getChannels(tk, fetchStart - (off[tk] || 0), fetchDur); if (!g) continue; const b = decodeCtx.createBuffer(g.channelsCount, g.frames, SR); for (let ch = 0; ch < g.channelsCount; ch++) b.copyToChannel(g.channels[ch], ch); srcBuffers[tk] = b; len = Math.max(len, b.length); }
     } else {
       const decodeCtx = new OfflineAudioContext(1, 1, SR);
-      for (const tk of toks) { const r = await fetch(`/api/segment?src=${encodeURIComponent(tk)}&start=${fetchStart}&dur=${fetchDur}`); const b = await decodeCtx.decodeAudioData(await r.arrayBuffer()); srcBuffers[tk] = b; len = Math.max(len, b.length); }
+      for (const tk of toks) { const r = await fetch(`/api/segment?src=${encodeURIComponent(tk)}&start=${fetchStart - (off[tk] || 0)}&dur=${fetchDur}`); const b = await decodeCtx.decodeAudioData(await r.arrayBuffer()); srcBuffers[tk] = b; len = Math.max(len, b.length); }
     }
     const ctx = new OfflineAudioContext(2, len, SR);
     OfflineMix.renderMixOffline(ctx, { session, LIB, srcBuffers, sr: SR });
@@ -1369,16 +1377,17 @@ const OEXPORT = (() => {
         };
         w.onerror = (err) => { if (failed) return; failed = true; clearInterval(cancelTimer); cleanup(); reject(new Error("worker: " + (err.message || "error"))); };
         const msg = { idx: i, session, LIB, toks, chunkStart: c.start, chunkDur: c.dur, preroll: c.preroll, sr: SR };
-        if (isStatic()) { const { chans, transfer } = sliceChansFor(toks, c); msg.chans = chans; w.postMessage(msg, transfer); }
+        if (isStatic()) { const { chans, transfer } = sliceChansFor(toks, c, session); msg.chans = chans; w.postMessage(msg, transfer); }
         else w.postMessage(msg);
       });
     });
   }
 
   async function renderFrontend(opts) {
-    const { session, LIB, songDur, full, onProgress, isCancelled } = opts;
-    const start = full ? 0 : (session.start_s || 0);
-    const dur = full ? (songDur || session.duration_s) : (session.duration_s || 35);
+    const { session, LIB, songDur, busStart, busDur, full, onProgress, isCancelled } = opts;
+    // 整曲 = 总线并集 [busStart, busDur)（含各音源对齐偏移，负偏移使 busStart<0）；片段 = 试听窗口
+    const start = full ? (busStart != null ? busStart : 0) : (session.start_s || 0);
+    const dur = full ? ((busDur != null ? busDur : (songDur || session.duration_s)) - start) : (session.duration_s || 35);
     const toks = usedTokens(session);
     const { chunks, K } = planChunks(start, dur, full, session);
     const canWorker = await probeWorker();
@@ -1561,11 +1570,13 @@ const STATIC = (() => {
   /* ---------- 取片段（内存切片 + 补零） ---------- */
   function getChannels(token, startSec, durSec) {
     const s = store[token]; if (!s) return null;
-    const startF = Math.max(0, Math.round(startSec * SR)), len = Math.max(1, Math.round(durSec * SR));
+    const startF = Math.round(startSec * SR), len = Math.max(1, Math.round(durSec * SR));
     const out = s.channels.map(ch => {
-      const seg = new Float32Array(len);
-      const avail = Math.max(0, Math.min(len, ch.length - startF));
-      if (avail > 0) seg.set(ch.subarray(startF, startF + avail));
+      const seg = new Float32Array(len);     // 默认全静音
+      let srcBegin = startF, dstBegin = 0;   // startF 可为负 → 左侧补静音（音源尚未进入）
+      if (srcBegin < 0) { dstBegin = -srcBegin; srcBegin = 0; }
+      const copyLen = Math.min(len - dstBegin, ch.length - srcBegin);
+      if (copyLen > 0) seg.set(ch.subarray(srcBegin, srcBegin + copyLen), dstBegin);
       return seg;
     });
     return { channels: out, frames: len, channelsCount: s.channels.length };
@@ -2476,17 +2487,34 @@ function refreshStripSliders(tr) {
 let tlView = null;        // {start,end} 秒
 let tlDrag = null;        // 拖动状态
 let tlDown = null;        // 按下时记录，用于区分单击/拖动
-let tlWave = { token: null, peaks: [] };   // 整曲峰值包络（极轻量波形）
-function songDur() { return (S && S.sources && S.sources[0] && S.sources[0].duration_s) || 0; }
-function loadWaveform() {
-  const tok = (S && S.sources && S.sources[0] && S.sources[0].file) || "main";
-  if (tlWave.token === tok && tlWave.peaks.length) return;
-  if (STATIC_MODE) { if (!STATIC.has(tok)) return; tlWave = { token: tok, peaks: STATIC.waveformPeaks(tok, 1200) }; drawTimeline(); return; }
-  fetch("/api/waveform?src=" + encodeURIComponent(tok) + "&bins=1200")
-    .then(r => r.json()).then(d => { tlWave = { token: tok, peaks: d.peaks || [] }; drawTimeline(); })
-    .catch(() => {});
+let tlWave = {};          // token -> 峰值包络（多音源各一条，多轨对齐用）
+let lanesCollapsed = (() => { try { return localStorage.getItem("lanes_collapsed") === "1"; } catch (_) { return false; } })();
+function toggleLanes() {
+  lanesCollapsed = !lanesCollapsed;
+  try { localStorage.setItem("lanes_collapsed", lanesCollapsed ? "1" : "0"); } catch (_) {}
+  const b = $("tlFold"); if (b) b.textContent = lanesCollapsed ? "▸轨" : "▾轨";
+  drawTimeline();
 }
-function tlInitView() { tlView = { start: 0, end: songDur() || 1 }; }
+function songDur() { return (S && S.sources && S.sources[0] && S.sources[0].duration_s) || 0; }
+// ── 多轨对齐：每音源 offset_s（秒，负=更早）；总线时间轴 = 所有音源并集 ──
+function srcList() { return (S && S.sources) || []; }
+function srcOffset(s) { return s ? (+s.offset_s || 0) : 0; }
+function tokOffset(tk) { return srcOffset(srcList().find(x => (x.file || x.id) === tk || x.id === tk)); }
+function busStart() { const o = srcList().map(srcOffset); return Math.min(0, ...(o.length ? o : [0])); }
+function busDur() { const e = srcList().map(s => srcOffset(s) + (+s.duration_s || 0)); return Math.max(songDur(), ...(e.length ? e : [0])); }
+function usedTokensUI() { return [...new Set(srcList().map(s => s.file || s.id))]; }
+function loadWaveform() {
+  let changed = false;
+  usedTokensUI().forEach(tok => {
+    if (tlWave[tok]) return;
+    if (STATIC_MODE) { if (STATIC.has(tok)) { tlWave[tok] = STATIC.waveformPeaks(tok, 1200); changed = true; } }
+    else { fetch("/api/waveform?src=" + encodeURIComponent(tok) + "&bins=1200").then(r => r.json()).then(d => { tlWave[tok] = d.peaks || []; drawTimeline(); }).catch(() => {}); }
+  });
+  if (changed) drawTimeline();
+}
+function rtReapply() { if (RT.playing) { const pos = RT.playPos() || 0; RT.play(S, pos).catch(() => {}); } }   // 松手后应用偏移：原位重取重放
+function tlInitView() { tlView = { start: busStart(), end: busDur() || 1 }; }
+const TL_RULER = 34, TL_LANE = 30, TL_GUT = 66;
 function tlT2x(t, W) { return (t - tlView.start) / (tlView.end - tlView.start) * W; }
 function tlX2t(x, W) { return tlView.start + x / W * (tlView.end - tlView.start); }
 function mmss(s) { s = Math.max(0, s); const m = Math.floor(s / 60), ss = Math.floor(s % 60); return (m < 10 ? "0" : "") + m + ":" + (ss < 10 ? "0" : "") + ss; }
@@ -2494,49 +2522,54 @@ function drawTimeline(playT) {
   const cv = $("tlCanvas"); if (!cv) return;
   if (!tlView) tlInitView();
   const dpr = window.devicePixelRatio || 1;
-  const W = cv.clientWidth || 600, H = 34;
+  const W = cv.clientWidth || 600;
+  const srcs = srcList();
+  const showLanes = !lanesCollapsed && srcs.length > 0;
+  const RU = TL_RULER, H = RU + (showLanes ? srcs.length * TL_LANE : 0);
+  cv.style.height = H + "px";
   cv.width = W * dpr; cv.height = H * dpr;
   const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
   g.fillStyle = "#0a0d12"; g.fillRect(0, 0, W, H);
-  // 极轻量波形（整曲峰值包络，淡灰，垫底，随视图缩放）
-  if (tlWave.peaks && tlWave.peaks.length) {
-    const sd = songDur() || 1, Np = tlWave.peaks.length;
-    g.strokeStyle = "rgba(139,151,163,.28)"; g.lineWidth = 1; g.beginPath();
-    for (let x = 0; x < W; x++) {
-      const t = tlX2t(x, W); if (t < 0 || t > sd) continue;
-      const bi = clamp(Math.floor(t / sd * Np), 0, Np - 1);
-      const h = tlWave.peaks[bi] * (H * 0.42);
-      g.moveTo(x + 0.5, H / 2 - h); g.lineTo(x + 0.5, H / 2 + h);
-    }
-    g.stroke();
-  }
   const span = tlView.end - tlView.start;
-  // 试听窗口高亮
+  // 试听窗口高亮（仅标尺带）
   const ws = clamp(tlT2x(S.start_s, W), 0, W), we = clamp(tlT2x(S.start_s + S.duration_s, W), 0, W);
-  g.fillStyle = "rgba(74,158,255,.18)"; g.fillRect(ws, 0, Math.max(1, we - ws), H);
-  g.strokeStyle = "rgba(74,158,255,.5)"; g.lineWidth = 1; g.strokeRect(ws + 0.5, 0.5, Math.max(1, we - ws), H - 1);
-  // 稀疏 mm:ss 刻度
+  g.fillStyle = "rgba(74,158,255,.16)"; g.fillRect(ws, 0, Math.max(1, we - ws), RU);
+  g.strokeStyle = "rgba(74,158,255,.5)"; g.lineWidth = 1; g.strokeRect(ws + 0.5, 0.5, Math.max(1, we - ws), RU - 1);
+  // 总线原点 t=0
+  if (tlView.start < 0 && tlView.end > 0) { const x0 = tlT2x(0, W); g.strokeStyle = "rgba(255,255,255,.16)"; g.lineWidth = 1; g.beginPath(); g.moveTo(x0, 0); g.lineTo(x0, H); g.stroke(); }
+  // mm:ss 刻度
   const steps = [1, 5, 10, 30, 60, 120, 300]; let step = steps[steps.length - 1];
   for (const s of steps) { if (span / s <= 12) { step = s; break; } }
   g.fillStyle = "#5b6776"; g.font = "9px Segoe UI"; g.textAlign = "left"; g.strokeStyle = "#1b2330";
   const t0 = Math.ceil(tlView.start / step) * step;
-  for (let t = t0; t <= tlView.end; t += step) {
-    const x = tlT2x(t, W);
-    g.beginPath(); g.moveTo(x, H - 8); g.lineTo(x, H); g.stroke();
-    g.fillText(mmss(t), x + 2, 9);
-  }
-  // 关键帧圆点
-  (S.keyframes || []).forEach(kf => {
-    if (kf.t < tlView.start || kf.t > tlView.end) return;
-    const x = tlT2x(kf.t, W);
-    g.beginPath(); g.arc(x, H / 2, 4, 0, 7); g.fillStyle = "#34d399"; g.fill();
-    g.lineWidth = 1.5; g.strokeStyle = "#0a0d12"; g.stroke();
+  for (let t = t0; t <= tlView.end; t += step) { const x = tlT2x(t, W); g.beginPath(); g.moveTo(x, RU - 8); g.lineTo(x, RU); g.stroke(); g.fillText(mmss(t), x + 2, 9); }
+  // ── 每音源一条波形泳道（按 offset_s 在总线上滑动） ──
+  if (showLanes) srcs.forEach((s, i) => {
+    const tok = s.file || s.id, off = srcOffset(s), dur = +s.duration_s || 0, peaks = tlWave[tok];
+    const linked = !STATIC_MODE || (STATIC.has && STATIC.has(tok));
+    const y0 = RU + i * TL_LANE, yc = y0 + TL_LANE / 2;
+    if (i % 2 === 0) { g.fillStyle = "rgba(255,255,255,.02)"; g.fillRect(0, y0, W, TL_LANE); }
+    g.strokeStyle = "rgba(255,255,255,.06)"; g.lineWidth = 1; g.beginPath(); g.moveTo(0, y0 + 0.5); g.lineTo(W, y0 + 0.5); g.stroke();
+    if (peaks && peaks.length && dur > 0) {
+      const Np = peaks.length;
+      g.strokeStyle = linked ? "rgba(45,212,191,.55)" : "rgba(139,151,163,.30)"; g.lineWidth = 1; g.beginPath();
+      const xa = Math.max(0, Math.floor(tlT2x(off, W))), xb = Math.min(W, Math.ceil(tlT2x(off + dur, W)));
+      for (let x = xa; x < xb; x++) { const tau = tlX2t(x, W) - off; if (tau < 0 || tau > dur) continue; const bi = clamp(Math.floor(tau / dur * Np), 0, Np - 1); const h = peaks[bi] * (TL_LANE * 0.40); g.moveTo(x + 0.5, yc - h); g.lineTo(x + 0.5, yc + h); }
+      g.stroke();
+    }
+    // 左侧 gutter：名称 + 偏移读数（ms）
+    g.fillStyle = "rgba(10,13,18,.74)"; g.fillRect(0, y0 + 1, TL_GUT, TL_LANE - 2);
+    g.strokeStyle = "rgba(255,255,255,.06)"; g.strokeRect(0.5, y0 + 1.5, TL_GUT, TL_LANE - 3);
+    g.textAlign = "left"; g.font = "10px Segoe UI";
+    g.fillStyle = linked ? "#cdd6e0" : "#f0a020";
+    const nm = (s.label || tok); g.fillText(nm.length > 9 ? nm.slice(0, 9) : nm, 5, y0 + 13);
+    g.fillStyle = off ? "#fbbf24" : "#5b6776";
+    g.fillText((off >= 0 ? "+" : "") + (off * 1000).toFixed(0) + "ms", 5, y0 + 25);
   });
-  // 播放头
-  if (playT != null && playT >= tlView.start && playT <= tlView.end) {
-    const x = tlT2x(playT, W);
-    g.strokeStyle = "#ffd166"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke();
-  }
+  // 关键帧（标尺带）
+  (S.keyframes || []).forEach(kf => { if (kf.t < tlView.start || kf.t > tlView.end) return; const x = tlT2x(kf.t, W); g.beginPath(); g.arc(x, RU / 2, 4, 0, 7); g.fillStyle = "#34d399"; g.fill(); g.lineWidth = 1.5; g.strokeStyle = "#0a0d12"; g.stroke(); });
+  // 播放头（全高）
+  if (playT != null && playT >= tlView.start && playT <= tlView.end) { const x = tlT2x(playT, W); g.strokeStyle = "#ffd166"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke(); }
 }
 // 命中某关键帧（像素距<8）→ 返回索引，否则 -1
 function tlHitKf(mx, W) {
@@ -2595,6 +2628,7 @@ function setupTimeline() {
   const W = () => cv.clientWidth || 600;
   // 指针 x → 画布 clientWidth 坐标系（对 CSS 缩放安全）
   const mxOf = (e) => { const r = cv.getBoundingClientRect(); const sx = r.width ? (cv.clientWidth || r.width) / r.width : 1; return (e.clientX - r.left) * sx; };
+  const myOf = (e) => { const r = cv.getBoundingClientRect(); const sy = r.height ? (cv.clientHeight || r.height) / r.height : 1; return (e.clientY - r.top) * sy; };
   const cap = (e) => { try { cv.setPointerCapture(e.pointerId); } catch (_) {} };
   cv.addEventListener("wheel", (e) => {            // Alt+滚轮 局部缩放
     if (!e.altKey) return;
@@ -2602,9 +2636,9 @@ function setupTimeline() {
     const w = W(), mx = mxOf(e), tc = tlX2t(mx, w);
     const factor = e.deltaY < 0 ? 0.85 : 1 / 0.85;
     let ns = tc - (tc - tlView.start) * factor, ne = tc + (tlView.end - tc) * factor;
-    const dur = songDur() || 1;
-    ns = clamp(ns, 0, dur); ne = clamp(ne, 0, dur);
-    if (ne - ns < 0.2) { const c = (ns + ne) / 2; ns = clamp(c - 0.1, 0, dur); ne = ns + 0.2; }
+    const lo = busStart(), hi = busDur() || 1;
+    ns = clamp(ns, lo, hi); ne = clamp(ne, lo, hi);
+    if (ne - ns < 0.2) { const c = (ns + ne) / 2; ns = clamp(c - 0.1, lo, hi); ne = ns + 0.2; }
     tlView = { start: ns, end: ne }; drawTimeline();
   }, { passive: false });
   cv.addEventListener("contextmenu", (e) => {      // 纯右键 删关键帧
@@ -2614,7 +2648,12 @@ function setupTimeline() {
   });
   cv.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;                     // 右键交给 contextmenu
-    const w = W(), mx = mxOf(e), ct = tlX2t(mx, w);
+    const w = W(), mx = mxOf(e), ct = tlX2t(mx, w), my = myOf(e);
+    if (my >= TL_RULER && !lanesCollapsed) {         // 泳道：拖动改音源对齐偏移
+      const i = Math.floor((my - TL_RULER) / TL_LANE), s = srcList()[i];
+      if (s) { tlDrag = { kind: "lane", s, downMx: mx, off0: srcOffset(s), moved: false }; cap(e); }
+      return;
+    }
     if (e.ctrlKey) { addKeyframeAt(ct); return; }    // Ctrl+左键 加关键帧
     const i = tlHitKf(mx, w);
     if (i >= 0) { tlDrag = { kind: "kf", i, moved: false }; cap(e); return; }
@@ -2628,12 +2667,21 @@ function setupTimeline() {
   cv.addEventListener("pointermove", (e) => {
     const w = W(), mx = mxOf(e);
     if (!tlDrag) {                                   // 悬停光标反馈
+      if (myOf(e) >= TL_RULER && !lanesCollapsed) { cv.style.cursor = "ew-resize"; return; }   // 泳道
       const ws = tlT2x(S.start_s, w), we = tlT2x(S.start_s + S.duration_s, w);
       cv.style.cursor = (Math.abs(mx - ws) <= EDGE || Math.abs(mx - we) <= EDGE) ? "ew-resize"
         : (mx >= ws && mx <= we) ? "grab" : "default";
       return;
     }
     const ct = tlX2t(mx, w), k = tlDrag.kind;
+    if (k === "lane") {                              // 拖动泳道 = 改该音源 offset_s（松手才重放）
+      const s = tlDrag.s, dT = (mx - tlDrag.downMx) / w * (tlView.end - tlView.start);
+      let no = tlDrag.off0 + (e.shiftKey ? dT * 0.25 : dT);
+      if (e.altKey) no = Math.round(no * SR) / SR;                                  // 单样本
+      else if (Math.abs(no) < (tlView.end - tlView.start) * 0.01) no = 0;           // 吸附 0
+      s.offset_s = clamp(no, -30, 30); tlDrag.moved = true; saveMem(); drawTimeline();
+      return;
+    }
     if (k === "kf") {
       tlDrag.moved = true;
       const kf = S.keyframes[tlDrag.i]; if (!kf) return;
@@ -2654,6 +2702,10 @@ function setupTimeline() {
   cv.addEventListener("pointerup", (e) => {
     if (!tlDrag) return;
     const w = W(), mx = mxOf(e), ct = tlX2t(mx, w), k = tlDrag.kind;
+    if (k === "lane") {
+      if (tlDrag.moved) { tlView.start = Math.min(tlView.start, busStart()); tlView.end = Math.max(tlView.end, busDur()); noteHistory(); drawTimeline(); rtReapply(); }
+      tlDrag = null; return;
+    }
     if (k === "kf") {
       if (tlDrag.moved) { sortKeyframes(S); drawTimeline(); }
       else { const kf = S.keyframes[tlDrag.i]; if (kf) setStartS(kf.t); }   // 单击关键帧→窗口跳到它
@@ -2799,7 +2851,7 @@ async function doRender({ full = false, mp3 = false } = {}) {
   try {
     syncTopFields(); saveMem();
     const res = await OEXPORT.renderFrontend({
-      session: S, LIB, songDur: songDur(), full,
+      session: S, LIB, songDur: songDur(), busStart: busStart(), busDur: busDur(), full,
       onProgress: (f) => setExportProg(0.05 + 0.70 * f, "渲染"),
       isCancelled: () => cancelled,
     });
@@ -2851,6 +2903,8 @@ function applySession(sess) {
   S.bus = { ...BUS_FALLBACK, ...(S.bus || {}) };   // 补全总线/混响键（含旧档缺的 lowcut_khz）
   if (!Array.isArray(S.bus.eq)) S.bus.eq = [];      // 总线 EQ（默认空=不滤波）
   S.master = S.master || {}; S.sources = S.sources || [];
+  S.sources.forEach(s => { s.offset_s = clamp(+s.offset_s || 0, -30, 30); });   // 多轨对齐偏移，规范化+钳制
+  tlWave = {};                                   // 音源变了 → 清波形缓存重算
   $("start_s").value = S.start_s; $("duration_s").value = S.duration_s;
   buildPanel($("busControls"), BUS_CTL, S.bus);
   drawBusEq();
@@ -2908,7 +2962,7 @@ function fillSourceList() {
   });
 }
 function unlinkedSources() { return (S.sources || []).filter(s => !STATIC.has(s.file || s.id)); }
-function afterLink() { tlView = null; fillSourceList(); loadWaveform(); rtRebuild(); drawStage(); drawTimeline(); pendingRebind = unlinkedSources(); }
+function afterLink() { tlWave = {}; tlView = null; fillSourceList(); loadWaveform(); rtRebuild(); drawStage(); drawTimeline(); pendingRebind = unlinkedSources(); }
 
 async function relinkSource(token, after) {
   try {
@@ -3532,6 +3586,7 @@ async function init() {
   }));
   $("tlAddKf").onclick = addKeyframeHere;
   $("tlReset").onclick = () => { tlInitView(); drawTimeline(); };
+  { const fb = $("tlFold"); if (fb) { fb.textContent = lanesCollapsed ? "▸轨" : "▾轨"; fb.onclick = toggleLanes; } }
   setupTimeline();
 
   initZoom();
