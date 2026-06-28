@@ -7,27 +7,36 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0e1116;
-      --bg2: #151a22;
-      --panel: #1a2029;
-      --panel2: #20272f;
-      --line: #2b333d;
-      --line2: #3a444f;
-      --text: #e6edf3;
-      --muted: #8b97a3;
-      --accent: #4a9eff;
-      --accent2: #2dd4bf;
+      --bg: #080b12;
+      --bg2: rgba(15,23,42,.34);
+      --panel: rgba(15,23,42,.56);
+      --panel2: rgba(15,23,42,.40);
+      --line: rgba(255,255,255,.12);
+      --line2: rgba(255,255,255,.22);
+      --text: rgba(248,250,252,.93);
+      --muted: rgba(203,213,225,.74);
+      --accent: #2dd4bf;
+      --accent2: #38bdf8;
       --good: #34d399;
       --warn: #fbbf24;
       --bad: #f87171;
-      --radius: 10px;
+      --radius: 14px;
+      --glass: blur(18px) saturate(150%);
+      --shadow: 0 24px 76px rgba(0,0,0,.46), 0 2px 12px rgba(0,0,0,.22);
+      --canvas-bg:
+        radial-gradient(circle at 14% 18%, rgba(56,189,248,.16), transparent 28%),
+        radial-gradient(circle at 88% 14%, rgba(129,140,248,.18), transparent 26%),
+        radial-gradient(circle at 72% 86%, rgba(20,184,166,.12), transparent 30%),
+        linear-gradient(135deg, #05070d 0%, #101827 48%, #080b12 100%);
     }
+    ::selection { background: rgba(45,212,191,.30); }
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: "Segoe UI", "Microsoft YaHei UI", system-ui, Arial, sans-serif;
-      background: radial-gradient(1200px 700px at 70% -10%, #182230, var(--bg));
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "Segoe UI", "Microsoft YaHei UI", Arial, sans-serif;
+      background: var(--canvas-bg);
+      background-attachment: fixed;
       color: var(--text);
       font-size: 13px;
       height: 100vh;
@@ -37,24 +46,24 @@
     }
     header {
       display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-      padding: 10px 16px;
+      padding: 12px 18px;
       border-bottom: 1px solid var(--line);
-      background: rgba(13,17,23,.85);
-      backdrop-filter: blur(8px);
+      background: rgba(12,18,32,.55);
+      backdrop-filter: var(--glass);
       flex: 0 0 auto; z-index: 20;
     }
     h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .3px;
-         border: 1.5px solid var(--accent); border-radius: 9px; padding: 6px 12px;
-         background: rgba(74,158,255,.08); box-shadow: 0 0 0 1px rgba(74,158,255,.12) inset; }
+         border: 1.5px solid color-mix(in srgb, var(--accent) 70%, transparent); border-radius: 11px; padding: 6px 12px;
+         background: rgba(45,212,191,.10); box-shadow: 0 0 0 1px rgba(45,212,191,.14) inset; }
     h1 .v { color: var(--muted); font-weight: 500; font-size: 12px; margin-left: 6px; }
-    a.home-link { border: 1px solid var(--line2); border-radius: 7px; padding: 7px 11px; color: var(--text);
-                  text-decoration: none; font-weight: 600; font-size: 12px; background: #232b35; white-space: nowrap; }
+    a.home-link { border: 1px solid var(--line2); border-radius: 10px; padding: 7px 11px; color: var(--text);
+                  text-decoration: none; font-weight: 600; font-size: 12px; background: rgba(255,255,255,.06); backdrop-filter: blur(10px); white-space: nowrap; }
     a.home-link:hover { border-color: var(--accent); color: #fff; }
     .spacer { flex: 1; }
     .timeline { flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
                 padding: 4px 16px; border-bottom: 1px solid var(--line);
-                background: rgba(13,17,23,.6); height: 36px; z-index: 15; }
-    .timeline canvas { flex: 1; height: 34px; border-radius: 6px; }
+                background: rgba(12,18,32,.42); backdrop-filter: var(--glass); height: 36px; z-index: 15; }
+    .timeline canvas { flex: 1 1 0; min-width: 0; height: 34px; border-radius: 6px; }
     main {
       flex: 1 1 auto; min-height: 0;
       display: grid;
@@ -69,13 +78,15 @@
       padding: 2px 8px 14px 2px;
     }
     .col::-webkit-scrollbar { width: 10px; }
-    .col::-webkit-scrollbar-thumb { background: #2b333d; border-radius: 6px; border: 2px solid var(--bg); }
-    .col::-webkit-scrollbar-thumb:hover { background: #3a444f; }
+    .col::-webkit-scrollbar-thumb { background: rgba(255,255,255,.14); border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
+    .col::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.24); background-clip: padding-box; }
     section {
-      background: linear-gradient(180deg, var(--panel), var(--bg2));
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)), var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 12px;
+      padding: 14px;
+      backdrop-filter: var(--glass);
+      box-shadow: var(--shadow);
     }
     section.left-sticky { position: static; }
     h2 { margin: 0 0 10px; font-size: 12px; font-weight: 700; color: var(--muted);
@@ -85,27 +96,29 @@
     .field { display: grid; gap: 4px; }
     .field > span { color: var(--muted); font-size: 11px; }
     input[type="number"], input[type="text"], select {
-      width: 100%; border: 1px solid var(--line2); border-radius: 7px;
-      padding: 6px 8px; background: #0c1015; color: var(--text); font-size: 12px;
+      width: 100%; border: 1px solid var(--line2); border-radius: 9px;
+      padding: 6px 8px; background: rgba(255,255,255,.06); color: var(--text); font-size: 12px;
+      backdrop-filter: blur(8px);
     }
+    input:focus, select:focus { outline: none; border-color: color-mix(in srgb, var(--accent) 70%, transparent); }
     select optgroup { color: var(--muted); }
     .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     button {
-      border: 1px solid var(--line2); border-radius: 7px; padding: 7px 11px;
-      background: #232b35; color: var(--text); cursor: pointer; font-weight: 600; font-size: 12px;
-      transition: .12s; white-space: nowrap;
+      border: 1px solid var(--line2); border-radius: 10px; padding: 7px 11px;
+      background: rgba(255,255,255,.06); color: var(--text); cursor: pointer; font-weight: 600; font-size: 12px;
+      transition: .12s; white-space: nowrap; backdrop-filter: blur(10px);
     }
-    button:hover { border-color: var(--accent); }
-    button.primary { background: linear-gradient(180deg,#4a9eff,#2f7fe0); border-color:#2f7fe0; color:#fff; }
-    button.green { background: linear-gradient(180deg,#2dd4bf,#0f9e8e); border-color:#0f9e8e; color:#06231f; }
+    button:hover { border-color: var(--accent); background: rgba(255,255,255,.10); }
+    button.primary { background: linear-gradient(180deg,#2dd4bf,#0ea5b7); border-color:#0ea5b7; color:#052a26; }
+    button.green { background: linear-gradient(180deg,#34d399,#0f9e8e); border-color:#0f9e8e; color:#06231f; }
     button.ghost { background: transparent; }
     button.icon { padding: 4px 8px; font-size: 12px; line-height: 1; }
     button:disabled { opacity: .5; cursor: wait; }
     button.on-m { background: var(--warn); color:#231a04; border-color: var(--warn); }
     button.on-s { background: var(--good); color:#062314; border-color: var(--good); }
     .pill { border: 1px solid var(--line2); border-radius: 999px; padding: 4px 10px;
-            background: #0c1015; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+            background: rgba(255,255,255,.05); color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
     .pill b { color: var(--text); font-weight: 700; }
     audio { width: 100%; margin-top: 10px; }
 
@@ -116,15 +129,16 @@
     .ctl input.val { width: 100%; border: 1px solid transparent; background: transparent; padding: 1px 3px;
       border-radius: 4px; cursor: text; }
     .ctl input.val:hover { border-color: var(--line2); }
-    .ctl input.val:focus { border-color: var(--accent); background: #0c1015; outline: none; }
+    .ctl input.val:focus { border-color: var(--accent); background: rgba(0,0,0,.30); outline: none; }
     input[type="range"] { width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
       background: var(--line2); border-radius: 3px; outline: none; }
     input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px;
-      border-radius: 50%; background: var(--accent); border: 2px solid #0c1015; cursor: pointer; }
+      border-radius: 50%; background: var(--accent); border: 2px solid rgba(0,0,0,.4); cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,.4); }
     input[type="range"].tone::-webkit-slider-thumb { background: var(--accent2); }
 
     /* 画布 */
-    canvas { width: 100%; display: block; border-radius: 8px; background: #0a0d12; border: 1px solid var(--line); }
+    canvas { width: 100%; max-width: 100%; display: block; border-radius: 8px; background: #0a0d12; border: 1px solid var(--line); }
     /* 时间线画布去掉 border（配合 box-sizing:border-box 会让内容盒<边框盒，导致点击映射在右侧成比例偏移）；
        用 inset 阴影保留视觉边框，不影响布局，使绘制(clientWidth)与点击命中坐标系完全一致。 */
     #tlCanvas, #xcTlCanvas { border: 0; box-shadow: inset 0 0 0 1px var(--line); }
@@ -137,7 +151,7 @@
              overflow: hidden; }
     .strip.muted { opacity: .55; }
     .strip-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; row-gap: 6px; padding: 8px 10px;
-                  background: linear-gradient(180deg,#222a34,#1a212a); border-bottom: 1px solid var(--line); }
+                  background: rgba(255,255,255,.05); border-bottom: 1px solid var(--line); }
     .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px rgba(0,0,0,.4); }
     .strip-head input.name { width: 90px; padding: 4px 6px; font-size: 12px; font-weight: 600; }
     .dly-wrap { display: flex; align-items: center; gap: 3px; flex: none; }
@@ -147,16 +161,16 @@
     .eqcanvas { height: 88px; margin-bottom: 8px; }
     details.tone > summary { cursor: pointer; color: var(--muted); font-size: 11px; margin: 4px 0; user-select: none; }
     .meters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
-    pre { margin: 8px 0 0; padding: 10px; background: #0a0d12; border: 1px solid var(--line);
-          border-radius: 8px; white-space: pre-wrap; max-height: 240px; overflow: auto;
+    pre { margin: 8px 0 0; padding: 10px; background: rgba(0,0,0,.30); border: 1px solid var(--line);
+          border-radius: 10px; white-space: pre-wrap; max-height: 240px; overflow: auto;
           font-size: 11px; color: var(--muted); font-family: "Consolas", monospace; }
-    .toast { position: fixed; right: 16px; bottom: 16px; background: var(--panel); border:1px solid var(--line2);
-             padding: 10px 14px; border-radius: 8px; font-size: 12px; max-width: 360px; z-index: 70;
-             box-shadow: 0 8px 30px rgba(0,0,0,.5); display: none; }
-    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center;
-                justify-content: center; z-index: 60; }
-    .modal { background: var(--panel); border: 1px solid var(--line2); border-radius: 12px; padding: 18px;
-             width: min(580px, 94vw); max-height: 86vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+    .toast { position: fixed; right: 16px; bottom: 16px; background: rgba(15,23,42,.72); border:1px solid var(--line2);
+             padding: 10px 14px; border-radius: 12px; font-size: 12px; max-width: 360px; z-index: 70;
+             box-shadow: var(--shadow); backdrop-filter: var(--glass); display: none; }
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center;
+                justify-content: center; z-index: 60; backdrop-filter: blur(4px); }
+    .modal { background: rgba(15,23,42,.80); border: 1px solid var(--line2); border-radius: var(--radius); padding: 18px;
+             width: min(580px, 94vw); max-height: 86vh; overflow: auto; box-shadow: var(--shadow); backdrop-filter: var(--glass); }
     .chan-row { display: flex; align-items: center; gap: 8px; margin: 7px 0; padding: 7px 8px;
                 border: 1px solid var(--line); border-radius: 8px; background: var(--panel2); }
     .chan-row .tag { font-size: 11px; color: var(--muted); flex: none; }
@@ -165,11 +179,11 @@
     .drop-hint { position: fixed; inset: 0; background: rgba(74,158,255,.12); border: 3px dashed var(--accent);
                  z-index: 80; display: none; align-items: center; justify-content: center; font-size: 20px;
                  color: var(--accent); font-weight: 700; }
-    .floatwin { position: fixed; top: 96px; left: 60px; width: 330px; background: var(--panel);
-                border: 1px solid var(--line2); border-radius: 10px; box-shadow: 0 16px 50px rgba(0,0,0,.55); z-index: 65; }
+    .floatwin { position: fixed; top: 96px; left: 60px; width: 330px; background: rgba(15,23,42,.78);
+                border: 1px solid var(--line2); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: var(--glass); z-index: 65; }
     .fw-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px;
                border-bottom: 1px solid var(--line); cursor: move; font-size: 12px; font-weight: 700; color: var(--muted);
-               background: linear-gradient(180deg,#222a34,#1a212a); border-radius: 10px 10px 0 0; user-select: none; }
+               background: rgba(255,255,255,.05); border-radius: var(--radius) var(--radius) 0 0; user-select: none; }
     .fw-body { padding: 12px; }
     @media (max-width: 1000px) {
       body { height: auto; display: block; overflow: auto; }
@@ -1487,27 +1501,61 @@ const STATIC = (() => {
     const s = oc.createBufferSource(); s.buffer = ab; s.connect(oc.destination); s.start();
     return await oc.startRendering();
   }
-  function abToB64(ab) {
-    const u = new Uint8Array(ab); let s = "";
-    const CH = 0x8000; for (let i = 0; i < u.length; i += CH) s += String.fromCharCode.apply(null, u.subarray(i, i + CH));
-    return btoa(s);
-  }
-  function b64ToAb(b64) {
-    const bin = atob(b64), u = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-    return u.buffer;
-  }
-
-  async function addSourceFromBytes(arrayBuffer, label, mime, forcedToken) {
+  async function addSourceFromBytes(arrayBuffer, label, mime, forcedToken, path) {
     const ab = await decodeResample(arrayBuffer);
     const token = forcedToken || ("src_" + Date.now() + "_" + Math.floor(Math.random() * 1e4).toString(36));
     const channels = []; for (let c = 0; c < ab.numberOfChannels; c++) channels.push(ab.getChannelData(c).slice());
-    store[token] = { channels, frames: ab.length, label: label || token, channelsCount: ab.numberOfChannels, bytesB64: abToB64(arrayBuffer), mime: mime || "audio/wav" };
-    return { id: token, file: token, label: store[token].label, channels: ab.numberOfChannels, samplerate: SR, duration_s: +(ab.length / SR).toFixed(2) };
+    store[token] = { channels, frames: ab.length, label: label || token, channelsCount: ab.numberOfChannels, path: path || label || token };
+    return { id: token, file: token, label: store[token].label, channels: ab.numberOfChannels, samplerate: SR, duration_s: +(ab.length / SR).toFixed(2), path: store[token].path };
   }
-  async function importFile(file) {
-    const buf = await file.arrayBuffer();
-    return await addSourceFromBytes(buf, file.name, file.type, null);
+  async function importFile(file, forcedToken) {   // 拖入/无句柄回退：仅本会话有效(不持久)
+    return await addSourceFromBytes(await file.arrayBuffer(), file.name, file.type, forcedToken || null, file.name);
+  }
+
+  /* ---------- 文件句柄持久化（链接而非复制） ---------- */
+  const IDB_DB = "joa_handles", IDB_STORE = "h";
+  function idb() { return new Promise((res, rej) => { const r = indexedDB.open(IDB_DB, 1); r.onupgradeneeded = () => r.result.createObjectStore(IDB_STORE); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+  async function idbPut(k, v) { const db = await idb(); return new Promise((res, rej) => { const tx = db.transaction(IDB_STORE, "readwrite"); tx.objectStore(IDB_STORE).put(v, k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); }
+  async function idbGet(k) { const db = await idb(); return new Promise((res, rej) => { const tx = db.transaction(IDB_STORE, "readonly"); const q = tx.objectStore(IDB_STORE).get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); }
+  const FILE_TYPES = [{ description: "音频", accept: { "audio/*": [".wav", ".flac", ".mp3", ".ogg", ".m4a", ".aac"] } }];
+
+  async function linkFromHandle(token, handle, path) {
+    const file = await handle.getFile();
+    const meta = await addSourceFromBytes(await file.arrayBuffer(), file.name, file.type, token, path || handle.name || file.name);
+    try { await idbPut(token, handle); } catch (_) {}   // 句柄存入 IndexedDB，下次自动重连
+    return meta;
+  }
+  async function relinkFromIDB(token) {   // 仅当权限已 granted 时静默自动重连
+    try {
+      const h = await idbGet(token); if (!h || !h.queryPermission) return null;
+      const p = await h.queryPermission({ mode: "read" });
+      if (p !== "granted") return null;
+      return await linkFromHandle(token, h);
+    } catch (_) { return null; }
+  }
+  async function relinkInteractive(token, path) {   // 用户点击：先请求已存句柄权限，否则弹选择器
+    try { const h = await idbGet(token); if (h && h.requestPermission) { const p = await h.requestPermission({ mode: "read" }); if (p === "granted") return await linkFromHandle(token, h, path); } } catch (_) {}
+    if (self.showOpenFilePicker) { const [nh] = await self.showOpenFilePicker({ multiple: false, types: FILE_TYPES }); return await linkFromHandle(token, nh, path); }
+    return null;   // 无 FS Access API：调用方回退到 <input type=file>
+  }
+  async function pickNewSource() {   // 新建音源（优先句柄，可持久化）
+    if (!self.showOpenFilePicker) return null;
+    const [nh] = await self.showOpenFilePicker({ multiple: false, types: FILE_TYPES });
+    const token = "src_" + Date.now() + "_" + Math.floor(Math.random() * 1e4).toString(36);
+    return await linkFromHandle(token, nh);
+  }
+  async function pickHandles(multiple) {   // 返回句柄数组（无 FS Access 返回 null，调用方回退 <input>）
+    if (!self.showOpenFilePicker) return null;
+    return await self.showOpenFilePicker({ multiple: !!multiple, types: FILE_TYPES });
+  }
+  // 拖入时尽量拿句柄（Chromium）
+  async function handleFromDataTransferItem(item) {
+    if (item && item.getAsFileSystemHandle) { try { const h = await item.getAsFileSystemHandle(); if (h && h.kind === "file") return h; } catch (_) {} }
+    return null;
+  }
+  async function linkNewFromHandle(handle) {
+    const token = "src_" + Date.now() + "_" + Math.floor(Math.random() * 1e4).toString(36);
+    return await linkFromHandle(token, handle);
   }
 
   /* ---------- 取片段（内存切片 + 补零） ---------- */
@@ -1554,25 +1602,19 @@ const STATIC = (() => {
     return `${name}.${ext}`;
   }
 
-  /* ---------- 工程：内嵌音频字节 ---------- */
+  /* ---------- 工程：只存路径引用（不复制音频字节） ---------- */
   function serializeProject(session) {
     const used = [...new Set((session.tracks || []).map(t => (t.source && t.source.src) || "main"))];
     const sources = (session.sources || []).filter(s => used.includes(s.id) || used.includes(s.file));
-    const embed = sources.map(s => {
-      const tk = s.file || s.id, st = store[tk];
-      return { ...s, audio: st ? { b64: st.bytesB64, mime: st.mime, label: st.label } : null };
-    });
-    return JSON.stringify({ ...session, sources: embed, __jap: 1 }, null, 2);
+    const refs = sources.map(s => { const tk = s.file || s.id, st = store[tk]; const { audio, ...rest } = s; return { ...rest, path: (st && st.path) || s.path || s.label || null }; });
+    return JSON.stringify({ ...session, sources: refs, __jap: 2 }, null, 2);
   }
   async function loadProjectObj(obj) {
-    // 还原内嵌音频到 store
+    // 尝试用已授权的句柄静默自动重连；未链接者保留元信息(含 path)，由 UI 提示重指向
     for (const s of (obj.sources || [])) {
       const tk = s.file || s.id;
-      if (s.audio && s.audio.b64 && !store[tk]) {
-        await addSourceFromBytes(b64ToAb(s.audio.b64), s.audio.label || s.label, s.audio.mime, tk);
-      }
+      if (!store[tk]) { const m = await relinkFromIDB(tk); if (m) { s.channels = m.channels; s.duration_s = m.duration_s; s.path = m.path; } }
     }
-    // 去掉内嵌字节，返回干净 session（sources 仅留元信息）
     const sources = (obj.sources || []).map(s => { const { audio, ...rest } = s; return rest; });
     const { __jap, ...sess } = obj;
     return { ...sess, sources };
@@ -1656,11 +1698,15 @@ const STATIC = (() => {
     return { lags_ms, bands: outBands, maxlag_ms: +maxlagMs, n };
   }
 
-  return { SR, importFile, addSourceFromBytes, getChannels, makeAudioBuffer, duration, has, waveformPeaks, download, serializeProject, loadProjectObj, xcorr, _store: store };
+  return { SR, importFile, addSourceFromBytes, getChannels, makeAudioBuffer, duration, has, waveformPeaks, download, serializeProject, loadProjectObj, xcorr,
+    relinkInteractive, relinkFromIDB, pickNewSource, pickHandles, handleFromDataTransferItem, linkNewFromHandle,
+    linkHandleToToken: (token, handle) => linkFromHandle(token, handle),
+    hasFSAccess: () => !!self.showOpenFilePicker, _store: store };
 })();
 
 </script>
-  <script>
+  <script>self.__XCORR_WORKER_SRC__="/* \u4e92\u76f8\u5173 Worker\uff1a\u5728\u540e\u53f0\u7ebf\u7a0b\u7b97\u591a\u9891\u5e26 FFT \u4e92\u76f8\u5173\uff0c\u4e0d\u963b\u585e\u4e3b\u7ebf\u7a0b\uff0c\u53ef\u968f\u65f6 terminate \u4e2d\u6b62\u3002\n   \u4e3b\u7ebf\u7a0b\u8d1f\u8d23\u5207\u51fa\u4e24\u8def\u58f0\u9053(Float32)\u5e76 transfer \u8fdb\u6765\uff1b\u672c worker \u4e0d\u4f9d\u8d56\u97f3\u9891\u5e93\u3002 */\n(function () {\n  const SR = 48000;\n  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));\n  function fft(re, im, inv) {\n    const n = re.length;\n    for (let i = 1, j = 0; i < n; i++) {\n      let bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit;\n      if (i < j) { let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; }\n    }\n    for (let len = 2; len <= n; len <<= 1) {\n      const ang = (inv ? 2 : -2) * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);\n      for (let i = 0; i < n; i += len) {\n        let cr = 1, ci = 0;\n        for (let k = 0; k < len / 2; k++) {\n          const ur = re[i + k], ui = im[i + k];\n          const vr = re[i + k + len / 2] * cr - im[i + k + len / 2] * ci;\n          const vi = re[i + k + len / 2] * ci + im[i + k + len / 2] * cr;\n          re[i + k] = ur + vr; im[i + k] = ui + vi;\n          re[i + k + len / 2] = ur - vr; im[i + k + len / 2] = ui - vi;\n          const ncr = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = ncr;\n        }\n      }\n    }\n    if (inv) for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }\n  }\n  function bandpass(x, lo, hi) {\n    if (!(hi > lo && lo >= 10 && hi < SR / 2)) return x.slice();\n    const f0 = Math.sqrt(lo * hi), bw = Math.log2(hi / lo) || 1;\n    const w0 = 2 * Math.PI * f0 / SR, c = Math.cos(w0), sn = Math.sin(w0);\n    const alpha = sn * Math.sinh(Math.LN2 / 2 * bw * w0 / sn);\n    const b0 = alpha, b2 = -alpha, a0 = 1 + alpha, a1 = -2 * c, a2 = 1 - alpha;\n    const B0 = b0 / a0, B2 = b2 / a0, A1 = a1 / a0, A2 = a2 / a0;\n    const run = (inp) => { const out = new Float32Array(inp.length); let x1 = 0, x2 = 0, y1 = 0, y2 = 0; for (let i = 0; i < inp.length; i++) { const xi = inp[i]; const yi = B0 * xi + B2 * x2 - A1 * y1 - A2 * y2; x2 = x1; x1 = xi; y2 = y1; y1 = yi; out[i] = yi; } return out; };\n    return run(run(x));\n  }\n  function xcorrCore(xin, yin, maxlagMs, bands) {\n    let x = Float64Array.from(xin), y = Float64Array.from(yin);\n    const n = Math.min(x.length, y.length);\n    if (n < 128) return { error: \"\u7247\u6bb5\u592a\u77ed\" };\n    x = x.subarray(0, n); y = y.subarray(0, n);\n    const dm = (v) => { let s = 0; for (let i = 0; i < v.length; i++) s += v[i]; s /= v.length; for (let i = 0; i < v.length; i++) v[i] -= s; };\n    dm(x); dm(y);\n    const maxlag = Math.round(clamp(maxlagMs, 1, 200) / 1000 * SR);\n    const lagsK = []; for (let L = -maxlag; L <= maxlag; L++) lagsK.push(L);\n    const Ln = lagsK.length, M = Math.min(3000, Ln);\n    const edges = []; for (let i = 0; i <= M; i++) edges.push(Math.round(i * Ln / M));\n    const lags_ms = []; for (let i = 0; i < M; i++) { const cidx = Math.min(Ln - 1, (edges[i] + edges[i + 1]) >> 1); lags_ms.push(+(-lagsK[cidx] / SR * 1000).toFixed(3)); }\n    let nf = 1; while (nf < 2 * n) nf <<= 1;\n    bands = bands || [[0, 0], [60, 250], [250, 800], [800, 2500], [2500, 8000]];\n    const outBands = bands.map(([lo, hi]) => {\n      const xb = (hi > lo && lo > 0) ? bandpass(x, lo, Math.min(hi, SR / 2 - 50)) : x;\n      const yb = (hi > lo && lo > 0) ? bandpass(y, lo, Math.min(hi, SR / 2 - 50)) : y;\n      const xr = new Float64Array(nf), xi = new Float64Array(nf), yr = new Float64Array(nf), yi = new Float64Array(nf);\n      for (let i = 0; i < n; i++) { xr[i] = xb[i]; yr[i] = yb[i]; }\n      fft(xr, xi, false); fft(yr, yi, false);\n      const cr = new Float64Array(nf), ci = new Float64Array(nf);\n      for (let i = 0; i < nf; i++) { cr[i] = xr[i] * yr[i] + xi[i] * yi[i]; ci[i] = xi[i] * yr[i] - xr[i] * yi[i]; }\n      fft(cr, ci, true);\n      let ex = 0, ey = 0; for (let i = 0; i < n; i++) { ex += xb[i] * xb[i]; ey += yb[i] * yb[i]; }\n      const norm = Math.sqrt(ex * ey) || 1;\n      const at = (L) => cr[(L % nf + nf) % nf];\n      const vals = new Float64Array(Ln);\n      for (let i = 0; i < Ln; i++) vals[i] = at(lagsK[i]) / norm;\n      const ds = []; for (let i = 0; i < M; i++) { const a = edges[i], e = Math.max(a + 1, edges[i + 1]); let best = vals[a], bm = Math.abs(vals[a]); for (let k = a; k < e; k++) { const m = Math.abs(vals[k]); if (m > bm) { bm = m; best = vals[k]; } } ds.push(+best.toFixed(4)); }\n      let kbest = 0, vbest = -Infinity; for (let i = 0; i < Ln; i++) { if (vals[i] > vbest) { vbest = vals[i]; kbest = i; } }\n      return { band: (hi > lo && lo > 0) ? [lo, hi] : null, peak_ms: +(-lagsK[kbest] / SR * 1000).toFixed(3), corr: +vbest.toFixed(3), values: ds };\n    });\n    return { lags_ms, bands: outBands, maxlag_ms: +maxlagMs, n };\n  }\n  self.onmessage = (e) => {\n    const { x, y, maxlagMs, bands } = e.data;\n    try { self.postMessage({ ok: true, result: xcorrCore(x, y, maxlagMs, bands) }); }\n    catch (err) { self.postMessage({ ok: false, error: String((err && err.message) || err) }); }\n  };\n})();\n";</script>
+<script>
 /* 管弦混音工作台 v2 —— 数据驱动前端。
    - 轨道/乐器/总线/母带全部由 /api/session 下发的元数据动态生成。
    - 可视化：可拖拽声场舞台、实时频谱、立体声电平表、李萨如图、每轨实时 EQ 曲线。
@@ -1717,11 +1763,8 @@ async function loadProjectFromFile(file) {
     loadWaveform(); drawTimeline();
     if (STATIC_MODE) {
       pendingRebind = (S.sources || []).filter(s => !STATIC.has(s.file || s.id));
-      if (pendingRebind.length) {
-        const names = pendingRebind.map(s => s.label || s.id).join("、");
-        toast("⚠ 工程未内嵌音频（旧版工程）。请拖入对应音频文件，将自动绑定到：" + names);
-        return;
-      }
+      fillSourceList();
+      if (pendingRebind.length) { openLinkModal(); return; }   // 有未链接 → 直接弹大窗口
     }
     toast("已载入工程：" + file.name);
   } catch (e) { toast("工程载入失败：" + e.message); }
@@ -1862,11 +1905,11 @@ function setZoom(z) {
   toast("界面缩放 " + Math.round(uiZoom * 100) + "%");
 }
 function initZoom() {
-  uiZoom = parseFloat(localStorage.getItem("ui_zoom") || "1") || 1;
-  document.documentElement.style.zoom = uiZoom;
-  window.addEventListener("wheel", (e) => {
-    if (e.ctrlKey) { e.preventDefault(); setZoom(uiZoom + (e.deltaY < 0 ? 0.1 : -0.1)); }
-  }, { passive: false });
+  // 取消一切界面缩放：强制 100%，清除历史缩放值，并拦截 Ctrl+滚轮（不做任何缩放）
+  uiZoom = 1;
+  try { localStorage.removeItem("ui_zoom"); } catch (_) {}
+  document.documentElement.style.zoom = "";
+  window.addEventListener("wheel", (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 }
 
 /* ───────────── RBJ 双二阶（与引擎一致，用于画 EQ 曲线） ───────────── */
@@ -2627,7 +2670,8 @@ function setupTimeline() {
 }
 
 /* ───────────── 可视化（数据源 = 实时引擎 RT 的分析器） ───────────── */
-function vizLoop() { drawSpectrum(); drawMeter(); drawGonio(); requestAnimationFrame(vizLoop); }
+// 可视化循环：任一绘制抛错也不能中断 rAF（否则频谱会"卡住"，要按键触发别处重绘才恢复）
+function vizLoop() { try { drawSpectrum(); drawMeter(); drawGonio(); } catch (_) {} requestAnimationFrame(vizLoop); }
 // 实时自动化驱动（控制率，rAF）：播放且关键帧>=2 时按 song-time 插值热调，并画播放头。
 function autoLoop() {
   try {
@@ -2849,7 +2893,132 @@ function chanSelect(n, selected) {
 }
 function fillSourceList() {
   const host = $("sourceList"); if (!host) return; host.innerHTML = "";
-  (S.sources || []).forEach(s => { const p = document.createElement("span"); p.className = "pill"; p.textContent = `${s.label || s.id} · ${s.channels}ch`; p.title = s.file; host.appendChild(p); });
+  (S.sources || []).forEach(s => {
+    const tok = s.file || s.id;
+    const p = document.createElement("span"); p.className = "pill";
+    p.textContent = `${s.label || s.id} · ${s.channels}ch`;
+    p.title = s.path || s.file || "";
+    host.appendChild(p);
+    if (STATIC_MODE && !STATIC.has(tok)) {        // 仅未链接时出按钮（音源卡二次指向）
+      const b = document.createElement("button"); b.className = "icon"; b.style.marginLeft = "4px";
+      b.textContent = "链接音频"; b.title = "指向音频文件" + (s.path ? "（原：" + s.path + "）" : "");
+      b.onclick = () => openLinkModal();
+      host.appendChild(b);
+    }
+  });
+}
+function unlinkedSources() { return (S.sources || []).filter(s => !STATIC.has(s.file || s.id)); }
+function afterLink() { tlView = null; fillSourceList(); loadWaveform(); rtRebuild(); drawStage(); drawTimeline(); pendingRebind = unlinkedSources(); }
+
+async function relinkSource(token, after) {
+  try {
+    const s = (S.sources || []).find(x => (x.file || x.id) === token);
+    let meta = await STATIC.relinkInteractive(token, s && s.path);
+    if (!meta) {   // 无 File System Access API → 回退 <input>（本会话有效，不持久）
+      meta = await new Promise((resolve) => {
+        const inp = document.createElement("input"); inp.type = "file"; inp.accept = "audio/*";
+        inp.onchange = async () => resolve(inp.files && inp.files[0] ? await STATIC.importFile(inp.files[0], token) : null);
+        inp.click();
+      });
+    }
+    if (!meta) return;
+    if (s) Object.assign(s, { channels: meta.channels, samplerate: meta.samplerate, duration_s: meta.duration_s, path: meta.path });
+    afterLink();
+    if (after) after();
+    toast("已链接音频：" + (meta.path || ""));
+  } catch (e) { if (e && e.name === "AbortError") return; toast("链接失败：" + (e.message || e)); }
+}
+
+// 一次性链接所有未链接音源：一个选择器多选 → 按文件名匹配(否则按序)分配
+async function linkAllSources(after) {
+  const un = unlinkedSources(); if (!un.length) return;
+  try {
+    const handles = await STATIC.pickHandles(true);
+    if (handles) {
+      const pool = handles.slice();
+      for (const s of un) {
+        let i = pool.findIndex(h => (h.name || "").toLowerCase() === String(s.path || "").toLowerCase());
+        if (i < 0) i = 0;
+        if (pool[i]) { const h = pool.splice(i, 1)[0]; const m = await STATIC.linkHandleToToken(s.file || s.id, h); Object.assign(s, { channels: m.channels, samplerate: m.samplerate, duration_s: m.duration_s, path: m.path }); }
+      }
+    } else {   // 无 FS Access → <input multiple>（不持久）
+      const files = await new Promise(res => { const i = document.createElement("input"); i.type = "file"; i.accept = "audio/*"; i.multiple = true; i.onchange = () => res(Array.from(i.files || [])); i.click(); });
+      const pool = files.slice();
+      for (const s of un) {
+        let i = pool.findIndex(f => (f.name || "").toLowerCase() === String(s.path || "").toLowerCase());
+        if (i < 0) i = 0;
+        if (pool[i]) { const f = pool.splice(i, 1)[0]; const m = await STATIC.importFile(f, s.file || s.id); Object.assign(s, { channels: m.channels, samplerate: m.samplerate, duration_s: m.duration_s, path: m.path }); }
+      }
+    }
+    afterLink();
+    if (after) after();
+    if (!unlinkedSources().length) toast("音频已全部链接");
+  } catch (e) { if (e && e.name === "AbortError") return; toast("链接失败：" + (e.message || e)); }
+}
+
+// 大窗口：列出所有音源，一次性链接全部 / 逐个重链接
+function openLinkModal() {
+  const bg = document.createElement("div"); bg.className = "modal-bg"; bg.style.zIndex = 300;
+  const box = document.createElement("div"); box.className = "modal"; box.style.width = "min(560px,94vw)";
+  const render = () => {
+    const un = unlinkedSources();
+    box.innerHTML = "";
+    const h = document.createElement("h2"); h.style.textTransform = "none";
+    h.textContent = un.length ? `链接音频（${un.length} 个未链接）` : "音频已全部链接";
+    box.appendChild(h);
+    const tip = document.createElement("div"); tip.className = "muted"; tip.style.cssText = "font-size:12px;margin:6px 0 12px;line-height:1.6";
+    tip.textContent = "浏览器安全策略下工程无法自动读取本地文件（Edge 不保留授权），请手动选择音频来链接。链接后本机可记住，下次仍需在此点一下。";
+    box.appendChild(tip);
+    const rb = document.createElement("div"); rb.className = "row"; rb.style.marginBottom = "12px";
+    if (un.length) {
+      const all = document.createElement("button"); all.className = "primary";
+      all.textContent = un.length > 1 ? "一次性选择并链接全部" : "选择文件并链接";
+      all.onclick = () => linkAllSources(render);
+      rb.appendChild(all);
+    }
+    const close = document.createElement("button"); close.textContent = un.length ? "稍后" : "完成"; close.onclick = () => bg.remove();
+    rb.appendChild(close); box.appendChild(rb);
+    (S.sources || []).forEach(s => {
+      const tok = s.file || s.id, linked = STATIC.has(tok);
+      const r = document.createElement("div"); r.className = "chan-row";
+      const tag = document.createElement("div"); tag.style.flex = "1";
+      tag.innerHTML = `<b>${s.label || tok}</b> · ${s.channels || "?"}ch` + (s.path ? ` <span class="muted">（${s.path}）</span>` : "");
+      r.appendChild(tag);
+      const st = document.createElement("span"); st.className = "pill"; st.textContent = linked ? "✓ 已链接" : "未链接"; st.style.color = linked ? "var(--good)" : "var(--warn)";
+      r.appendChild(st);
+      if (!linked) { const b = document.createElement("button"); b.className = "icon"; b.textContent = "选择…"; b.onclick = () => relinkSource(tok, render); r.appendChild(b); }
+      box.appendChild(r);
+    });
+  };
+  render();
+  bg.appendChild(box);
+  bg.addEventListener("mousedown", (e) => { if (e.target === bg) bg.remove(); });
+  document.body.appendChild(bg);
+}
+// 新建音源：静态版优先用 File System Access 句柄（可持久链接），否则回退 <input>
+async function importNewSource() {
+  try {
+    const meta = await STATIC.pickNewSource();
+    if (!meta) { $("importFile").click(); return; }
+    S.sources = S.sources || []; if (!S.sources.find(x => x.id === meta.id)) S.sources.push(meta);
+    fillSourceList(); openRouteModal(meta);
+  } catch (e) { if (e && e.name === "AbortError") return; toast("导入失败：" + (e.message || e)); }
+}
+// 拖入音频（带句柄）：有待链接音源则绑定到它，否则新建
+async function dropAudioHandle(h) {
+  try {
+    if (pendingRebind.length) {
+      const s = pendingRebind.shift();
+      const meta = await STATIC.linkHandleToToken(s.file || s.id, h);
+      Object.assign(s, { channels: meta.channels, samplerate: meta.samplerate, duration_s: meta.duration_s, path: meta.path });
+      tlView = null; fillSourceList(); loadWaveform(); rtRebuild(); drawStage(); drawTimeline();
+      toast(pendingRebind.length ? ("已链接，还需 " + pendingRebind.length + " 个") : "音频已链接，工程可用了");
+    } else {
+      const meta = await STATIC.linkNewFromHandle(h);
+      S.sources = S.sources || []; if (!S.sources.find(x => x.id === meta.id)) S.sources.push(meta);
+      fillSourceList(); openRouteModal(meta);
+    }
+  } catch (e) { toast("链接失败：" + (e.message || e)); }
 }
 async function importFiles(files) {
   if (!files || !files.length) return;
@@ -3049,20 +3218,47 @@ function openXcorr() {
   loadWaveform();
   requestAnimationFrame(() => { drawXcTimeline(); computeXcorr(); });
 }
+let xcWorker = null;
+function makeXcorrWorker() {
+  const src = (typeof window !== "undefined") && window.__XCORR_WORKER_SRC__;
+  if (src) return new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
+  return new Worker("xcorr_worker.js");
+}
+function xcDone() { const rb = $("xcRecalc"); if (rb) { rb.classList.remove("on-m"); rb.textContent = "重算"; } }
+function abortXcorr() {
+  if (xcWorker) { try { xcWorker.terminate(); } catch (_) {} xcWorker = null; $("xcorrLegend").innerHTML = "<span class='muted'>已中止</span>"; xcDone(); }
+}
 async function computeXcorr() {
   if (!xcCtx || !xcView) return;
   const { a, b, maxlag } = xcCtx;
+  if (xcWorker) { try { xcWorker.terminate(); } catch (_) {} xcWorker = null; }
+  if (STATIC_MODE) {
+    // 在后台 Worker 计算，不阻塞主线程；附"中止"按钮
+    const ga = STATIC.getChannels(a.src, xcView.start, xcView.dur);
+    const gb = STATIC.getChannels(b.src, xcView.start, xcView.dur);
+    if (!ga || !gb) { $("xcorrLegend").innerHTML = `<span style="color:var(--bad)">音源缺失</span>`; return; }
+    const x = ga.channels[clamp(a.ch, 0, ga.channelsCount - 1)].slice();
+    const y = gb.channels[clamp(b.ch, 0, gb.channelsCount - 1)].slice();
+    $("xcorrLegend").innerHTML = "<span class='muted'>计算中…</span> <button id='xcAbort' class='icon ghost' style='margin-left:8px'>中止</button>";
+    const ab = $("xcAbort"); if (ab) ab.onclick = abortXcorr;
+    const w = makeXcorrWorker(); xcWorker = w;
+    w.onmessage = (e) => {
+      if (xcWorker !== w) return;                 // 已被新计算/中止取代
+      xcWorker = null; try { w.terminate(); } catch (_) {}
+      const d = e.data;
+      if (!d.ok || (d.result && d.result.error)) { $("xcorrLegend").innerHTML = `<span style="color:var(--bad)">计算失败：${(d.result && d.result.error) || d.error}</span>`; xcDone(); return; }
+      xcorrData = d.result; fillXcBandSel(); drawXcorr(); xcDone();
+    };
+    w.onerror = (err) => { if (xcWorker !== w) return; xcWorker = null; $("xcorrLegend").innerHTML = `<span style="color:var(--bad)">计算失败：${err.message || "worker"}</span>`; xcDone(); };
+    w.postMessage({ x, y, maxlagMs: maxlag, bands: null }, [x.buffer, y.buffer]);
+    return;
+  }
+  // 服务器版：POST 已是异步
   $("xcorrLegend").innerHTML = "<span class='muted'>计算中…</span>";
   try {
-    const d = STATIC_MODE
-      ? STATIC.xcorr(a.src, a.ch, b.src, b.ch, xcView.start, xcView.dur, maxlag, null)
-      : await post("/api/xcorr", {
-        a: { src: a.src, ch: a.ch }, b: { src: b.src, ch: b.ch },
-        start_s: xcView.start, dur_s: xcView.dur, maxlag_ms: maxlag,
-      });
+    const d = await post("/api/xcorr", { a: { src: a.src, ch: a.ch }, b: { src: b.src, ch: b.ch }, start_s: xcView.start, dur_s: xcView.dur, maxlag_ms: maxlag });
     if (d.error) { $("xcorrLegend").innerHTML = `<span style="color:var(--bad)">计算失败：${d.error}</span>`; toast("失败：" + d.error); return; }
-    xcorrData = d; fillXcBandSel(); drawXcorr();
-    const rb = $("xcRecalc"); if (rb) { rb.classList.remove("on-m"); rb.textContent = "重算"; }
+    xcorrData = d; fillXcBandSel(); drawXcorr(); xcDone();
   } catch (e) { $("xcorrLegend").innerHTML = `<span style="color:var(--bad)">计算失败：${e.message}</span>`; toast("失败：" + e.message); }
 }
 function markXcStale() {   // 选区已改但未重算：提示需要手动重算
@@ -3127,6 +3323,7 @@ function setupXcTimeline() {
   cv.addEventListener("pointercancel", () => { drag = null; });
 }
 function closeXcorr() {
+  if (xcWorker) { try { xcWorker.terminate(); } catch (_) {} xcWorker = null; }
   $("xcorrOverlay").style.display = "none";
 }
 function drawXcorr() {
@@ -3304,7 +3501,7 @@ async function init() {
   setupDelayDrag();
   setupXcTimeline();
   setupXcHover();
-  $("importBtn").onclick = () => $("importFile").click();
+  $("importBtn").onclick = STATIC_MODE ? importNewSource : () => $("importFile").click();
   $("importFile").onchange = (e) => { importFiles(e.target.files); e.target.value = ""; };
   $("saveProjBtn").onclick = saveProject;
   $("loadProjBtn").onclick = STATIC_MODE
@@ -3318,7 +3515,17 @@ async function init() {
   const dh = $("dropHint");
   document.addEventListener("dragover", (e) => { if (e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files")) { e.preventDefault(); dh.style.display = "flex"; } });
   document.addEventListener("dragleave", (e) => { if (e.clientX <= 0 || e.clientY <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) dh.style.display = "none"; });
-  document.addEventListener("drop", (e) => { e.preventDefault(); dh.style.display = "none"; if (e.dataTransfer && e.dataTransfer.files.length) importFiles(e.dataTransfer.files); });
+  document.addEventListener("drop", async (e) => {
+    e.preventDefault(); dh.style.display = "none";
+    const dt = e.dataTransfer; if (!dt) return;
+    const files = dt.files;
+    if (files && files.length && /\.(jmix|json)$/i.test(files[0].name)) { loadProjectFromFile(files[0]); return; }
+    if (STATIC_MODE && dt.items && dt.items.length) {        // 拖入尽量取句柄(可持久链接)
+      const h = await STATIC.handleFromDataTransferItem(dt.items[0]);
+      if (h) { dropAudioHandle(h); return; }
+    }
+    if (files && files.length) importFiles(files);
+  });
   ["start_s", "duration_s"].forEach(id => $(id).addEventListener("change", async () => {
     syncTopFields(); saveMem(); drawTimeline();
     if (RT.playing) { try { await RT.play(S); setPlayBtn(true); } catch (_) {} }
