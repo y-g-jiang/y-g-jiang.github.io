@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f6f8fa" />
     <title>README - 姜尧耕</title>
+    <script>
+        // Apply the persisted / system theme before first paint to avoid a flash.
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var theme = (stored === 'light' || stored === 'dark')
+                    ? stored
+                    : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) { /* storage unavailable — fall back to CSS media query */ }
+        })();
+    </script>
     <script defer src="https://cn.vercount.one/js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -60,9 +72,9 @@
   }
 }
     </script>
-  <script type="module" crossorigin src="/assets/main-BMHx2Gbs.js"></script>
+  <script type="module" crossorigin src="/assets/main-C2OSxHgo.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/client-DVmB7U-o.js">
-  <link rel="stylesheet" crossorigin href="/assets/main-TMqBcwq9.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-CN_QbUg_.css">
 </head>
 <body class="min-h-screen antialiased selection:bg-[#9bb9d6]/40 selection:text-stone-900">
     <div style="display: none !important;">
