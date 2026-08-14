@@ -225,12 +225,12 @@
       "sourceUrl": null,
       "license": null,
       "sourceSha256": "8f3726a70ddaf17159bd5515ba754ef3a82bddd0672bfac780c1dcebe490988f",
-      "shellSha256": "6cd0b42e418dc207eb67e8a4a8b926f42cb04f07859446efbe61f211e4a89f84",
+      "shellSha256": "3ebba2831cfe3c1d5bc1a2d136c67d4f6a2d1cd954fa47c7174f41f0c57b2ebc",
       "originalBytes": 119822894,
       "rawBytes": 118888390,
       "shellPayloadBytes": 168038,
-      "packageBytes": 197934,
-      "shellRatio": 0.0016518879939588173,
+      "packageBytes": 197952,
+      "shellRatio": 0.0016520382156685349,
       "width": 11648,
       "height": 8736,
       "bitsPerSample": 16,
@@ -271,12 +271,12 @@
       "sourceUrl": null,
       "license": null,
       "sourceSha256": "63c9641c2259445d73cbd80c0e2f9fcce2d3f9cc557f783febf3d6a92705a76b",
-      "shellSha256": "875c45ad38dfaca0e1ce072a60ba731125a403f0f52ce4114906818dcf5b1df8",
+      "shellSha256": "388d2e868dad0c9f8e53a38048e55d1b91a8cfff2128b247ff38558b8e5f7bda",
       "originalBytes": 69253952,
       "rawBytes": 68216198,
-      "shellPayloadBytes": 138390,
-      "packageBytes": 154667,
-      "shellRatio": 0.0022333310306969917,
+      "shellPayloadBytes": 138363,
+      "packageBytes": 154713,
+      "shellRatio": 0.0022339952527185743,
       "width": 8280,
       "height": 6208,
       "bitsPerSample": 16,
@@ -308,12 +308,12 @@
       "sourceUrl": null,
       "license": null,
       "sourceSha256": "b3630540085629cf6181aef2f3715b947429ee84542153fc776816c819c98dbd",
-      "shellSha256": "3ef3e04e476a6ab5cbdb29a2679539c885a26a72d2aa452b8f2c7d7fc8ce22fa",
+      "shellSha256": "2d2863f7db31091f624d1c3977bd0b788a8c5a7de8d011bbab111c6bce61cb01",
       "originalBytes": 25953616,
       "rawBytes": 24973633,
-      "shellPayloadBytes": 203380,
-      "packageBytes": 212133,
-      "shellRatio": 0.008173543139422267,
+      "shellPayloadBytes": 203356,
+      "packageBytes": 212223,
+      "shellRatio": 0.008177010864304998,
       "width": 5920,
       "height": 3950,
       "bitsPerSample": 16,
@@ -392,23 +392,23 @@
       "keptBytesExact": 168038,
       "removedBytesZero": true,
       "originalSize": 119822894,
-      "packageSize": 197934
+      "packageSize": 197952
     },
     {
       "source": "50a233d825524badba383d48a58dcb49.dng",
       "shell": "Hasselblad-X1D.dngshell",
-      "keptBytesExact": 138390,
+      "keptBytesExact": 138363,
       "removedBytesZero": true,
       "originalSize": 69253952,
-      "packageSize": 154667
+      "packageSize": 154713
     },
     {
       "source": "f6a19e13f43f42399ab7a94d0ec07ea8.dng",
       "shell": "Canon-EOS-5D-Mark-III.dngshell",
-      "keptBytesExact": 203380,
+      "keptBytesExact": 203356,
       "removedBytesZero": true,
       "originalSize": 25953616,
-      "packageSize": 212133
+      "packageSize": 212223
     }
   ]
 }
