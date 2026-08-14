@@ -1,0 +1,40 @@
+DNG Shell Lab codec provenance
+==============================
+
+Generated assets:
+  joraw.js
+  SHA-256 459CAACBB02F0CC27BAFE072063E32A9F307E17A4618CDD7F2CCC165CF132DCB
+
+  joraw.wasm
+  SHA-256 2B93D656E93C74EBC8862B8AD1777DBBFD243519F0E39C0F1A5FF69B8268A37A
+
+Built from unmodified upstream LibRaw:
+  https://github.com/LibRaw/LibRaw
+  commit e419de08001de28ae6988ecb22df47e52b9c5eaa (2026-07-18)
+  reports itself as 0.22.0-Release
+
+Toolchain:
+  emcc 6.0.6 (ce75e06884093bcefb86a6b8fd56a5d62a4cc245)
+
+Build inputs, both in this repository:
+  ../../codec-build/joraw_wrapper.cpp   the embind wrapper (the only code
+                                        added on top of LibRaw)
+  ../../codec-build/build.sh            the exact build, reproducible from a
+                                        LibRaw checkout and an emsdk install
+
+The wrapper links LibRaw statically. LibRaw is offered upstream under CDDL 1.0
+or LGPL 2.1; copies of both license texts are included beside these assets. The
+wrapper itself adds no third-party code. Everything LGPL 2.1 section 6 asks for
+when distributing a statically linked work is present here: the complete
+corresponding LibRaw source is the upstream commit named above, the wrapper
+source and the build script are in this repository, and relinking against a
+different LibRaw only requires pointing build.sh at another checkout.
+
+Build notes:
+  - lcms2 is not linked. The wrapper never calls dcraw_process(), so colour
+    management is never reached.
+  - zlib and libjpeg come from emscripten's own ports (-sUSE_ZLIB=1,
+    -sUSE_LIBJPEG=1); both are needed to read compressed DNGs.
+  - LibRaw's *_ph.cpp placeholder sources are excluded, matching upstream's
+    Makefile.am. Compiling them alongside the real implementations produces
+    duplicate symbols.

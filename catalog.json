@@ -1,0 +1,313 @@
+{
+  "format": "DNGSHL1-catalog",
+  "generatedFrom": "raw.pixls.us CC0 camera-native DNG samples",
+  "shellCount": 6,
+  "featured": [
+    "SONY_ILCE-7M5",
+    "Panasonic_DC-S1RM2",
+    "LEICA-Q2"
+  ],
+  "shells": [
+    {
+      "id": "DJI_FC6310_DJI_0220",
+      "file": "DJI_FC6310_DJI_0220.dngshell",
+      "make": "DJI",
+      "model": "FC6310",
+      "uniqueCameraModel": "FC6310",
+      "sourceFileName": "DJI_FC6310_DJI_0220.DNG",
+      "sourceUrl": "https://raw.pixls.us/data/DJI/FC6310/DJI_0220.DNG",
+      "license": "CC0",
+      "sourceSha256": "6d10b59405200c84d0a7f1e317bfc2ef5a592f042ba3072b7208dc10da611bda",
+      "shellSha256": "67351f65be64e9ef3633a1ab3c6c8e41e9dae863f713ea8ccf43fd07d3d7ee49",
+      "originalBytes": 40196555,
+      "rawBytes": 39923712,
+      "shellPayloadBytes": 272843,
+      "packageBytes": 274452,
+      "shellRatio": 0.006827749293440694,
+      "width": 5472,
+      "height": 3648,
+      "compression": 1,
+      "compressionName": "NONE",
+      "storage": "strips",
+      "storageSegmentCount": 1,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "00010102"
+      },
+      "blackLevel": [
+        3198,
+        1,
+        3193,
+        1,
+        3193,
+        1,
+        3198,
+        1
+      ],
+      "whiteLevel": 65535,
+      "bitsPerSample": 16
+    },
+    {
+      "id": "DJI_Osmo_Action_DJI_0254",
+      "file": "DJI_Osmo_Action_DJI_0254.dngshell",
+      "make": "DJI",
+      "model": "DJI Osmo Action",
+      "uniqueCameraModel": "DJI Osmo Action",
+      "sourceFileName": "DJI_Osmo_Action_DJI_0254.DNG",
+      "sourceUrl": "https://raw.pixls.us/data/DJI/DJI%20Osmo%20Action/DJI_0254.DNG",
+      "license": "CC0",
+      "sourceSha256": "c05a4b112936c9ac110af241ca9e1bda089f7456b647f8a13595b604cbdf944c",
+      "shellSha256": "00ed59827c7d8c32a7caab66b3658d3125823ed3fa9adf247dea74ac69ca8ce5",
+      "originalBytes": 24692969,
+      "rawBytes": 24000000,
+      "shellPayloadBytes": 692969,
+      "packageBytes": 694802,
+      "shellRatio": 0.028137645173409484,
+      "width": 4000,
+      "height": 3000,
+      "compression": 1,
+      "compressionName": "NONE",
+      "storage": "strips",
+      "storageSegmentCount": 1,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "00010102"
+      },
+      "blackLevel": [
+        4095,
+        1,
+        4095,
+        1,
+        4095,
+        1,
+        4095,
+        1
+      ],
+      "whiteLevel": 65520,
+      "bitsPerSample": 16
+    },
+    {
+      "id": "PENTAX_K-r_IMGP4425",
+      "file": "PENTAX_K-r_IMGP4425.dngshell",
+      "make": "PENTAX",
+      "model": "PENTAX K-r",
+      "uniqueCameraModel": "PENTAX K-r",
+      "sourceFileName": "PENTAX_K-r_IMGP4425.DNG",
+      "sourceUrl": "https://raw.pixls.us/data/PENTAX/PENTAX%20K-r/IMGP4425.DNG",
+      "license": "CC0",
+      "sourceSha256": "adc5c155341543e2e5c6de9c0ce87c86cc4629fe90a0f6e68fdf685dcd531b64",
+      "shellSha256": "5a49dc484475faec939057da123afa7c3b38d93d368e30261bbdcd8e562fdea2",
+      "originalBytes": 13397743,
+      "rawBytes": 11759827,
+      "shellPayloadBytes": 1637916,
+      "packageBytes": 1639575,
+      "shellRatio": 0.12237695558124977,
+      "width": 4352,
+      "height": 2868,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "strips",
+      "storageSegmentCount": 1,
+      "byteOrder": "big",
+      "cfaPattern": {
+        "hex": "02010100"
+      },
+      "blackLevel": [
+        64,
+        63,
+        63,
+        64
+      ],
+      "whiteLevel": 4030,
+      "bitsPerSample": 12
+    },
+    {
+      "id": "SONY_ILCE-7M5",
+      "file": "SONY_ILCE-7M5.dngshell",
+      "make": "SONY",
+      "model": "ILCE-7M5",
+      "uniqueCameraModel": "Sony ILCE-7M5",
+      "sourceFileName": "d2410c15ceba47558d750e4f989946e3.dng",
+      "sourceUrl": null,
+      "license": null,
+      "sourceSha256": "c292f4750958affd0950adc37fcfcd6ee8341d7d694a419f26daf2c2e2b4811d",
+      "shellSha256": "313e5a33330cb34039ee1f680ae9409ff76f971c7ff62d07a95301d2dcc2a3ec",
+      "originalBytes": 34130494,
+      "rawBytes": 33120398,
+      "shellPayloadBytes": 216773,
+      "packageBytes": 228436,
+      "shellRatio": 0.006693017686764217,
+      "width": 7030,
+      "height": 4684,
+      "bitsPerSample": 16,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "tiles",
+      "storageSegmentCount": 532,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "00010102"
+      },
+      "blackLevel": [
+        131072,
+        256,
+        131072,
+        256,
+        131072,
+        256,
+        131072,
+        256
+      ],
+      "blackLevelRepeatDim": [
+        2,
+        2
+      ],
+      "whiteLevel": [
+        16383
+      ],
+      "removedPreviewBytes": 793021
+    },
+    {
+      "id": "Panasonic_DC-S1RM2",
+      "file": "Panasonic_DC-S1RM2.dngshell",
+      "make": "Panasonic",
+      "model": "DC-S1RM2",
+      "uniqueCameraModel": "Panasonic DC-S1RM2",
+      "sourceFileName": "d4a8d616d37245a8b12c559d2140cc8f.dng",
+      "sourceUrl": null,
+      "license": null,
+      "sourceSha256": "c058c81b6b6cdd332043545400273987a70f710e5d5a4377271e2c5145684b55",
+      "shellSha256": "2f3dd64735344019fbf4470b478693e0416bd921695b1e18acca6cd781a13cbf",
+      "originalBytes": 48760338,
+      "rawBytes": 46961896,
+      "shellPayloadBytes": 975711,
+      "packageBytes": 989717,
+      "shellRatio": 0.020297582842842474,
+      "width": 8152,
+      "height": 5428,
+      "bitsPerSample": 16,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "tiles",
+      "storageSegmentCount": 704,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "00010102"
+      },
+      "blackLevel": [
+        131072,
+        256,
+        131072,
+        256,
+        131072,
+        256,
+        131072,
+        256
+      ],
+      "blackLevelRepeatDim": [
+        2,
+        2
+      ],
+      "whiteLevel": [
+        16380
+      ],
+      "removedPreviewBytes": 822365
+    },
+    {
+      "id": "LEICA-Q2",
+      "file": "LEICA-Q2.dngshell",
+      "make": "LEICA CAMERA AG",
+      "model": "LEICA Q2",
+      "uniqueCameraModel": "LEICA Q2",
+      "sourceFileName": "7025aafa3f8e4a70b8dd7212df0437e9_1.dng",
+      "sourceUrl": null,
+      "license": null,
+      "sourceSha256": "8581511fd6203b9758c59f35ccdfb3c94206ad9cc1a55d23952a142ca533f1d8",
+      "shellSha256": "42787b5084e4a9acccd27775f0b1cfd787ffce77fe315c007ccca09079e4c622",
+      "originalBytes": 51279976,
+      "rawBytes": 50342891,
+      "shellPayloadBytes": 167503,
+      "packageBytes": 182149,
+      "shellRatio": 0.0035520492443288196,
+      "width": 8424,
+      "height": 5632,
+      "bitsPerSample": 16,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "tiles",
+      "storageSegmentCount": 726,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "01020001"
+      },
+      "blackLevel": [
+        131072,
+        256,
+        131072,
+        256,
+        131072,
+        256,
+        131072,
+        256
+      ],
+      "blackLevelRepeatDim": [
+        2,
+        2
+      ],
+      "whiteLevel": [
+        16383
+      ],
+      "removedPreviewBytes": 768958
+    }
+  ],
+  "validations": [
+    {
+      "source": "DJI_FC6310_DJI_0220.DNG",
+      "shell": "DJI_FC6310_DJI_0220.dngshell",
+      "keptBytesExact": 272843,
+      "removedBytesZero": true,
+      "originalSize": 40196555,
+      "packageSize": 274452
+    },
+    {
+      "source": "DJI_Osmo_Action_DJI_0254.DNG",
+      "shell": "DJI_Osmo_Action_DJI_0254.dngshell",
+      "keptBytesExact": 692969,
+      "removedBytesZero": true,
+      "originalSize": 24692969,
+      "packageSize": 694802
+    },
+    {
+      "source": "PENTAX_K-r_IMGP4425.DNG",
+      "shell": "PENTAX_K-r_IMGP4425.dngshell",
+      "keptBytesExact": 1637916,
+      "removedBytesZero": true,
+      "originalSize": 13397743,
+      "packageSize": 1639575
+    },
+    {
+      "source": "d2410c15ceba47558d750e4f989946e3.dng",
+      "shell": "SONY_ILCE-7M5.dngshell",
+      "keptBytesExact": 216773,
+      "removedBytesZero": true,
+      "originalSize": 34130494,
+      "packageSize": 228436
+    },
+    {
+      "source": "d4a8d616d37245a8b12c559d2140cc8f.dng",
+      "shell": "Panasonic_DC-S1RM2.dngshell",
+      "keptBytesExact": 975711,
+      "removedBytesZero": true,
+      "originalSize": 48760338,
+      "packageSize": 989717
+    },
+    {
+      "source": "7025aafa3f8e4a70b8dd7212df0437e9_1.dng",
+      "shell": "LEICA-Q2.dngshell",
+      "keptBytesExact": 167503,
+      "removedBytesZero": true,
+      "originalSize": 51279976,
+      "packageSize": 182149
+    }
+  ]
+}
