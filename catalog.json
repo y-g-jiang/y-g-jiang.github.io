@@ -1,11 +1,13 @@
 {
   "format": "DNGSHL1-catalog",
   "generatedFrom": "raw.pixls.us CC0 camera-native DNG samples",
-  "shellCount": 6,
+  "shellCount": 8,
   "featured": [
-    "SONY_ILCE-7M5",
-    "Panasonic_DC-S1RM2",
-    "LEICA-Q2"
+    "FUJIFILM_GFX-100",
+    "Hasselblad-X1D",
+    "Canon-EOS-5D-Mark-III",
+    "LEICA-Q2",
+    "SONY_ILCE-7M5"
   ],
   "shells": [
     {
@@ -168,52 +170,6 @@
       "removedPreviewBytes": 793021
     },
     {
-      "id": "Panasonic_DC-S1RM2",
-      "file": "Panasonic_DC-S1RM2.dngshell",
-      "make": "Panasonic",
-      "model": "DC-S1RM2",
-      "uniqueCameraModel": "Panasonic DC-S1RM2",
-      "sourceFileName": "d4a8d616d37245a8b12c559d2140cc8f.dng",
-      "sourceUrl": null,
-      "license": null,
-      "sourceSha256": "c058c81b6b6cdd332043545400273987a70f710e5d5a4377271e2c5145684b55",
-      "shellSha256": "2f3dd64735344019fbf4470b478693e0416bd921695b1e18acca6cd781a13cbf",
-      "originalBytes": 48760338,
-      "rawBytes": 46961896,
-      "shellPayloadBytes": 975711,
-      "packageBytes": 989717,
-      "shellRatio": 0.020297582842842474,
-      "width": 8152,
-      "height": 5428,
-      "bitsPerSample": 16,
-      "compression": 7,
-      "compressionName": "JPEG",
-      "storage": "tiles",
-      "storageSegmentCount": 704,
-      "byteOrder": "little",
-      "cfaPattern": {
-        "hex": "00010102"
-      },
-      "blackLevel": [
-        131072,
-        256,
-        131072,
-        256,
-        131072,
-        256,
-        131072,
-        256
-      ],
-      "blackLevelRepeatDim": [
-        2,
-        2
-      ],
-      "whiteLevel": [
-        16380
-      ],
-      "removedPreviewBytes": 822365
-    },
-    {
       "id": "LEICA-Q2",
       "file": "LEICA-Q2.dngshell",
       "make": "LEICA CAMERA AG",
@@ -258,6 +214,135 @@
         16383
       ],
       "removedPreviewBytes": 768958
+    },
+    {
+      "id": "FUJIFILM_GFX-100",
+      "file": "FUJIFILM_GFX-100.dngshell",
+      "make": "FUJIFILM",
+      "model": "GFX 100",
+      "uniqueCameraModel": "Fujifilm GFX 100",
+      "sourceFileName": "2bdea7c286824b9f887b6645b22735be.dng",
+      "sourceUrl": null,
+      "license": null,
+      "sourceSha256": "8f3726a70ddaf17159bd5515ba754ef3a82bddd0672bfac780c1dcebe490988f",
+      "shellSha256": "6cd0b42e418dc207eb67e8a4a8b926f42cb04f07859446efbe61f211e4a89f84",
+      "originalBytes": 119822894,
+      "rawBytes": 118888390,
+      "shellPayloadBytes": 168038,
+      "packageBytes": 197934,
+      "shellRatio": 0.0016518879939588173,
+      "width": 11648,
+      "height": 8736,
+      "bitsPerSample": 16,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "tiles",
+      "storageSegmentCount": 1610,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "01020001"
+      },
+      "blackLevel": [
+        65536,
+        256,
+        65536,
+        256,
+        65792,
+        256,
+        65792,
+        256
+      ],
+      "blackLevelRepeatDim": [
+        2,
+        2
+      ],
+      "whiteLevel": [
+        65535
+      ],
+      "removedPreviewBytes": 765657
+    },
+    {
+      "id": "Hasselblad-X1D",
+      "file": "Hasselblad-X1D.dngshell",
+      "make": "Hasselblad",
+      "model": "Hasselblad X1D",
+      "uniqueCameraModel": "Hasselblad 50-15-Coated5",
+      "sourceFileName": "50a233d825524badba383d48a58dcb49.dng",
+      "sourceUrl": null,
+      "license": null,
+      "sourceSha256": "63c9641c2259445d73cbd80c0e2f9fcce2d3f9cc557f783febf3d6a92705a76b",
+      "shellSha256": "875c45ad38dfaca0e1ce072a60ba731125a403f0f52ce4114906818dcf5b1df8",
+      "originalBytes": 69253952,
+      "rawBytes": 68216198,
+      "shellPayloadBytes": 138390,
+      "packageBytes": 154667,
+      "shellRatio": 0.0022333310306969917,
+      "width": 8280,
+      "height": 6208,
+      "bitsPerSample": 16,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "tiles",
+      "storageSegmentCount": 825,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "00010102"
+      },
+      "blackLevel": [
+        1028,
+        1
+      ],
+      "blackLevelRepeatDim": [],
+      "whiteLevel": [
+        65535
+      ],
+      "removedPreviewBytes": 898790
+    },
+    {
+      "id": "Canon-EOS-5D-Mark-III",
+      "file": "Canon-EOS-5D-Mark-III.dngshell",
+      "make": "Canon",
+      "model": "Canon EOS 5D Mark III",
+      "uniqueCameraModel": "Canon EOS 5D Mark III",
+      "sourceFileName": "f6a19e13f43f42399ab7a94d0ec07ea8.dng",
+      "sourceUrl": null,
+      "license": null,
+      "sourceSha256": "b3630540085629cf6181aef2f3715b947429ee84542153fc776816c819c98dbd",
+      "shellSha256": "3ef3e04e476a6ab5cbdb29a2679539c885a26a72d2aa452b8f2c7d7fc8ce22fa",
+      "originalBytes": 25953616,
+      "rawBytes": 24973633,
+      "shellPayloadBytes": 203380,
+      "packageBytes": 212133,
+      "shellRatio": 0.008173543139422267,
+      "width": 5920,
+      "height": 3950,
+      "bitsPerSample": 16,
+      "compression": 7,
+      "compressionName": "JPEG",
+      "storage": "tiles",
+      "storageSegmentCount": 384,
+      "byteOrder": "little",
+      "cfaPattern": {
+        "hex": "00010102"
+      },
+      "blackLevel": [
+        524032,
+        256,
+        524032,
+        256,
+        524288,
+        256,
+        524288,
+        256
+      ],
+      "blackLevelRepeatDim": [
+        2,
+        2
+      ],
+      "whiteLevel": [
+        15000
+      ],
+      "removedPreviewBytes": 776385
     }
   ],
   "validations": [
@@ -294,20 +379,36 @@
       "packageSize": 228436
     },
     {
-      "source": "d4a8d616d37245a8b12c559d2140cc8f.dng",
-      "shell": "Panasonic_DC-S1RM2.dngshell",
-      "keptBytesExact": 975711,
-      "removedBytesZero": true,
-      "originalSize": 48760338,
-      "packageSize": 989717
-    },
-    {
       "source": "7025aafa3f8e4a70b8dd7212df0437e9_1.dng",
       "shell": "LEICA-Q2.dngshell",
       "keptBytesExact": 167503,
       "removedBytesZero": true,
       "originalSize": 51279976,
       "packageSize": 182149
+    },
+    {
+      "source": "2bdea7c286824b9f887b6645b22735be.dng",
+      "shell": "FUJIFILM_GFX-100.dngshell",
+      "keptBytesExact": 168038,
+      "removedBytesZero": true,
+      "originalSize": 119822894,
+      "packageSize": 197934
+    },
+    {
+      "source": "50a233d825524badba383d48a58dcb49.dng",
+      "shell": "Hasselblad-X1D.dngshell",
+      "keptBytesExact": 138390,
+      "removedBytesZero": true,
+      "originalSize": 69253952,
+      "packageSize": 154667
+    },
+    {
+      "source": "f6a19e13f43f42399ab7a94d0ec07ea8.dng",
+      "shell": "Canon-EOS-5D-Mark-III.dngshell",
+      "keptBytesExact": 203380,
+      "removedBytesZero": true,
+      "originalSize": 25953616,
+      "packageSize": 212133
     }
   ]
 }
