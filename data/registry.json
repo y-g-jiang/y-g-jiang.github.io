@@ -265,6 +265,31 @@
       }
     },
     {
+      "id": "leica-m11m__iso125__mech",
+      "csv": "collect/m11m-mech-20260820/ptc-iso125.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/m11m-mech-20260820/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Leica",
+        "model": "M11 Monochrom",
+        "heightPx": 6328,
+        "pixelPitchUm": null
+      },
+      "iso": 125,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "喵",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-20"
+      }
+    },
+    {
       "id": "fujifilm-gfx100__iso100__mech",
       "csv": "collect/gfx100-mech-20260816/ptc-iso100.csv",
       "blackLevelFrom": {
@@ -296,6 +321,7 @@
     {
       "id": "canon-r62__iso100__mech",
       "csv": "collect/r62-mech-20260813/ptc-iso100.csv",
+      "chartNote": "数据点波动因为 prescaling",
       "blackLevelFrom": {
         "darkCsv": "collect/r62-mech-20260813/dark-scalars.csv"
       },
@@ -350,6 +376,7 @@
     {
       "id": "sony-a7rm4a__iso100__mech",
       "csv": "collect/a7rm4a-mech-20260820/ptc-iso100.csv",
+      "chartNote": "数据点波动因为 prescaling",
       "blackLevelFrom": {
         "darkCsv": "collect/a7rm4a-mech-20260820/dark-scalars.csv"
       },
