@@ -163,13 +163,16 @@
       "files": {
         "dark": "dark-scalars.csv",
         "gain": "gain-levels.csv",
+        "ptc": {
+          "125": "ptc-iso125.csv"
+        },
         "spectrumH": "spectrum-h.csv",
         "spectrumV": "spectrum-v.csv"
       },
       "notes": [
         "原始增益表有两个更高的 ISO 档都被 16-bit ISO 字段截成 65535，已经无法可靠区分。按拍摄者要求，接入副本从暗场、增益表和两方向噪声谱中完整删除 ISO50000 与 ISO65535，只保留到 ISO25000。",
         "本机为单色传感器，四个 2x2 位置的 LibRaw ColorIndex 均为 6。分析层按位置 C00/C01/C11/C10 映射到内部 R/G1/G2/B 槽；所有跨机读噪仍只取 G1，即 C01。",
-        "所附 ISO125 PTC 表的曝光和文件名有效，但 jptc-collect 0.1.4 未给 ColorIndex=6 写出任何通道均值或标准差。这个单色映射问题已在 0.1.6 修复；原表仍只作为来源记录，不注册为可拟合 PTC，也不会进入 RNIR，需用原来的全部成对 DNG 重新分析后再补绝对增益。"
+        "ISO125 PTC 已由 jptc-collect 0.1.6 按单色位置映射重新分析并注册。16 个曝光对覆盖 8 秒至 1/4000 秒；最亮 3 对饱和，差分拟合自动不纳入。旧 0.1.4 空通道表仅保留为来源审计。"
       ]
     },
     {
