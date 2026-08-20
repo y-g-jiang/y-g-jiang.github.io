@@ -1,0 +1,60 @@
+#Format: JPTC-DARK/1
+#Tool: jptc-collect 0.1.0
+#Decoder: LibRaw 0.22.2-Release
+#Generated: 2026-08-16T16:06:33.306Z
+#
+# Every value below is as measured. No correction of any kind has been
+# applied: not Sheppard, not the /sqrt(2) on a difference, nothing that can
+# be recomputed from these numbers. The one irreversible step is the sigma
+# clip, whose inputs are all recorded here.
+#
+#Camera: Fujifilm GFX 100
+#ImageWidth: 11648
+#ImageHeight: 8736
+#ImagePixels: 101756928
+#Firmware: 
+#Lens: 无镜头，机身盖
+#ShutterType: 机械快门
+#Compression: 无压缩
+#LongExposureNR: off (declared)
+#Stabilisation: off (declared)
+#
+#
+#Provenance: this dark table was not written by the app. The submission
+# arrived as a PTC table on its own, and its four dark RAFs (DSCF8728-8731)
+# came separately, so they were run through jptc-collect's own analyseDarkPair
+# and its own writeDarkScalarCsv on 2026-08-17 -- the same code the app runs,
+# so the numbers are the app's rather than a reimplementation of them.
+# Two pairs were shot; this is the FIRST (8728+8729), not an average, because
+# averaging would state a measurement neither pair made. The second pair
+# (8730+8731) gives black 256.206 against 256.182 and sigma_diff/sqrt(2)
+# 4.284 against 4.311 DN, which is how far apart two pairs of this camera are.
+# Crop 512x512, matching the PTC, so the black level is measured on the same
+# pixels the curve is.
+#AdcStep: 1
+#LinearisationCurve: identity
+#CfaPattern: RGBG
+#CfaOrder: C00,C01,C10,C11 by position in the 2x2 cell, not by colour name
+#RawSize: 11662x8746
+#CropMosaic: 512x512
+#PlanePerChannel: undefinedxundefined
+#
+#ClipSigma: 3.5
+#ClipVarianceFactor: undefined
+# StdDiff columns are the standard deviation of A-B itself. Not halved, not
+# divided by sqrt(2). StdDiffClipped is the same after the sigma clip; the
+# unclipped value is kept beside it so the clip can be judged.
+#
+# ShutterSec is what LibRaw resolved the shutter to, and which EXIF field it
+# took depends on the camera: ExposureTime normally, ShutterSpeedValue when
+# that is missing, and for some vendors a maker-note field instead. It is also
+# a float, so a stored 10/2500 comes back as 0.004000000189989805 -- that tail
+# is float32 rounding, not information from the camera.
+# ExposureTimeExif (0x829A) and ShutterApexExif (0x9201, APEX, t = 2^-v) are
+# therefore recorded verbatim as the fractions the file holds, empty when the
+# camera wrote no such field. Which of them to trust is an analysis decision.
+ISO,ShutterSec,ExposureTimeExif,ShutterApexExif,Channel,ColorIndex,N,FileA,FileB,BlackA,BlackB,StdA,StdB,StdAMasked,StdDiff,StdDiffClipped,DiffMean,Rejected,WithinRowVarSingle,WithinColVarSingle,WithinRowVarDiff,WithinColVarDiff
+100,0.0010000000474974513,,,C00,0,65536,DSCF8728.RAF,DSCF8729.RAF,256.18186950683594,256.1737518310547,5.168814612715215,5.1492835915360216,4.461599601593489,7.3212934603353315,6.0967553202743,0.00811767578125,786,,,,
+100,0.0010000000474974513,,,C01,1,65536,DSCF8728.RAF,DSCF8729.RAF,255.94546508789062,255.96853637695312,5.2270068445282005,5.230155827170934,4.540549232064784,7.312294027813827,6.055371866979787,-0.0230712890625,760,,,,
+100,0.0010000000474974513,,,C10,3,65536,DSCF8728.RAF,DSCF8729.RAF,256.2213439941406,256.25738525390625,5.132942604302581,5.036881486145175,4.410711850684668,7.114579447822474,5.888852770624476,-0.036041259765625,816,,,,
+100,0.0010000000474974513,,,C11,2,65536,DSCF8728.RAF,DSCF8729.RAF,256.51487731933594,256.58811950683594,5.119443835984685,5.13312680205474,4.444547468421623,7.107207934984958,5.914007408866159,-0.0732421875,792,,,,

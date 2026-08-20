@@ -1,0 +1,333 @@
+{
+  "sets": [
+    {
+      "id": "s5m2-mech-20260812",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S5 II"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "bitDepth": 14,
+        "compression": "lossless",
+        "lens": "none-bodycap"
+      },
+      "measuredAt": "2026-08-12",
+      "tester": "姜尧耕",
+      "dir": "s5m2-mech-20260812",
+      "pixels": 24000000,
+      "pixelsNote": "6000x4000, stated: this set predates the collector asking for the JPEG size, so its files carry no #ImagePixels. Its #RawSize is 6008x4008 and the registry has heightPx 4000, both consistent.",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "gain": "gain-levels.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv",
+          "640": "ptc-iso640.csv",
+          "12800": "ptc-iso12800.csv"
+        }
+      }
+    },
+    {
+      "id": "s5m2-mech-12bit-20260820",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S5 II"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "bitDepth": 12,
+        "compression": "12bit",
+        "lens": "1840mf"
+      },
+      "measuredAt": "2026-08-20",
+      "tester": "姜尧耕",
+      "dir": "s5m2-mech-12bit-20260820",
+      "gainFromSet": "s5m2-mech-20260812",
+      "ptcFromSet": "s5m2-mech-20260812",
+      "pixels": 24000000,
+      "pixelsNote": "6000x4000；由 S5 II 的 RawSize 6008x4008、CropMosaic 5900x3900 及既有机身数据核正。压缩包内 8144x5424 是误沿用的其他机型尺寸。",
+      "files": {
+        "dark": "Panasonic-DC-S5M2_iso100-51200_机械快门_12bit_dark_20260820_scalars.csv",
+        "spectrumH": "Panasonic-DC-S5M2_iso100-51200_机械快门_12bit_dark_20260820_spectrum-h.csv",
+        "spectrumV": "Panasonic-DC-S5M2_iso100-51200_机械快门_12bit_dark_20260820_spectrum-v.csv"
+      },
+      "notes": [
+        "拍摄者确认本组实际为 S5 II 机械快门 12-bit；重新提供的压缩包文件名和内部模式表头误写成电子快门 14bit。当前暗场和两方向噪声谱均采用这批新测量，先前给错的三张测量表已删除。",
+        "包内 Camera 和 RawSize 为 Panasonic DC-S5M2、6008x4008；其中 8144x5424/44173056 是误沿用尺寸，接入副本核正为 6000x4000/24MP。除快门、位深和尺寸表头外，所有测量行保持原样。",
+        "实际为 12-bit 读出但文件使用约 511 DN 黑电平的 14-bit 封装标尺，与既有 S5 II 标定表的 DN 单位一致；因此复用同机身实测增益阶梯和 ISO100 差分 PTC时不做 ×4 换算。"
+      ]
+    },
+    {
+      "id": "s1r2-mech-20260812",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1R II"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "lens": "none-bodycap"
+      },
+      "measuredAt": "2026-08-12",
+      "tester": "姜尧耕",
+      "dir": "s1r2-mech-20260812",
+      "calibrationOnly": true,
+      "files": {
+        "dark": [
+          "dark-scalars.csv",
+          "dark-iso80-scalars.csv"
+        ],
+        "gain": "gain-levels.csv",
+        "ptc": {
+          "80": "ptc-iso80.csv",
+          "400": "ptc-iso400.csv",
+          "3200": "ptc-iso3200.csv"
+        },
+        "gainLinks": [
+          "gain-iso80-160-levels.csv"
+        ]
+      }
+    },
+    {
+      "id": "s1r2-elec-12bit-20260820",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1R II"
+      },
+      "mode": {
+        "shutter": "电子快门",
+        "bitDepth": 12,
+        "compression": "12bit",
+        "lens": "1840mf"
+      },
+      "measuredAt": "2026-08-20",
+      "tester": "姜尧耕",
+      "dir": "s1r2-elec-12bit-20260820",
+      "gainFromSet": "s1r2-mech-20260812",
+      "ptcFromSet": "s1r2-mech-20260812",
+      "ptcGainScale": 4,
+      "pixels": 44173056,
+      "pixelsNote": "8144x5424，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "Panasonic-DC-S1RM2_iso80-51200_电子快门_12bit_dark_20260820_scalars.csv"
+      },
+      "notes": [
+        "S1R II 的旧机械、旧 12-bit 与旧 14-bit 暗场数值已全部退出 RNIR。当前 12-bit 曲线的每个 ISO 噪声值只来自 2026-08-20 这一份标量 CSV；机械组仅作为隐藏的实测 ISO 增益阶梯和 ISO 80 差分 PTC 标定源。12-bit 的 DN 比 14-bit 标尺小 4 倍，因此 PTC 的 e⁻/DN 按 4 倍换算。没有使用标称快门预测。"
+      ]
+    },
+    {
+      "id": "s1r2-elec-14bit-20260820",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1R II"
+      },
+      "mode": {
+        "shutter": "电子快门",
+        "bitDepth": 14,
+        "compression": "14bit",
+        "lens": "1840mf"
+      },
+      "measuredAt": "2026-08-20",
+      "tester": "姜尧耕",
+      "dir": "s1r2-elec-14bit-20260820",
+      "gainFromSet": "s1r2-mech-20260812",
+      "ptcFromSet": "s1r2-mech-20260812",
+      "pixels": 44173056,
+      "pixelsNote": "8144x5424，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "Panasonic-DC-S1RM2_iso80-51200_电子快门_14bit_dark_20260820_scalars.csv"
+      },
+      "notes": [
+        "S1R II 的旧机械、旧 12-bit 与旧 14-bit 暗场数值已全部退出 RNIR。当前 14-bit 曲线的每个 ISO 噪声值只来自 2026-08-20 这一份标量 CSV；机械组仅作为隐藏的实测 ISO 增益阶梯和 ISO 80 差分 PTC 标定源。两者均为 14-bit DN 标尺，不做倍率换算。没有使用标称快门预测。"
+      ]
+    },
+    {
+      "id": "gfx100-mech-20260816",
+      "camera": {
+        "brand": "Fujifilm",
+        "model": "GFX 100"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "compression": "无压缩",
+        "lens": "白纸"
+      },
+      "measuredAt": "2026-08-16",
+      "tester": "姜尧耕",
+      "dir": "gfx100-mech-20260816",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv"
+        }
+      },
+      "notes": [
+        "PTC only. No gain ladder and no spectra were shot, so this set cannot join the RNIR comparison, which needs a ladder to carry one measured gain to every other ISO.",
+        "The dark table was built here from four RAFs that travelled separately, through the collector's own analyseDarkPair and writeDarkScalarCsv. Provenance is in that file's own header.",
+        "The exposure ladder is irregular -- 0.32, 1.0, 1.0, 2.0 EV between the top levels -- rather than the 2/3 EV the shooting guide asks for, and the four brightest frames are fully clipped. The brightest usable exposure reaches about 72% of full scale, so the top of the curve, which is where gain is best measured, is not covered."
+      ]
+    },
+    {
+      "id": "r62-mech-20260813",
+      "camera": {
+        "brand": "Canon",
+        "model": "EOS R6 Mark II"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "lens": "none-bodycap",
+        "firmware": "1.5.0"
+      },
+      "measuredAt": "2026-08-13",
+      "tester": "姜尧耕",
+      "dir": "r62-mech-20260813",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "gain": "gain-levels.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv"
+        }
+      },
+      "notes": [
+        "ImageWidth/ImageHeight arrived swapped (4000x6000) and were transposed to 6000x4000 on ingest. Every curve is normalised by the height, so uncorrected this set would sit a factor of 1.5 off, with nothing in the numbers to show for it. The correction is recorded in each file's own header.",
+        "The gain ladder is 'mixed', but its paired-shutter links cannot be used: on 9 frames the recorded shutter is one third-stop shorter than the exposure the pixels show, and those are exactly the frames that share a shutter with the next ISO. Std/sqrt(level) on each of them matches its same-ISO neighbour to 0.4% and the next ISO to 2.7%, so the ISO label is right and the shutter label is wrong. Use the auto-shutter chain with those 9 dropped.",
+        "This body's second native ISO is 400: the black level steps 512 to 2048 there and input-referred read noise drops from 6.22 to 1.83 electrons. PTC was shot at ISO 100 only, so the interesting step is not measured. Worth asking for 400 and 3200.",
+        "CR3 carries no EXIF shutter through the collector -- ExposureTimeExif and ShutterApexExif are empty in every file -- because the reader walks TIFF IFDs and CR3 is ISO-BMFF. That is why nothing cross-checked the shutter."
+      ]
+    },
+    {
+      "id": "r5m2-mech-20260818",
+      "camera": {
+        "brand": "Canon",
+        "model": "EOS R5 Mark II"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "compression": "佳能raw",
+        "lens": "RF35VCM",
+        "firmware": "1.3.1"
+      },
+      "measuredAt": "2026-08-18",
+      "tester": "姜尧耕",
+      "dir": "r5m2-mech-20260818",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "gain": "gain-levels.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv"
+        }
+      }
+    },
+    {
+      "id": "a7rm4a-mech-20260820",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM4A"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "bitDepth": 14,
+        "compression": "无压缩",
+        "lens": "Viltrox AF 35 f1.8 EVO",
+        "firmware": "1.13"
+      },
+      "measuredAt": "2026-08-20",
+      "tester": "姜尧耕",
+      "dir": "a7rm4a-mech-20260820",
+      "nominalGain": true,
+      "ptcGainMethod": "single-fit",
+      "ptcFit": {
+        "readNoise": 1.5902,
+        "gain": 2.3,
+        "prnu": 0.1931,
+        "usedPoints": 38,
+        "note": "人工推荐：G1 读噪取 PTC 最暗点，kADC 固定为 2.3 e⁻/DN。"
+      },
+      "pixels": 60217344,
+      "pixelsNote": "9504x6336，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv"
+        }
+      },
+      "notes": [
+        "现有资料包含 ISO100 单帧 PTC、ISO100–25600 暗场和两方向噪声谱，但没有实测 ISO 增益阶梯。按用户明确要求，RNIR 的相对增益暂按 ISO/100 标称比例推算；ISO100 的绝对增益固定采用人工推荐的 G1 kADC 2.3 e⁻/DN。界面必须将其标为“标称 ISO 比例”，不得与实测阶梯混同。",
+        "PTC 原始导出中每个数据行完全重复两次；接入副本按原始行去重为 42 个独立曝光点。原 #ImageHeight 6376 是 RawSize 高度，按同批暗场给出的成像尺寸 9504x6336 更正为 6336。",
+        "推荐拟合已人工审核：G1 读噪取 PTC 最暗点 imgDSC02085.ARW 的 1.5902 DN，kADC 固定为 2.3 e⁻/DN，剩余参数拟合得到 PRNU 0.1931%。"
+      ]
+    },
+    {
+      "id": "a7rm6-elec-20260818",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM6"
+      },
+      "mode": {
+        "shutter": "电子快门",
+        "bitDepth": 14,
+        "compression": "无损压缩",
+        "lens": "2470GM2",
+        "firmware": "1.0.1"
+      },
+      "measuredAt": "2026-08-18",
+      "tester": "姜尧耕",
+      "dir": "a7rm6-elec-20260818",
+      "gainFromSet": "a7rm6-mech-20260818",
+      "pixels": 66453504,
+      "pixelsNote": "9984x6656，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv"
+        }
+      },
+      "notes": [
+        "电子快门集合包含完整暗场标量和水平/垂直噪声谱，但没有单独的 ISO 增益阶梯；RNIR 跨机比较复用同机身机械快门的增益比例，并以电子快门自己的 ISO100 PTC 标定绝对增益。",
+        "下载目录另有一份重复的机械暗场和一个只改了表头的“机械快门2”包；它们未作为新的集合接入。"
+      ]
+    },
+    {
+      "id": "a7rm6-mech-20260818",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM6"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "lens": "2470GM2",
+        "firmware": "1.0.1"
+      },
+      "measuredAt": "2026-08-18",
+      "tester": "姜尧耕",
+      "dir": "a7rm6-mech-20260818",
+      "pixels": 66453504,
+      "pixelsNote": "9984x6656，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "gain": "gain-levels.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv",
+        "ptc": {
+          "100": "ptc-iso100.csv"
+        }
+      },
+      "notes": [
+        "机械快门集合包含完整暗场、ISO 增益阶梯、水平/垂直噪声谱和 ISO100 PTC。增益表是 auto-shutter 链，ISO102400 的实测相对增益约为名义值的一半，页面保留实测结果。",
+        "正式接入的是表头标为“机械快门”的暗场；同目录的“机械快门2”只在 Generated/ShutterType 表头上不同，底层测量重复。"
+      ]
+    }
+  ]
+}

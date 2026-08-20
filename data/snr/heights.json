@@ -1,0 +1,2451 @@
+{
+ "sources": {
+  "CameraDatabase": "https://github.com/leavestylecode/CameraDatabase (Max. image resolution, stated)",
+  "dslr-model-spec-db": "https://github.com/jwillmer/dslr-model-spec-db (Max resolution, stated)",
+  "pixelpitch": "https://hletrd.github.io/pixelpitch/ (megapixels + sensor aspect, derived)"
+ },
+ "rule": "most corroboration within 2% wins, a stated source breaking ties; an uncorroborated stated value is kept and marked unconfirmed",
+ "note": "Stated image height in pixels. Cameras with no height stay per-pixel, which is the axis the SNR library was measured on.",
+ "generated": "2026-08-13T08:10:12.931Z",
+ "matched": 335,
+ "ofCameras": 397,
+ "tally": {
+  "agreed": 265,
+  "unconfirmed": 58,
+  "derived": 12
+ },
+ "overruled": [
+  {
+   "camera": "Konica Minolta DYNAX 5D",
+   "took": "2000 (CameraDatabase)",
+   "over": [
+    "2052 (pixelpitch (derived))"
+   ]
+  },
+  {
+   "camera": "Konica Minolta DYNAX 7D",
+   "took": "2000 (CameraDatabase)",
+   "over": [
+    "2052 (pixelpitch (derived))"
+   ]
+  },
+  {
+   "camera": "Olympus SP 570 UZ",
+   "took": "2736 (CameraDatabase)",
+   "over": [
+    "2841 (pixelpitch (derived))"
+   ]
+  }
+ ],
+ "unmatched": [
+  "Canon EOS 550D pre production",
+  "Canon EOS M2",
+  "DJI Phantom 4",
+  "DJI Phantom4 Pro",
+  "DJI Zenmuse X4S",
+  "DJI Zenmuse X5S",
+  "DJI Zenmuse X7",
+  "GoPro HERO5 Black",
+  "Hasselblad H3DII 39",
+  "Hasselblad H3DII 50",
+  "Leaf Aptus75S",
+  "Leica C",
+  "Leica S",
+  "Mamiya ZD Back",
+  "Nokia Lumia 1520",
+  "Olympus OM-D E-M10 Mark II",
+  "Panasonic Lumix DC-GX800",
+  "Panasonic Lumix DMC-ZS50",
+  "Phase One IQ180 Digital Back",
+  "Phase One P40 Plus",
+  "Phase One P45 Plus",
+  "Phase One P65 Plus",
+  "Pixii A1571",
+  "Pixii Max",
+  "Samsung Galaxy S6 Edge",
+  "Sony A7",
+  "Sony A7 II",
+  "Sony A7R",
+  "Sony A7R II",
+  "Sony A7S",
+  "Sony A7S II",
+  "Sony Alpha 100",
+  "Sony Alpha 200",
+  "Sony Alpha 230",
+  "Sony Alpha 290",
+  "Sony Alpha 300",
+  "Sony Alpha 330",
+  "Sony Alpha 350",
+  "Sony Alpha 380",
+  "Sony Alpha 390",
+  "Sony Alpha 450",
+  "Sony Alpha 500",
+  "Sony Alpha 550",
+  "Sony Alpha 560",
+  "Sony Alpha 580",
+  "Sony Alpha 700",
+  "Sony Alpha 850",
+  "Sony Alpha 900",
+  "Sony DSC-RX0",
+  "Sony SLT Alpha 33",
+  "Sony SLT Alpha 35",
+  "Sony SLT Alpha 37",
+  "Sony SLT Alpha 55",
+  "Sony SLT Alpha 57",
+  "Sony SLT Alpha 58",
+  "Sony SLT Alpha 65",
+  "Sony SLT Alpha 68",
+  "Sony SLT Alpha 77",
+  "Sony SLT Alpha 77 II",
+  "Sony SLT Alpha 99",
+  "Sony SLT Alpha 99 II",
+  "YUNEEC Breeze 4K"
+ ],
+ "heights": {
+  "canon__-eos-1d-x-mark-ii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__-eos-1d-x-mark-iii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-1000d": {
+   "height": 2592,
+   "width": 3888,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-100d": {
+   "height": 3458,
+   "width": 5175,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "canon__eos-10d": {
+   "height": 2048,
+   "width": 3072,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-1100d": {
+   "height": 2848,
+   "width": 4272,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1200d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1300d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1d-mark-ii": {
+   "height": 2336,
+   "width": 3504,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1d-mark-ii-n": {
+   "height": 2336,
+   "width": 3504,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1d-mark-iii": {
+   "height": 2592,
+   "width": 3888,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1d-mark-iv": {
+   "height": 3264,
+   "width": 4896,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1ds": {
+   "height": 2704,
+   "width": 4064,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-1ds-mark-ii": {
+   "height": 3328,
+   "width": 4992,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1ds-mark-iii": {
+   "height": 3744,
+   "width": 5616,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-1dx": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-2000d": {
+   "height": 4004,
+   "width": 5993,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "canon__eos-200d": {
+   "height": 4004,
+   "width": 5993,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "canon__eos-20d": {
+   "height": 2336,
+   "width": 3504,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-300d": {
+   "height": 2048,
+   "width": 3072,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-30d": {
+   "height": 2336,
+   "width": 3504,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-350d": {
+   "height": 2304,
+   "width": 3456,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-4000d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-400d": {
+   "height": 2592,
+   "width": 3888,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-40d": {
+   "height": 2592,
+   "width": 3888,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-450d": {
+   "height": 2848,
+   "width": 4272,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-500d": {
+   "height": 3168,
+   "width": 4752,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-50d": {
+   "height": 3168,
+   "width": 4752,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-550d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-5d": {
+   "height": 2912,
+   "width": 4368,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-5d-mark-ii": {
+   "height": 3744,
+   "width": 5616,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-5d-mark-iii": {
+   "height": 3840,
+   "width": 5760,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-5d-mark-iv": {
+   "height": 4480,
+   "width": 6720,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-5ds": {
+   "height": 5792,
+   "width": 8688,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-5ds-r": {
+   "height": 5792,
+   "width": 8688,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-600d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-60d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-650d": {
+   "height": 3458,
+   "width": 5175,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "canon__eos-6d": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-6d-mark-ii": {
+   "height": 4160,
+   "width": 6240,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-700d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-70d": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-750d": {
+   "height": 4004,
+   "width": 5993,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "canon__eos-760d": {
+   "height": 4004,
+   "width": 5993,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "canon__eos-77d": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-7d": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-7d-mark-ii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-80d": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-m": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-m10": {
+   "height": 3456,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-m100": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__eos-m3": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-m5": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-m6": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "canon__eos-r": {
+   "height": 4480,
+   "width": 6720,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-r3": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-r5": {
+   "height": 5464,
+   "width": 8192,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-r6": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-r8": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__eos-rp": {
+   "height": 4160,
+   "width": 6240,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-g1-x-mark-ii": {
+   "height": 3120,
+   "width": 4160,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-g10": {
+   "height": 3312,
+   "width": 4416,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-g11": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-g15": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g16": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g1x": {
+   "height": 3264,
+   "width": 4352,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g3-x": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g5-x": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g7-x": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g9": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-g9-x": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "canon__powershot-g9-x-mark-ii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-s100": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-s110": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-s120": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-s90": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-s95": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-sx50-hs": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "canon__powershot-sx60-hs": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "fujifilm__finepix-f550exr": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "fujifilm__finepix-f600exr": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "fujifilm__finepix-f800exr": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "fujifilm__finepix-s100fs": {
+   "height": 2880,
+   "width": 3840,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "fujifilm__finepix-s3-pro": {
+   "height": 2848,
+   "width": 4256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "fujifilm__finepix-s5-pro": {
+   "height": 2848,
+   "width": 4256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "fujifilm__finepix-x-s1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "fujifilm__finepix-x10": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "fujifilm__finepix-x100": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "fujifilm__xf1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "hasselblad__x1d-50c": {
+   "height": 6208,
+   "width": 8265,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "konica-minolta__dynax-5d": {
+   "height": 2000,
+   "width": 3008,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "konica-minolta__dynax-7d": {
+   "height": 2000,
+   "width": 3008,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "leica__m-typ-240": {
+   "height": 3976,
+   "width": 5952,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "leica__m-e-typ-220": {
+   "height": 3472,
+   "width": 5212,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "leica__m10": {
+   "height": 3992,
+   "width": 5952,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "leica__m11": {
+   "height": 6328,
+   "width": 9528,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "leica__m8": {
+   "height": 2630,
+   "width": 3936,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "leica__m9": {
+   "height": 3472,
+   "width": 5212,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "leica__m9-p": {
+   "height": 3516,
+   "width": 5270,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "leica__q-typ-116": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "leica__q2": {
+   "height": 5584,
+   "width": 8368,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "leica__sl-(typ-601)": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "leica__sl2-s": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "leica__t": {
+   "height": 3278,
+   "width": 4944,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "leica__x-vario": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__1-aw1": {
+   "height": 3072,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-j1": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-j2": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-j3": {
+   "height": 3072,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-j4": {
+   "height": 3488,
+   "width": 5232,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-j5": {
+   "height": 3712,
+   "width": 5568,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__1-s1": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-v1": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-v2": {
+   "height": 3072,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__1-v3": {
+   "height": 3488,
+   "width": 5232,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__coolpix-a": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p330": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p340": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p6000": {
+   "height": 3168,
+   "width": 4224,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p7000": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p7100": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p7700": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__coolpix-p7800": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__d200": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d2h": {
+   "height": 1632,
+   "width": 2464,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d2x": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d2xs": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3": {
+   "height": 2832,
+   "width": 4256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d300": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3000": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d300s": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3100": {
+   "height": 3072,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3200": {
+   "height": 4000,
+   "width": 6016,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3300": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3400": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3s": {
+   "height": 2832,
+   "width": 4256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d3x": {
+   "height": 4032,
+   "width": 6048,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d4": {
+   "height": 3280,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d40": {
+   "height": 2000,
+   "width": 3008,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d40x": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d4s": {
+   "height": 3280,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5": {
+   "height": 3712,
+   "width": 5568,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d50": {
+   "height": 2000,
+   "width": 3008,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d500": {
+   "height": 3712,
+   "width": 5568,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5000": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5100": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5200": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5300": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5500": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d5600": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d60": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d600": {
+   "height": 4016,
+   "width": 6016,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d610": {
+   "height": 4016,
+   "width": 6016,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d70": {
+   "height": 2000,
+   "width": 3008,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d700": {
+   "height": 2832,
+   "width": 4256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d7000": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d70s": {
+   "height": 2000,
+   "width": 3008,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d7100": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d7200": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d750": {
+   "height": 4016,
+   "width": 6016,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d7500": {
+   "height": 3712,
+   "width": 5568,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d80": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d800": {
+   "height": 4912,
+   "width": 7360,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d800e": {
+   "height": 4912,
+   "width": 7360,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d810": {
+   "height": 4912,
+   "width": 7360,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__d850": {
+   "height": 5504,
+   "width": 8256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__d90": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__df": {
+   "height": 3280,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "nikon__z6": {
+   "height": 4024,
+   "width": 6048,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__z6ii": {
+   "height": 4024,
+   "width": 6048,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__z7": {
+   "height": 5504,
+   "width": 8256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__z7ii": {
+   "height": 5504,
+   "width": 8256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__z8": {
+   "height": 5504,
+   "width": 8256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nikon__z9": {
+   "height": 5504,
+   "width": 8256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "nokia__lumia-1020": {
+   "height": 5360,
+   "width": 7136,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__e3": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e30": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e410": {
+   "height": 2736,
+   "width": 3648,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__e420": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e450": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e5": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e510": {
+   "height": 2736,
+   "width": 3648,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__e520": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e600": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__e620": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__om-d-e-m1": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__om-d-e-m1-mark-ii": {
+   "height": 3888,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__om-d-e-m10": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__om-d-e-m5": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__om-d-e-m5-mark-ii": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "olympus__pen-e-p5": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-e-pl5": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-e-pl7": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-e-pm2": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__pen-ep1": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-ep2": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-ep3": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-epl1": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-epl2": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-epl3": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-epm1": {
+   "height": 3024,
+   "width": 4032,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "olympus__pen-f": {
+   "height": 3888,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__sp-565-uz": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__sp-570-uz": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "olympus__stylus1": {
+   "height": 2976,
+   "width": 3968,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__xz-2-ihs": {
+   "height": 2976,
+   "width": 3968,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "olympus__xz1": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__dmc-fz28": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dc-gh5": {
+   "height": 3888,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dc-gh5-ii": {
+   "height": 3888,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dc-s1": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dc-s1r": {
+   "height": 5584,
+   "width": 8368,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dc-zs70": {
+   "height": 3888,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dcs5": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-fx150": {
+   "height": 3312,
+   "width": 4416,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-g1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-g10": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-g2": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-g3": {
+   "height": 3448,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-g5": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gf1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gf2": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gf3": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gf5": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gf6": {
+   "height": 3448,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gh1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gh2": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gx1": {
+   "height": 3448,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-l10": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-lx10": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-lx3": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-lx5": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-lx7": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-fz1000": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-fz150": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-fz200": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-fz2000": {
+   "height": 3651,
+   "width": 5476,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-fz330": {
+   "height": 2951,
+   "width": 4066,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-fz70": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-g6": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-g80": {
+   "height": 3446,
+   "width": 4586,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-gh3": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gh4": {
+   "height": 3456,
+   "width": 4608,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gm1": {
+   "height": 3448,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gm5": {
+   "height": 3448,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gx7": {
+   "height": 3448,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gx8": {
+   "height": 3888,
+   "width": 5184,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "panasonic__lumix-dmc-gx80": {
+   "height": 3446,
+   "width": 4586,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-lf1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-lx100": {
+   "height": 3088,
+   "width": 4112,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "panasonic__lumix-dmc-zs100": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "panasonic__lumix-dmc-zs60": {
+   "height": 3672,
+   "width": 4896,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "pentax__645d": {
+   "height": 5440,
+   "width": 7264,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__645z": {
+   "height": 6192,
+   "width": 8256,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-01": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-1": {
+   "height": 4912,
+   "width": 7360,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-3": {
+   "height": 4000,
+   "width": 6016,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-3-ii": {
+   "height": 4000,
+   "width": 6016,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "pentax__k-30": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-5-ii": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-5-iis": {
+   "height": 3264,
+   "width": 4928,
+   "source": "dslr-model-spec-db",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "pentax__k-50": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-500": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k-s1": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k10d": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k200d": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k20d": {
+   "height": 3120,
+   "width": 4672,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k5": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__k7": {
+   "height": 3104,
+   "width": 4672,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__km": {
+   "height": 2592,
+   "width": 3872,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__kr": {
+   "height": 2848,
+   "width": 4288,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "pentax__kx": {
+   "height": 2848,
+   "width": 4288,
+   "source": "dslr-model-spec-db",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "pentax__mx-1": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "pentax__q": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "pentax__q10": {
+   "height": 3000,
+   "width": 4000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "ricoh__gr": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "ricoh__gr-ii": {
+   "height": 3264,
+   "width": 4928,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "samsung__ex1": {
+   "height": 2736,
+   "width": 3648,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "samsung__ex2f": {
+   "height": 3043,
+   "width": 4075,
+   "source": "pixelpitch (derived)",
+   "confidence": "derived",
+   "agreeing": 1
+  },
+  "samsung__galaxy-nx": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__gx-20": {
+   "height": 3104,
+   "width": 4672,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx-10": {
+   "height": 3056,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "samsung__nx-100": {
+   "height": 3056,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "samsung__nx-1000": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx-11": {
+   "height": 3056,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "samsung__nx-20": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx-200": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx-210": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx-30": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx-300": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx1": {
+   "height": 4320,
+   "width": 6480,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx1100": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx2000": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "samsung__nx500": {
+   "height": 4320,
+   "width": 6480,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a1": {
+   "height": 5760,
+   "width": 8640,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a3000": {
+   "height": 3632,
+   "width": 5456,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a5000": {
+   "height": 3632,
+   "width": 5456,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a5100": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a6000": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a6300": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a6400": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a6500": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "sony__a6600": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a7-iii": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__a7c": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__a7iv": {
+   "height": 4672,
+   "width": 7008,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a7r-iii": {
+   "height": 5304,
+   "width": 7952,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a7r-iv": {
+   "height": 6336,
+   "width": 9504,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a7r-v": {
+   "height": 6336,
+   "width": 9504,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__a7siii": {
+   "height": 2832,
+   "width": 4240,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a9": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 3
+  },
+  "sony__a9-ii": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__a9-iii": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx100-iii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx1": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx10": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx10-ii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx100": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx100-ii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx100-iv": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx100-v": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx100-vii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx1r": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cyber-shot-dsc-rx1r-ii": {
+   "height": 5304,
+   "width": 7952,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__cybershot-dsc-rx10-iii": {
+   "height": 3648,
+   "width": 5472,
+   "source": "CameraDatabase",
+   "confidence": "unconfirmed",
+   "agreeing": 1
+  },
+  "sony__nex-3n": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-5n": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-5r": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-5t": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-6": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-7": {
+   "height": 4000,
+   "width": 6000,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-c3": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex-f3": {
+   "height": 3264,
+   "width": 4912,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex3": {
+   "height": 3056,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  },
+  "sony__nex5": {
+   "height": 3056,
+   "width": 4592,
+   "source": "CameraDatabase",
+   "confidence": "agreed",
+   "agreeing": 2
+  }
+ }
+}

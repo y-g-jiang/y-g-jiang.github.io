@@ -1,0 +1,52 @@
+#Format: JPTC-ISOGAIN/1
+#Tool: jptc-collect 0.1.0
+#Decoder: LibRaw 0.22.2-Release
+#Generated: 2026-08-12T15:36:28.071Z
+#
+# Every value below is as measured. No correction of any kind has been
+# applied, and no black level has been subtracted. The black level belongs
+# to the dark set, which is why that one is shot first.
+#
+#Camera: Panasonic DC-S1RM2
+#ImageWidth: 8144
+#ImageHeight: 5424
+#ImagePixels: 44173056
+#Firmware: 
+#Lens: none-bodycap
+#ShutterType: 机械快门
+#Compression: 无损压缩
+#LongExposureNR: off (declared)
+#Stabilisation: off (declared)
+#
+#AdcStep: 1
+#LinearisationCurve: identity
+#CfaPattern: RGBG
+#CfaOrder: C00,C01,C10,C11 by position in the 2x2 cell, not by colour name
+#RawSize: 8152x5432
+#SensorBlackTag: 512
+#SensorMaximum: 16319
+#Ladder: paired-shutter
+#CropMosaic: 8000x5000
+#PlanePerChannel: 4000x2500
+# ShutterSec is the NOMINAL time from the file. A mechanical shutter
+# departs from it systematically and unreadably, which is what the
+# paired-shutter ladder exists to sidestep.
+# ShutterSec is what LibRaw resolved the shutter to, and which EXIF field it
+# took depends on the camera: ExposureTime normally, ShutterSpeedValue when
+# that is missing, and for some vendors a maker-note field instead. It is also
+# a float, so a stored 10/2500 comes back as 0.004000000189989805 -- that tail
+# is float32 rounding, not information from the camera.
+# ExposureTimeExif (0x829A) and ShutterApexExif (0x9201, APEX, t = 2^-v) are
+# therefore recorded verbatim as the fractions the file holds, empty when the
+# camera wrote no such field. Which of them to trust is an analysis decision.
+#
+# g1/g2 = (t1/t2) * (Mean2 - BL2) / (Mean1 - BL1), with BL from the dark set.
+ISO,ShutterSec,ExposureTimeExif,ShutterApexExif,Aperture,ShutterGroup,File,Channel,ColorIndex,N,Mean,Std,ClipFrac
+80,0.625,10/16,,0,0.625000,P1019739.RW2,C00,0,10000000,1117.8012175,77.33943358696766,0
+80,0.625,10/16,,0,0.625000,P1019739.RW2,C01,1,10000000,1585.6614005,121.10550643684235,0
+80,0.625,10/16,,0,0.625000,P1019739.RW2,C10,3,10000000,1594.7030733,123.06064213307862,0
+80,0.625,10/16,,0,0.625000,P1019739.RW2,C11,2,10000000,1245.5195484,87.60650529683862,0
+160,0.625,10/16,,0,0.625000,P1019738.RW2,C00,0,10000000,1717.8939151,154.0025126548773,0
+160,0.625,10/16,,0,0.625000,P1019738.RW2,C01,1,10000000,2649.2003064,241.03792432989965,0
+160,0.625,10/16,,0,0.625000,P1019738.RW2,C10,3,10000000,2667.1419148,244.91369100916188,0
+160,0.625,10/16,,0,0.625000,P1019738.RW2,C11,2,10000000,1971.9575335,174.38598642071187,0

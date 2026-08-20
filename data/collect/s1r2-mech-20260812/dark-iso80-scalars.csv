@@ -1,0 +1,48 @@
+#Format: JPTC-DARK/1
+#Tool: jptc-collect 0.1.0
+#Decoder: LibRaw 0.22.2-Release
+#Generated: 2026-08-12T15:33:53.131Z
+#
+# Every value below is as measured. No correction of any kind has been
+# applied: not Sheppard, not the /sqrt(2) on a difference, nothing that can
+# be recomputed from these numbers. The one irreversible step is the sigma
+# clip, whose inputs are all recorded here.
+#
+#Camera: Panasonic DC-S1RM2
+#ImageWidth: 8144
+#ImageHeight: 5424
+#ImagePixels: 44173056
+#Firmware: 
+#Lens: none-bodycap
+#ShutterType: 机械快门
+#Compression: 无损压缩
+#LongExposureNR: off (declared)
+#Stabilisation: off (declared)
+#
+#AdcStep: 1
+#LinearisationCurve: identity
+#CfaPattern: RGBG
+#CfaOrder: C00,C01,C10,C11 by position in the 2x2 cell, not by colour name
+#RawSize: 8152x5432
+#CropMosaic: 8000x5000
+#PlanePerChannel: 4000x2500
+#
+#ClipSigma: 3.5
+#ClipVarianceFactor: 0.9938883771107201
+# StdDiff columns are the standard deviation of A-B itself. Not halved, not
+# divided by sqrt(2). StdDiffClipped is the same after the sigma clip; the
+# unclipped value is kept beside it so the clip can be judged.
+#
+# ShutterSec is what LibRaw resolved the shutter to, and which EXIF field it
+# took depends on the camera: ExposureTime normally, ShutterSpeedValue when
+# that is missing, and for some vendors a maker-note field instead. It is also
+# a float, so a stored 10/2500 comes back as 0.004000000189989805 -- that tail
+# is float32 rounding, not information from the camera.
+# ExposureTimeExif (0x829A) and ShutterApexExif (0x9201, APEX, t = 2^-v) are
+# therefore recorded verbatim as the fractions the file holds, empty when the
+# camera wrote no such field. Which of them to trust is an analysis decision.
+ISO,ShutterSec,ExposureTimeExif,ShutterApexExif,Channel,ColorIndex,N,FileA,FileB,BlackA,BlackB,StdA,StdB,StdAMasked,StdDiff,StdDiffClipped,DiffMean,Rejected,WithinRowVarSingle,WithinColVarSingle,WithinRowVarDiff,WithinColVarDiff
+80,0.004999999888241291,10/2000,,C00,0,10000000,P1019740.RW2,P1019741.RW2,511.5102124,511.5104678,2.8245564084846735,2.8246686926924816,2.772325093433576,3.9671147083004703,3.8525711302580112,-0.0002554,31175,7.92919049595001,7.930985311840009,15.651114871899985,15.731741023039994
+80,0.004999999888241291,10/2000,,C01,1,10000000,P1019740.RW2,P1019741.RW2,512.0182206,512.0239117,2.717605259837648,2.718055310246131,2.6777531652582685,3.8162586087222663,3.7318007778277784,-0.0056911,21526,7.337330888099995,7.340698868799993,14.47795424457501,14.558222420920012
+80,0.004999999888241291,10/2000,,C10,3,10000000,P1019740.RW2,P1019741.RW2,512.0020877,512.0077166,2.719039551152046,2.7182166934315837,2.6787461976627007,3.8163943810278833,3.7316767259144847,-0.0056289,21632,7.344211906075009,7.349708537240001,14.478075032774985,14.559116456119998
+80,0.004999999888241291,10/2000,,C11,2,10000000,P1019740.RW2,P1019741.RW2,511.5640309,511.56326,2.437934666534393,2.437395529485304,2.3930278941969547,3.420517311135382,3.3232314147535824,0.0007709,31986,5.892560403124989,5.911487195959984,11.634385593775018,11.69488020787997

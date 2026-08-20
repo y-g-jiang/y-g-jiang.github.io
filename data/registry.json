@@ -1,0 +1,524 @@
+{
+  "entries": [
+    {
+      "id": "panasonic-g9m2__iso100__mech",
+      "csv": "panasonic-g9m2-iso100-mech.csv",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "G9 II",
+        "heightPx": 4344,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "mechanical",
+        "compression": null,
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": "姜尧耕",
+        "measuredAt": null
+      },
+      "curatedFit": {
+        "readNoise": 9.892,
+        "gain": 0.4214,
+        "prnu": 0.817,
+        "dominantChannel": "G1",
+        "fitRange": {
+          "min": 0,
+          "max": 3
+        },
+        "satSignal": 63381,
+        "author": "姜尧耕",
+        "date": "2026-08-20",
+        "note": "G1 通道站长推荐拟合；拟合区间 0%–3%，用点 36。"
+      },
+      "recommended": {
+        "kind": "fit",
+        "reason": "站长复核后采用 G1 通道三参数拟合为推荐口径；读噪、增益、PRNU、DR 与曲线统一由该拟合给出。"
+      }
+    },
+    {
+      "id": "panasonic-s1m2__iso100__mech",
+      "csv": "panasonic-s1m2-iso100-mech.csv",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1 II",
+        "heightPx": 4000,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "机械快门",
+        "compression": null,
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": "姜尧耕",
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "主体按实测点连线；最后的纯黑点单独偏离 G1 拟合，不让它扭转暗端走势，暗端尾段沿 G1 拟合的读噪渐近线延伸；最亮实测点之后按 G1 拟合延伸到 0 EV。",
+        "darkTail": "fit"
+      }
+    },
+    {
+      "id": "panasonic-s1m2__iso100__electronic",
+      "csv": "panasonic-s1m2-iso100-electronic.csv",
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1 II",
+        "heightPx": 4000,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "电子快门",
+        "compression": null,
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "按实测点连线；不让三参数模型补全这条快门模式的未测区间。"
+      }
+    },
+    {
+      "id": "panasonic-s1r2__iso80__mech",
+      "csv": "collect/s1r2-mech-20260812/ptc-iso80.csv",
+      "blackLevelFrom": {
+        "darkCsv": [
+          "collect/s1r2-mech-20260812/dark-scalars.csv",
+          "collect/s1r2-mech-20260812/dark-iso80-scalars.csv"
+        ]
+      },
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1R II",
+        "heightPx": 5424,
+        "pixelPitchUm": null
+      },
+      "iso": 80,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-12"
+      }
+    },
+    {
+      "id": "panasonic-s1r2__iso400__mech",
+      "csv": "collect/s1r2-mech-20260812/ptc-iso400.csv",
+      "blackLevelFrom": {
+        "darkCsv": [
+          "collect/s1r2-mech-20260812/dark-scalars.csv",
+          "collect/s1r2-mech-20260812/dark-iso80-scalars.csv"
+        ]
+      },
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1R II",
+        "heightPx": 5424,
+        "pixelPitchUm": null
+      },
+      "iso": 400,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-12"
+      }
+    },
+    {
+      "id": "panasonic-s1r2__iso3200__mech",
+      "csv": "collect/s1r2-mech-20260812/ptc-iso3200.csv",
+      "blackLevelFrom": {
+        "darkCsv": [
+          "collect/s1r2-mech-20260812/dark-scalars.csv",
+          "collect/s1r2-mech-20260812/dark-iso80-scalars.csv"
+        ]
+      },
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S1R II",
+        "heightPx": 5424,
+        "pixelPitchUm": null
+      },
+      "iso": 3200,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-12"
+      }
+    },
+    {
+      "id": "panasonic-s5m2__iso100__mech",
+      "csv": "collect/s5m2-mech-20260812/ptc-iso100.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/s5m2-mech-20260812/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S5 II",
+        "heightPx": 4000,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-12"
+      },
+      "recommended": {
+        "kind": "fit",
+        "reason": "这台机器服从三参数模型，自动拟合即视为推荐口径，DR 也随之取自模型。"
+      }
+    },
+    {
+      "id": "panasonic-s5m2__iso640__mech",
+      "csv": "collect/s5m2-mech-20260812/ptc-iso640.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/s5m2-mech-20260812/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S5 II",
+        "heightPx": 4000,
+        "pixelPitchUm": null
+      },
+      "iso": 640,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-12"
+      },
+      "recommended": {
+        "kind": "fit",
+        "reason": "这台机器服从三参数模型，自动拟合即视为推荐口径，DR 也随之取自模型。"
+      }
+    },
+    {
+      "id": "panasonic-s5m2__iso12800__mech",
+      "csv": "collect/s5m2-mech-20260812/ptc-iso12800.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/s5m2-mech-20260812/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Panasonic",
+        "model": "S5 II",
+        "heightPx": 4000,
+        "pixelPitchUm": null
+      },
+      "iso": 12800,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-12"
+      },
+      "recommended": {
+        "kind": "fit",
+        "reason": "这台机器服从三参数模型，自动拟合即视为推荐口径，DR 也随之取自模型。"
+      }
+    },
+    {
+      "id": "fujifilm-gfx100__iso100__mech",
+      "csv": "collect/gfx100-mech-20260816/ptc-iso100.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/gfx100-mech-20260816/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Fujifilm",
+        "model": "GFX 100",
+        "heightPx": 8736,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-16"
+      },
+      "recommended": {
+        "kind": "fit",
+        "reason": "全自动拟合。这条曲线的暗端停在每像素 SNR 2.97（最暗一级 23.5 DN，读噪 5.17 DN），从未穿过任何一个动态范围判据，实测点云给不出交点；模型能给，代价是它是模型。补拍暗端两档之后应当复核这条判定。"
+      }
+    },
+    {
+      "id": "canon-r62__iso100__mech",
+      "csv": "collect/r62-mech-20260813/ptc-iso100.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/r62-mech-20260813/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Canon",
+        "model": "EOS R6 Mark II",
+        "heightPx": 4000,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-13"
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "低端有 prescaling 造成的波动，曲线在暗端不是三参数模型那种光滑形状。拟合会把这段波动当成截距和二次项去分摊，得到一个哪一段都不像的折中，所以只连线。"
+      }
+    },
+    {
+      "id": "canon-r5m2__iso100__mech",
+      "csv": "collect/r5m2-mech-20260818/ptc-iso100.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/r5m2-mech-20260818/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Canon",
+        "model": "EOS R5 Mark II",
+        "heightPx": 5464,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": null,
+        "shutter": "机械快门",
+        "compression": "佳能raw",
+        "gainMode": null
+      },
+      "source": {
+        "method": "jptc-collect",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-18"
+      }
+    },
+    {
+      "id": "sony-a7rm4a__iso100__mech",
+      "csv": "collect/a7rm4a-mech-20260820/ptc-iso100.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/a7rm4a-mech-20260820/dark-scalars.csv"
+      },
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM4A",
+        "heightPx": 6336,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "机械快门",
+        "compression": "无压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": "姜尧耕",
+        "measuredAt": "2026-08-20"
+      },
+      "curatedFit": {
+        "readNoise": 1.5902,
+        "gain": 2.3,
+        "prnu": 0.1931,
+        "dominantChannel": "G1",
+        "fitRange": {
+          "min": 0.01,
+          "max": 90
+        },
+        "satSignal": 15871,
+        "author": "姜尧耕",
+        "date": "2026-08-20",
+        "note": "读噪固定为 PTC 列表中最暗 G1 点 imgDSC02085.ARW 的 1.5902 DN；kADC 固定为 2.3 e⁻/DN；其余 38 个入选点只拟合 PRNU，得到 0.1931%。"
+      },
+      "recommended": {
+        "kind": "fit",
+        "reason": "按人工审核参数展示：G1 读噪取 PTC 列表最暗点 1.5902 DN，kADC 固定为 2.3 e⁻/DN，PRNU 在相同拟合区间内求得。"
+      }
+    },
+    {
+      "id": "sony-a7rm6__iso100__electronic",
+      "csv": "sony-a7rm6-iso100-electronic-new.csv",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM6",
+        "heightPx": 6656,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "电子快门",
+        "compression": null,
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "按实测点连线；不让三参数模型补全这条快门模式的未测区间。"
+      }
+    },
+    {
+      "id": "sony-a7rm6__iso100__mech",
+      "csv": "sony-a7rm6-iso100-mechanical-new.csv",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM6",
+        "heightPx": 6656,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "机械快门",
+        "compression": null,
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "按实测点连线；不让三参数模型补全这条快门模式的未测区间。"
+      }
+    },
+    {
+      "id": "sony-a7m5__iso100__electronic",
+      "csv": "sony-a7m5-iso100-electronic.csv",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7M5",
+        "heightPx": 4672,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "电子快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "按实测点连线；不让三参数模型补全这条快门模式的未测区间。"
+      }
+    },
+    {
+      "id": "sony-a7m5__iso100__mech",
+      "csv": "sony-a7m5-iso100-mechanical.csv",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7M5",
+        "heightPx": 4672,
+        "pixelPitchUm": null
+      },
+      "iso": 100,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "按实测点连线；不让三参数模型补全这条快门模式的未测区间。"
+      }
+    },
+    {
+      "id": "sony-a7rm6__iso640__mech",
+      "csv": "sony-a7rm6-iso640-mechanical.csv",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM6",
+        "heightPx": 6656,
+        "pixelPitchUm": null
+      },
+      "iso": 640,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "按实测点连线；不让三参数模型补全这条快门模式的未测区间。"
+      }
+    }
+  ]
+}
