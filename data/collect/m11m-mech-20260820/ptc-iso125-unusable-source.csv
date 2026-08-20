@@ -1,0 +1,69 @@
+#Format: JPTC/2
+#Tool: jptc-collect 0.1.4
+#Decoder: LibRaw 0.22.2-Release
+#Generated: 2026-08-20T17:02:20.036Z
+#
+# Every value below is as measured. No correction of any kind has been
+# applied, and no black level has been subtracted. The black level belongs
+# to the dark set, which is why that one is shot first.
+#
+#Camera: Leica M11 Monochrom
+#ImageWidth: 9528
+#ImageHeight: 6328
+#ImagePixels: 60293184
+#Firmware: 2.6.1
+#Lens: none-bodycap
+#ShutterType: 机械快门
+#Compression: 喵
+#LongExposureNR: off (declared)
+#Stabilisation: off (declared)
+#
+#AdcStep: 1
+#LinearisationCurve: identity
+#CfaPattern: GMCY
+#CfaOrder: C00,C01,C10,C11 by position in the 2x2 cell, not by colour name
+#RawSize: 9536x6336
+#SensorBlackTag: 1023
+#SensorMaximum: 16383
+#Pairing: Differential
+#CropMosaic: 512x512
+#PlanePerChannel: 256x256
+#ISO: 125
+#ClipSigma: 3.5
+#ClipVarianceFactor: 0.9938883771107201
+#ChannelOrder: R,G1,G2,B by colour. G1 shares its row with red.
+# Levels are raw. No black level has been subtracted, and none is quoted:
+# the black level is a measurement of its own and lives in the dark set,
+# which travels in the same submission. Joining the two is an analysis
+# step, and doing it here would make one entry depend on another having
+# been processed first -- a rule the person shooting should not have to know.
+# StdDiff is the standard deviation of A-B. Not halved, not corrected.
+# StdDiffClipped is the same after the sigma clip; the unclipped value is
+# kept beside it so the clip can be judged rather than trusted.
+#
+# ShutterSec uses the standard ExposureTime in seconds when present, then
+# ShutterSpeedValue converted from APEX, then LibRaw as a fallback. For
+# example, Leica may store both 1/80 and an APEX value that converts to
+# 1/80.56. These are camera records, not a measurement of shutter travel.
+# ExposureTimeExif (0x829A) and ShutterApexExif (0x9201, APEX, t = 2^-v) are
+# therefore recorded verbatim as the fractions the file holds, empty when the
+# camera wrote no such field, so the selected value remains auditable.
+# The two frames of a pair are grouped on an identical ShutterSec, so the
+# fractions below are the ones frame A holds.
+ISO,ShutterSec,ExposureTimeExif,ShutterApexExif,Aperture,Filename,FileB,N,R_Mean,G1_Mean,G2_Mean,B_Mean,R_Std,G1_Std,G2_Std,B_Std,R_MeanB,G1_MeanB,G2_MeanB,B_MeanB,R_StdB,G1_StdB,G2_StdB,B_StdB,R_StdMasked,G1_StdMasked,G2_StdMasked,B_StdMasked,R_StdDiff,G1_StdDiff,G2_StdDiff,B_StdDiff,R_StdDiffClipped,G1_StdDiffClipped,G2_StdDiffClipped,B_StdDiffClipped,R_DiffOffset,G1_DiffOffset,G2_DiffOffset,B_DiffOffset,R_Rejected,G1_Rejected,G2_Rejected,B_Rejected,R_ClipFrac,G1_ClipFrac,G2_ClipFrac,B_ClipFrac
+125,8,8/1,-768/256,6.797479993109203,L1008713.DNG,L1008714.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,4,4/1,-512/256,2.799171731190392,L1008715.DNG,L1008716.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,2,2/1,-256/256,3.3635856610148585,L1008717.DNG,L1008718.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,1,1/1,0/256,2.378414230005442,L1008719.DNG,L1008720.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.5,1/2,256/256,2.378414230005442,L1008721.DNG,L1008722.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.25,1/4,512/256,2.378414230005442,L1008723.DNG,L1008724.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.125,1/8,768/256,2.378414230005442,L1008725.DNG,L1008726.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.0666667,1/15,1024/256,2.378414230005442,L1008727.DNG,L1008728.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.0333333,1/30,1280/256,2.378414230005442,L1008729.DNG,L1008730.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.0166667,1/60,1536/256,2.378414230005442,L1008731.DNG,L1008732.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.008,1/125,1792/256,2.378414230005442,L1008733.DNG,L1008734.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.004,1/250,2048/256,3.3635856610148585,L1008735.DNG,L1008736.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.002,1/500,2304/256,4,L1008737.DNG,L1008738.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.001,1/1000,2560/256,4,L1008739.DNG,L1008740.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.0005,1/2000,2816/256,4,L1008741.DNG,L1008742.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+125,0.00025,1/4000,3072/256,4,L1008743.DNG,L1008744.DNG,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

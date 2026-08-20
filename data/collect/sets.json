@@ -144,6 +144,35 @@
       ]
     },
     {
+      "id": "m11m-mech-20260820",
+      "camera": {
+        "brand": "Leica",
+        "model": "M11 Monochrom"
+      },
+      "mode": {
+        "shutter": "机械快门",
+        "compression": "喵",
+        "lens": "none-bodycap",
+        "firmware": "2.6.1"
+      },
+      "measuredAt": "2026-08-20",
+      "tester": "姜尧耕",
+      "dir": "m11m-mech-20260820",
+      "pixels": 60293184,
+      "pixelsNote": "9528x6328，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "gain": "gain-levels.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv"
+      },
+      "notes": [
+        "原始增益表有两个更高的 ISO 档都被 16-bit ISO 字段截成 65535，已经无法可靠区分。按拍摄者要求，接入副本从暗场、增益表和两方向噪声谱中完整删除 ISO50000 与 ISO65535，只保留到 ISO25000。",
+        "本机为单色传感器，四个 2x2 位置的 LibRaw ColorIndex 均为 6。分析层按位置 C00/C01/C11/C10 映射到内部 R/G1/G2/B 槽；所有跨机读噪仍只取 G1，即 C01。",
+        "所附 ISO125 PTC 表的曝光和文件名有效，但 jptc-collect 0.1.4 未给 ColorIndex=6 写出任何通道均值或标准差。这个单色映射问题已在 0.1.6 修复；原表仍只作为来源记录，不注册为可拟合 PTC，也不会进入 RNIR，需用原来的全部成对 DNG 重新分析后再补绝对增益。"
+      ]
+    },
+    {
       "id": "gfx100-mech-20260816",
       "camera": {
         "brand": "Fujifilm",
@@ -296,6 +325,36 @@
       "notes": [
         "电子快门集合包含完整暗场标量和水平/垂直噪声谱，但没有单独的 ISO 增益阶梯；RNIR 跨机比较复用同机身机械快门的增益比例，并以电子快门自己的 ISO100 PTC 标定绝对增益。",
         "下载目录另有一份重复的机械暗场和一个只改了表头的“机械快门2”包；它们未作为新的集合接入。"
+      ]
+    },
+    {
+      "id": "a7rm6-elec-srhq-20260820",
+      "camera": {
+        "brand": "Sony",
+        "model": "ILCE-7RM6"
+      },
+      "mode": {
+        "shutter": "电子快门",
+        "compression": "SRHQ (RAW HQ)",
+        "lens": "SEL50F12GM",
+        "firmware": "1.0.1"
+      },
+      "measuredAt": "2026-08-20",
+      "tester": "姜尧耕",
+      "dir": "a7rm6-elec-srhq-20260820",
+      "gainFromSet": "a7rm6-mech-20260818",
+      "ptcFromSet": "a7rm6-mech-20260818",
+      "ptcGainScale": 0.5,
+      "pixels": 66453504,
+      "pixelsNote": "9984x6656，取自 collector 表头的 ImagePixels。",
+      "files": {
+        "dark": "dark-scalars.csv",
+        "spectrumH": "spectrum-h.csv",
+        "spectrumV": "spectrum-v.csv"
+      },
+      "notes": [
+        "本组是 A7R6 电子快门 SRHQ（文件头写作 RAW HQ）的独立暗场和两方向噪声谱，保留 ISO100–32000 的全部实测 DN 数值，不覆盖普通电子快门曲线。",
+        "按拍摄者明确标定，本模式同 ISO 下的转换增益 e⁻/ADU 是普通机械快门的 1/2。RNIR 复用同机身机械快门的实测 ISO 增益比例和 PTC，并只在绝对增益锚点应用 ×0.5；暗场 RN(DN) 不做额外缩放。"
       ]
     },
     {
