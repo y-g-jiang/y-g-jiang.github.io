@@ -393,6 +393,9 @@
     {
       "id": "sony-a7rm6__iso100__electronic",
       "csv": "sony-a7rm6-iso100-electronic-new.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/a7rm6-elec-20260818/dark-scalars.csv"
+      },
       "camera": {
         "brand": "Sony",
         "model": "ILCE-7RM6",
@@ -419,6 +422,9 @@
     {
       "id": "sony-a7rm6__iso100__mech",
       "csv": "sony-a7rm6-iso100-mechanical-new.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/a7rm6-mech-20260818/dark-scalars.csv"
+      },
       "camera": {
         "brand": "Sony",
         "model": "ILCE-7RM6",
@@ -497,6 +503,9 @@
     {
       "id": "sony-a7rm6__iso640__mech",
       "csv": "sony-a7rm6-iso640-mechanical.csv",
+      "blackLevelFrom": {
+        "darkCsv": "collect/a7rm6-mech-20260818/dark-scalars.csv"
+      },
       "camera": {
         "brand": "Sony",
         "model": "ILCE-7RM6",
