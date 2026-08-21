@@ -118,7 +118,7 @@
       "source": {
         "method": "jptc-collect",
         "tester": "姜尧耕",
-        "measuredAt": "2026-08-12"
+        "measuredAt": "2026-08-21"
       }
     },
     {
@@ -146,7 +146,7 @@
       "source": {
         "method": "jptc-collect",
         "tester": "姜尧耕",
-        "measuredAt": "2026-08-12"
+        "measuredAt": "2026-08-21"
       }
     },
     {
@@ -174,7 +174,7 @@
       "source": {
         "method": "jptc-collect",
         "tester": "姜尧耕",
-        "measuredAt": "2026-08-12"
+        "measuredAt": "2026-08-21"
       }
     },
     {
@@ -199,7 +199,7 @@
       "source": {
         "method": "jptc-collect",
         "tester": "姜尧耕",
-        "measuredAt": "2026-08-12"
+        "measuredAt": "2026-08-21"
       },
       "recommended": {
         "kind": "fit",
@@ -228,7 +228,7 @@
       "source": {
         "method": "jptc-collect",
         "tester": "姜尧耕",
-        "measuredAt": "2026-08-12"
+        "measuredAt": "2026-08-21"
       },
       "recommended": {
         "kind": "fit",
@@ -257,7 +257,7 @@
       "source": {
         "method": "jptc-collect",
         "tester": "姜尧耕",
-        "measuredAt": "2026-08-12"
+        "measuredAt": "2026-08-21"
       },
       "recommended": {
         "kind": "fit",
@@ -319,7 +319,7 @@
       },
       "recommended": {
         "kind": "line",
-        "reason": "2026-08-21 按 PRNU 边界重组：最终版序列只负责 -7 EV 以上亮端；较早的同批序列只从标称 -7 EV 档（DSCF8822/8823，实测约 -6.98 EV）起替换暗端，共保留 14 组原始配对。两次测量的 PRNU 不同，禁止混合 -7 EV 以上的亮部点。D55 目标由 G1 实测点直接夹住，主图连接 G1 实测点，不用整条自动拟合曲线代替实测主体。G1 暗场读噪仍同时报告钟形核心 4.28 DN 与总长尾 5.20 DN；最亮实测点以后按自动拟合延拓到 0 EV。"
+        "reason": "2026-08-21 新版本替换最亮 11 档，PRNU 与亮端模型直接使用低频矫正后的 G1_Std；旧表最后 3 个暗部点保持不变，共保留 14 组配对。G1 暗场读噪仍同时报告钟形核心 4.28 DN 与总长尾 5.20 DN。主图连接 G1 实测点，最亮实测点以后按这次自动拟合延拓到 0 EV。"
       }
     },
     {
