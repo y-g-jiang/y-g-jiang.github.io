@@ -401,7 +401,7 @@
       "curatedFit": {
         "readNoise": 1.5902,
         "gain": 2.3,
-        "prnu": 0.1931,
+        "prnu": 0.378,
         "dominantChannel": "G1",
         "fitRange": {
           "min": 0.01,
@@ -409,12 +409,12 @@
         },
         "satSignal": 15871,
         "author": "姜尧耕",
-        "date": "2026-08-20",
-        "note": "读噪固定为 PTC 列表中最暗 G1 点 imgDSC02085.ARW 的 1.5902 DN；kADC 固定为 2.3 e⁻/DN；其余 38 个入选点只拟合 PRNU，得到 0.1931%。"
+        "date": "2026-08-21",
+        "note": "人工推荐：读噪固定为 PTC 列表中最暗 G1 点 imgDSC02085.ARW 的 1.5902 DN；kADC 固定为 2.3 e⁻/DN；PRNU 固定为 0.378%。"
       },
       "recommended": {
         "kind": "fit",
-        "reason": "按人工审核参数展示：G1 读噪取 PTC 列表最暗点 1.5902 DN，kADC 固定为 2.3 e⁻/DN，PRNU 在相同拟合区间内求得。"
+        "reason": "按人工审核参数展示：G1 读噪取 PTC 列表最暗点 1.5902 DN，kADC 固定为 2.3 e⁻/DN，PRNU 固定为 0.378%。"
       }
     },
     {

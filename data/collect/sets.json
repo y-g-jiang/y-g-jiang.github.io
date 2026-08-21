@@ -278,9 +278,9 @@
       "ptcFit": {
         "readNoise": 1.5902,
         "gain": 2.3,
-        "prnu": 0.1931,
+        "prnu": 0.378,
         "usedPoints": 38,
-        "note": "人工推荐：G1 读噪取 PTC 最暗点，kADC 固定为 2.3 e⁻/DN。"
+        "note": "人工推荐：G1 读噪取 PTC 最暗点，kADC 固定为 2.3 e⁻/DN，PRNU 固定为 0.378%。"
       },
       "pixels": 60217344,
       "pixelsNote": "9504x6336，取自 collector 表头的 ImagePixels。",
@@ -295,7 +295,7 @@
       "notes": [
         "现有资料包含 ISO100 单帧 PTC、ISO100–25600 暗场和两方向噪声谱，但没有实测 ISO 增益阶梯。按用户明确要求，RNIR 的相对增益暂按 ISO/100 标称比例推算；ISO100 的绝对增益固定采用人工推荐的 G1 kADC 2.3 e⁻/DN。界面必须将其标为“标称 ISO 比例”，不得与实测阶梯混同。",
         "PTC 原始导出中每个数据行完全重复两次；接入副本按原始行去重为 42 个独立曝光点。原 #ImageHeight 6376 是 RawSize 高度，按同批暗场给出的成像尺寸 9504x6336 更正为 6336。",
-        "推荐拟合已人工审核：G1 读噪取 PTC 最暗点 imgDSC02085.ARW 的 1.5902 DN，kADC 固定为 2.3 e⁻/DN，剩余参数拟合得到 PRNU 0.1931%。"
+        "推荐拟合已人工审核：G1 读噪取 PTC 最暗点 imgDSC02085.ARW 的 1.5902 DN，kADC 固定为 2.3 e⁻/DN，PRNU 固定为 0.378%。"
       ]
     },
     {
