@@ -292,6 +292,10 @@
     {
       "id": "fujifilm-gfx100__iso100__mech",
       "csv": "collect/gfx100-mech-20260816/ptc-iso100.csv",
+      "readNoiseBreakdown": {
+        "bellShapeDn": 4.28,
+        "totalLongTailDn": 5.2
+      },
       "blackLevelFrom": {
         "darkCsv": "collect/gfx100-mech-20260816/dark-scalars.csv"
       },
@@ -315,13 +319,13 @@
       },
       "recommended": {
         "kind": "fit",
-        "reason": "全自动拟合。这条曲线的暗端停在每像素 SNR 2.97（最暗一级 23.5 DN，读噪 5.17 DN），从未穿过任何一个动态范围判据，实测点云给不出交点；模型能给，代价是它是模型。补拍暗端两档之后应当复核这条判定。"
+        "reason": "全自动拟合。G1 暗场读噪分布并非单一钟形：钟形核心为 4.28 DN，计入总长尾为 5.20 DN，主界面同时报告两者。这条曲线的暗端没有穿过动态范围判据，实测点云给不出交点；模型能给，代价是它是模型。补拍暗端两档之后应当复核这条判定。"
       }
     },
     {
       "id": "canon-r62__iso100__mech",
       "csv": "collect/r62-mech-20260813/ptc-iso100.csv",
-      "chartNote": "数据点波动因为 prescaling",
+      "curveLabelNote": "数据点波动因为 prescaling",
       "blackLevelFrom": {
         "darkCsv": "collect/r62-mech-20260813/dark-scalars.csv"
       },
@@ -376,7 +380,7 @@
     {
       "id": "sony-a7rm4a__iso100__mech",
       "csv": "collect/a7rm4a-mech-20260820/ptc-iso100.csv",
-      "chartNote": "数据点波动因为 prescaling",
+      "curveLabelNote": "数据点波动因为 prescaling",
       "blackLevelFrom": {
         "darkCsv": "collect/a7rm4a-mech-20260820/dark-scalars.csv"
       },
@@ -413,8 +417,8 @@
         "note": "人工推荐：读噪固定为 PTC 列表中最暗 G1 点 imgDSC02085.ARW 的 1.5902 DN；kADC 固定为 2.3 e⁻/DN；PRNU 固定为 0.378%。"
       },
       "recommended": {
-        "kind": "fit",
-        "reason": "按人工审核参数展示：G1 读噪取 PTC 列表最暗点 1.5902 DN，kADC 固定为 2.3 e⁻/DN，PRNU 固定为 0.378%。"
+        "kind": "line",
+        "reason": "主图直接连接 G1 实测点，不显示整条推荐拟合线；人工审核的读噪 1.5902 DN、kADC 2.3 e⁻/DN 与 PRNU 0.378% 保留为表格参数，并只用于亮端超出实测范围后的外推。"
       }
     },
     {
