@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": "nikon-z7__iso64__mech",
+      "csv": "nikon-z7-iso64-mech.csv",
+      "camera": {
+        "brand": "Nikon",
+        "model": "Z7",
+        "heightPx": 5504,
+        "pixelPitchUm": null
+      },
+      "iso": 64,
+      "mode": {
+        "bitDepth": 14,
+        "shutter": "机械快门",
+        "compression": "无损压缩",
+        "gainMode": null
+      },
+      "source": {
+        "method": "Independent",
+        "tester": null,
+        "measuredAt": null
+      },
+      "recommended": {
+        "kind": "line",
+        "reason": "主体按 G1 实测点连线；黑电平取最暗实测行，亮端超出实测范围后按 G1 自动拟合延伸到 0 EV。"
+      }
+    },
+    {
       "id": "panasonic-g9m2__iso100__mech",
       "csv": "panasonic-g9m2-iso100-mech.csv",
       "camera": {
