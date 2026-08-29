@@ -142,6 +142,7 @@ function buildEntries() {
     .map((entry) => ({
       id: `${entry.date}:${entry.type}`,
       date: entry.date,
+      endDate: entry.endDate ? String(entry.endDate) : null,
       type: entry.type,
       text: String(entry.text ?? ""),
     }))
@@ -162,7 +163,9 @@ function buildNodes(entries) {
   });
 
   entries.forEach((entry) => {
-    nodeMap.set(entry.date, { id: `${entry.date}:node`, date: entry.date });
+    buildDateRange(entry.date, entry.endDate || entry.date).forEach((date) => {
+      nodeMap.set(date, { id: `${date}:node`, date });
+    });
   });
 
   return [...nodeMap.values()].sort((left, right) => parseISO(left.date) - parseISO(right.date));
@@ -186,6 +189,7 @@ function getRangeStart(entries) {
     toISO(START_DATE),
     ...customNodes.map((node) => node?.date).filter(Boolean),
     ...entries.map((entry) => entry.date),
+    ...entries.map((entry) => entry.endDate).filter(Boolean),
   ];
 
   return dates.sort((left, right) => left.localeCompare(right))[0];
@@ -196,6 +200,7 @@ function getRangeEnd(entries) {
     toISO(END_DATE),
     ...customNodes.map((node) => node?.date).filter(Boolean),
     ...entries.map((entry) => entry.date),
+    ...entries.map((entry) => entry.endDate).filter(Boolean),
   ];
 
   return dates.sort((left, right) => right.localeCompare(left))[0];
@@ -339,7 +344,7 @@ function drawCards(entries, layout) {
       return `
         <article class="entry-card ${entry.type}${active}" data-entry-id="${entry.id}" data-node-id="${entry.date}:node" style="left:${point.x}px;top:${point.y}px">
           <div class="entry-meta">
-            <time datetime="${entry.date}">${formatDate(entry.date)}</time>
+            <time datetime="${entry.date}">${formatDateRange(entry.date, entry.endDate)}</time>
             <span class="entry-type">${typeText[entry.type]}</span>
           </div>
           <p>${escapeHTML(entry.text)}</p>
@@ -584,6 +589,25 @@ function parseISO(value) {
 function formatDate(value) {
   const date = parseISO(value);
   return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+}
+
+function formatDateRange(startValue, endValue) {
+  if (!endValue || endValue <= startValue) {
+    return formatDate(startValue);
+  }
+
+  const start = parseISO(startValue);
+  const end = parseISO(endValue);
+
+  if (start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()) {
+    return `${start.getFullYear()}.${start.getMonth() + 1}.${start.getDate()}-${end.getDate()}`;
+  }
+
+  if (start.getFullYear() === end.getFullYear()) {
+    return `${start.getFullYear()}.${start.getMonth() + 1}.${start.getDate()}-${end.getMonth() + 1}.${end.getDate()}`;
+  }
+
+  return `${formatDate(startValue)}-${formatDate(endValue)}`;
 }
 
 function formatMonth(value) {
