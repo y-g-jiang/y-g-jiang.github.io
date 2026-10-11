@@ -4,6 +4,7 @@
   "version": "2.3.16",
   "title": "Jiangtherapee Bridge 2.3.16",
   "notes": [
+    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.16/Jiangtherapee-Bridge-2.3.16-Windows-x64.zip",
     "JSR 批量分组与逐组重建：默认包含子目录；Stormer 默认勾选最前 7 张，十四帧模式默认勾选最前 14 张，可逐组审阅并手动调整。",
     "答疑交流反馈群 QQ 1025168246。"
   ],
