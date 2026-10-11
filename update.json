@@ -1,17 +1,18 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "2.3.13",
-  "title": "Jiangtherapee Bridge 2.3.13 · 支持作者链接纠正",
+  "version": "2.3.14",
+  "title": "Jiangtherapee Bridge 2.3.14 · 启动更新提示",
   "notes": [
+    "从本版起，每次打开程序立即检查更新；发现未跳过的新版本自动显示更新说明，可选择稍后或跳过该版本。",
     "作者爱发电：https://afdian.com/a/ygjiang 。此前“支持作者”按钮误指向了个人主页，现已恢复为作者的爱发电页面。",
     "各 JSR 界面均可点击“支持作者”打开爱发电；“关于作者”单独打开个人主页。",
     "本版包含 JSR 批量分组与逐组重建：默认包含子目录；Stormer 选最前 7 张，十四帧模式选最前 14 张，可逐组审阅调整。",
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.13/Jiangtherapee-Bridge-2.3.13-Windows-x64.zip",
-    "size": 522493860,
-    "sha256": "82e5cfc486a79efa6d7baa45c913bf64e9149b4caf0af23ea8d794ffc2837a6a"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.14/Jiangtherapee-Bridge-2.3.14-Windows-x64.zip",
+    "size": 522494913,
+    "sha256": "c75a3270bce9f24eb9ad598263fa230a0eef11b91e00387fa6cccd17863c5578"
   }
 }
