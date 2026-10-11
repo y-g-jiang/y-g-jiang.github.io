@@ -1,9 +1,10 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "2.3.14",
-  "title": "Jiangtherapee Bridge 2.3.14 · 启动更新提示",
+  "version": "2.3.15",
+  "title": "Jiangtherapee Bridge 2.3.15 · 批量审阅滚动修复",
   "notes": [
+    "修复批量审阅页滚动到底部时照片和勾选项被状态栏遮挡的问题；审阅区现在随窗口实际可用高度调整并独立滚动。",
     "从本版起，每次打开程序立即检查更新；发现未跳过的新版本自动显示更新说明，可选择稍后或跳过该版本。",
     "作者爱发电：https://afdian.com/a/ygjiang 。此前“支持作者”按钮误指向了个人主页，现已恢复为作者的爱发电页面。",
     "各 JSR 界面均可点击“支持作者”打开爱发电；“关于作者”单独打开个人主页。",
@@ -11,8 +12,8 @@
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.14/Jiangtherapee-Bridge-2.3.14-Windows-x64.zip",
-    "size": 522494913,
-    "sha256": "c75a3270bce9f24eb9ad598263fa230a0eef11b91e00387fa6cccd17863c5578"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.15/Jiangtherapee-Bridge-2.3.15-Windows-x64.zip",
+    "size": 522494248,
+    "sha256": "aec43c2b6cb3ebdcaddcf441d316da1bec01ab79c45848474133c6cbfca03378"
   }
 }
