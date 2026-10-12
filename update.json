@@ -1,25 +1,26 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "2.3.23",
-  "title": "Jiangtherapee Bridge 2.3.23",
+  "version": "2.3.24",
+  "title": "Jiangtherapee Bridge 2.3.24",
   "notes": [
-    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.23/Jiangtherapee-Bridge-2.3.23-Windows-x64.zip",
+    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.24/Jiangtherapee-Bridge-2.3.24-Windows-x64.zip",
     "新增 Bridge 独立 DeepSeek 助手，默认 Flash / high；填写自己的 API Key 后启用。",
-    "JSR harness 自动读取本体日志，报错主动诊断；用户授权后可自主运行脚本、批量处理、并行诊断与重试。",
+    "DS 可自主休眠等待，只有任务故障或明确结果才唤醒；进度变化保持安静，等待期间不调用模型。",
+    "JSR harness 自动读取本体日志；用户授权后可自主脚本批量、并行诊断与重试。",
     "修复“单轮工具调用过多”，单轮 40 项工具调用测试通过。三种 JSR 模式仍保留单组界面。",
     "支持作者：https://afdian.com/a/ygjiang",
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 522700179,
-    "sha256": "b5885cca3f3629ef5be24ee56de685f9f98add21760966c7d425567050d372ff",
+    "size": 522702648,
+    "sha256": "c26ae2ae3d797030b525d6d4a8a10c1b2366357796869452ef0f681ca177dc22",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.23/Jiangtherapee-Bridge-2.3.23-Windows-x64.zip",
-    "size": 522700179,
-    "sha256": "b5885cca3f3629ef5be24ee56de685f9f98add21760966c7d425567050d372ff"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.24/Jiangtherapee-Bridge-2.3.24-Windows-x64.zip",
+    "size": 522702648,
+    "sha256": "c26ae2ae3d797030b525d6d4a8a10c1b2366357796869452ef0f681ca177dc22"
   }
 }
