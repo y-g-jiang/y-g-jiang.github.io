@@ -1,22 +1,25 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "2.3.17",
-  "title": "Jiangtherapee Bridge 2.3.17",
+  "version": "2.3.23",
+  "title": "Jiangtherapee Bridge 2.3.23",
   "notes": [
-    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.17/Jiangtherapee-Bridge-2.3.17-Windows-x64.zip",
-    "本版已撤销 JSR 批量模式，三种模式均使用单组重建。",
+    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.23/Jiangtherapee-Bridge-2.3.23-Windows-x64.zip",
+    "新增 Bridge 独立 DeepSeek 助手，默认 Flash / high；填写自己的 API Key 后启用。",
+    "JSR harness 自动读取本体日志，报错主动诊断；用户授权后可自主运行脚本、批量处理、并行诊断与重试。",
+    "修复“单轮工具调用过多”，单轮 40 项工具调用测试通过。三种 JSR 模式仍保留单组界面。",
+    "支持作者：https://afdian.com/a/ygjiang",
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 522483000,
-    "sha256": "62ce1c32174b4a67bbfef91b8a0a6585f69f464510f8c4de85b9e1196f64c765",
+    "size": 522700179,
+    "sha256": "b5885cca3f3629ef5be24ee56de685f9f98add21760966c7d425567050d372ff",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.17/Jiangtherapee-Bridge-2.3.17-Windows-x64.zip",
-    "size": 522483000,
-    "sha256": "62ce1c32174b4a67bbfef91b8a0a6585f69f464510f8c4de85b9e1196f64c765"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.23/Jiangtherapee-Bridge-2.3.23-Windows-x64.zip",
+    "size": 522700179,
+    "sha256": "b5885cca3f3629ef5be24ee56de685f9f98add21760966c7d425567050d372ff"
   }
 }
