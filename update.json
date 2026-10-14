@@ -1,27 +1,26 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "2.3.25",
-  "title": "Jiangtherapee Bridge 2.3.25",
+  "version": "2.3.27",
+  "title": "Jiangtherapee Bridge 2.3.27",
   "notes": [
-    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.25/Jiangtherapee-Bridge-2.3.25-Windows-x64.zip",
-    "新增 Bridge 独立 DeepSeek 助手，默认 Flash / high；填写自己的 API Key 后启用。",
-    "新增直接联网搜索与网页读取，返回真实正文和来源链接；无需额外搜索 Key。联网工具已通过便携 EXE 实网验证。",
-    "DS 可自主休眠等待，只有任务故障或明确结果才唤醒；进度变化保持安静，等待期间不调用模型。",
-    "JSR harness 自动读取本体日志；用户授权后可自主脚本批量、并行诊断与重试。",
-    "修复“单轮工具调用过多”，单轮 40 项工具调用测试通过。三种 JSR 模式仍保留单组界面。",
+    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.27/Jiangtherapee-Bridge-2.3.27-Windows-x64.zip",
+    "新增 Z8 内置三种 RAW 压缩模式的实拍黑场，自动匹配 ISO 与压缩；未知 ISO 的满阱值按 ISO 线性插值。",
+    "Z8 模式恢复批量分组审阅、首 7/14 张选择与逐组重建，进度显示当前批次，无需手选黑场。",
+    "DNG 保留本组参考原片的 Z8 EXIF、镜头及 Nikon 私有信息；去鬼影双输出均适用。",
+    "保留 Bridge 独立 DeepSeek 助手、联网、脚本工具与自主休眠。",
     "支持作者：https://afdian.com/a/ygjiang",
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 524697498,
-    "sha256": "ecc216a8ae17ae4145433cbdb98809debf074fcf07ad8107fb9d7dc1ca2a2f98",
+    "size": 625762408,
+    "sha256": "70c16b20cdaa03530ba220ccbc4d597d8429e781b522b0e8e086f00fb421aec9",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.25/Jiangtherapee-Bridge-2.3.25-Windows-x64.zip",
-    "size": 524697498,
-    "sha256": "ecc216a8ae17ae4145433cbdb98809debf074fcf07ad8107fb9d7dc1ca2a2f98"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.27/Jiangtherapee-Bridge-2.3.27-Windows-x64.zip",
+    "size": 625762408,
+    "sha256": "70c16b20cdaa03530ba220ccbc4d597d8429e781b522b0e8e086f00fb421aec9"
   }
 }
