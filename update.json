@@ -12,13 +12,13 @@
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 620695296,
-    "sha256": "09551737259dc333b36042258a8cbf6a76b13d7c5e844f01bccfc1f3a6538a31",
+    "size": 620689917,
+    "sha256": "538f9799bb24fb266d0b6ac4d71aff4cd2dfc55ba0a659d4b7652cd6f41fa649",
     "action": "author_support"
   },
   "package": {
     "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.1.1/JSR_V17.1.1.zip",
-    "size": 620695296,
-    "sha256": "09551737259dc333b36042258a8cbf6a76b13d7c5e844f01bccfc1f3a6538a31"
+    "size": 620689917,
+    "sha256": "538f9799bb24fb266d0b6ac4d71aff4cd2dfc55ba0a659d4b7652cd6f41fa649"
   }
 }
