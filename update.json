@@ -1,26 +1,24 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "2.3.27",
-  "title": "Jiangtherapee Bridge 2.3.27",
+  "version": "17.1.1",
+  "title": "JSR_V17.1.1 · 独立版",
   "notes": [
-    "新版安装包下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.27/Jiangtherapee-Bridge-2.3.27-Windows-x64.zip",
-    "新增 Z8 内置三种 RAW 压缩模式的实拍黑场，自动匹配 ISO 与压缩；未知 ISO 的满阱值按 ISO 线性插值。",
-    "Z8 模式恢复批量分组审阅、首 7/14 张选择与逐组重建，进度显示当前批次，无需手选黑场。",
-    "DNG 保留本组参考原片的 Z8 EXIF、镜头及 Nikon 私有信息；去鬼影双输出均适用。",
-    "保留 Bridge 独立 DeepSeek 助手、联网、脚本工具与自主休眠。",
-    "支持作者：https://afdian.com/a/ygjiang",
+    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/untagged-6a9e78d4d7a8c33ea7ce/JSR_V17.1.1.zip",
+    "JSR 独立版：默认 Stormer，支持 Z8 / S5M2 专用预设与手动添加多组。",
+    "界面支持逐张拖入、左右独立滚动、机型与 ISO 两级 PTC 选择；DNG 直接保存在输出目录第一层。",
+    "右上角检查更新；每次启动自动检查新版。机型适配请联系作者。",
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 625762408,
-    "sha256": "70c16b20cdaa03530ba220ccbc4d597d8429e781b522b0e8e086f00fb421aec9",
+    "size": 620695296,
+    "sha256": "09551737259dc333b36042258a8cbf6a76b13d7c5e844f01bccfc1f3a6538a31",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jb-v2.3.27/Jiangtherapee-Bridge-2.3.27-Windows-x64.zip",
-    "size": 625762408,
-    "sha256": "70c16b20cdaa03530ba220ccbc4d597d8429e781b522b0e8e086f00fb421aec9"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/untagged-6a9e78d4d7a8c33ea7ce/JSR_V17.1.1.zip",
+    "size": 620695296,
+    "sha256": "09551737259dc333b36042258a8cbf6a76b13d7c5e844f01bccfc1f3a6538a31"
   }
 }
