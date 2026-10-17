@@ -3,19 +3,19 @@
   "product": "JSR",
   "channel": "stable",
   "release": {
-    "version": "17.1.1",
-    "title": "JSR_V17.1.1",
+    "version": "17.2.1",
+    "title": "JSR_V17.2.1",
     "notes": [
-      "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.1.1/JSR_V17.1.1.zip",
-      "JSR 独立版：默认 Stormer，支持 Z8 / S5M2 专用预设与手动添加多组。",
-      "界面支持逐张拖入、左右独立滚动、机型与 ISO 两级 PTC 选择；DNG 直接保存在输出目录第一层。",
-      "右上角检查更新；每次启动自动检查新版。机型适配请联系作者。",
+      "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.2.1/JSR_V17.2.1.zip",
+      "因黑场可能漂移，已撤销 Z8 / S5M2 专用预设及专用机型选择条；所有机型只保留原手动入口。",
+      "请为本次拍摄选择适用的黑场，或在支持的模式中填写可靠的手动标定参数；机型识别不再跳过黑场。",
+      "保留 Stormer / Fast / K14 三种重建模型、PTC 与 ISO 满阱插值、逐张拖入及第一层 DNG 输出。",
       "答疑交流反馈群 QQ 1025168246。"
     ],
     "package": {
-      "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.1.1/JSR_V17.1.1.zip",
-      "size": 620689917,
-      "sha256": "538f9799bb24fb266d0b6ac4d71aff4cd2dfc55ba0a659d4b7652cd6f41fa649"
+      "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.2.1/JSR_V17.2.1.zip",
+      "size": 519539375,
+      "sha256": "e06860450ef08f1140bb41eadf95898e810ec5494307832cc73bf2799ba652e8"
     }
   }
 }
