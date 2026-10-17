@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "product": "JDN",
+  "channel": "stable",
+  "release": {
+    "version": "2.1.2",
+    "title": "JDN_V2.1.2 · 黑场标定更新",
+    "notes": [
+      "新版下载：https://github.com/y-g-jiang/Jiangtherapee-DeNoise-World-Best/releases/download/v2.1.2/JDN_V2.1.2.zip",
+      "已取消 Z8 / S5M2 专用预设和专用选择栏，避免黑电平漂移造成暗部偏色。",
+      "所有机型使用手动流程：每次处理一张 RAW，选择对应黑场，或填写实测黑电平与读噪。PTC 自动匹配与满阱插值继续保留。",
+      "2.1.1 用户需手动下载本次更新；2.1.2 起支持启动检查及右上角检查更新。",
+      "答疑交流反馈群 QQ 1025168246。"
+    ],
+    "package": {
+      "url": "https://github.com/y-g-jiang/Jiangtherapee-DeNoise-World-Best/releases/download/v2.1.2/JDN_V2.1.2.zip",
+      "size": 118851144,
+      "sha256": "302a142f6c8ac7a0a40a97586b93a1b25f74b20b6706e1f77f11048cd95a2fab"
+    }
+  }
+}
