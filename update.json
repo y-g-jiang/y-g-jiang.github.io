@@ -1,24 +1,24 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "17.2.1",
-  "title": "JSR_V17.2.1 · 独立版",
+  "version": "17.3.1",
+  "title": "JSR_V17.3.1 · Stormer 四次场对齐",
   "notes": [
-    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.2.1/JSR_V17.2.1.zip",
-    "因黑场可能漂移，已撤销 Z8 / S5M2 专用预设及专用机型选择条；所有机型只保留原手动入口。",
-    "请为本次拍摄选择适用的黑场，或在支持的模式中填写可靠的手动标定参数；机型识别不再跳过黑场。",
-    "保留 Stormer / Fast / K14 三种重建模型、PTC 与 ISO 满阱插值、逐张拖入及第一层 DNG 输出。",
+    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.3.1/JSR_V17.3.1.zip",
+    "Stormer 七帧对齐由 SPyNet 光流切换为全局单应＋高光掩膜四次残差场。",
+    "高光掩膜按各帧实际白电平处理；去鬼影与重建共用同一套新对齐坐标。",
+    "保留 Stormer 原权重、原生无损 DNG 压缩链路及 Fast / K14 模式。所有机型继续使用手动标定入口，PTC 与 ISO 满阱插值保留。",
     "答疑交流反馈群 QQ 1025168246。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 519539375,
-    "sha256": "e06860450ef08f1140bb41eadf95898e810ec5494307832cc73bf2799ba652e8",
+    "size": 517284175,
+    "sha256": "3509347135e2513b95104fa545da2479fdf23262aa26135249b245075cd7fef5",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.2.1/JSR_V17.2.1.zip",
-    "size": 519539375,
-    "sha256": "e06860450ef08f1140bb41eadf95898e810ec5494307832cc73bf2799ba652e8"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v17.3.1/JSR_V17.3.1.zip",
+    "size": 517284175,
+    "sha256": "3509347135e2513b95104fa545da2479fdf23262aa26135249b245075cd7fef5"
   }
 }
