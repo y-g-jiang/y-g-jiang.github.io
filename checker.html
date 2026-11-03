@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>ColorChecker Classic · 24 patches + blue band</title>
+<style>
+  :root {
+    --bg: #262626;
+    --ink: #ececec;
+    --dim: #9a9a9a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    /* chart height in units of 100 px: 5 rows with the band, else 4 */
+    --hh: 21.2;
+    --s: min(calc(94vw / 23.1), calc(88vh / var(--hh)));
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 clamp(11px, calc(.24 * var(--s)), 15px)/1.45
+          -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body:not(.extended) { --hh: 15.9; }
+
+  .chart {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    width: calc(23.1 * var(--s));
+    height: calc(var(--hh) * var(--s));
+    padding: calc(.9 * var(--s));
+    gap: calc(.3 * var(--s));
+    background: #000;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / .07),
+                0 2.4rem 5rem -1.5rem rgb(0 0 0 / .85);
+  }
+  #chart-24 { grid-template-rows: repeat(4, 1fr); }
+  #chart-band { grid-template-rows: 3.3fr 3.3fr 5fr 3.3fr 3.3fr; }
+  body.extended #chart-24,
+  body:not(.extended) #chart-band { display: none; }
+
+  .patch {
+    position: relative;
+    background: var(--c);
+    outline: 0 solid #fff;
+    outline-offset: 0;
+    transition: outline-width .1s ease, outline-offset .1s ease;
+  }
+  .patch:hover,
+  .patch:focus-visible {
+    outline-width: calc(.055 * var(--s));
+    outline-offset: calc(.045 * var(--s));
+    z-index: 2;
+  }
+
+  .band {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: calc(.08 * var(--s));
+    min-height: 0;
+  }
+  .band i {
+    flex: 1 1 0;
+    min-width: 0;
+    background: var(--c);
+  }
+
+  /* optional patch numbers */
+  .numbers .patch::after {
+    content: attr(data-n);
+    position: absolute;
+    top: calc(.12 * var(--s));
+    left: calc(.12 * var(--s));
+    padding: .06em .38em;
+    border-radius: .28em;
+    background: rgb(0 0 0 / .58);
+    color: #fff;
+    font: 600 clamp(8px, calc(.155 * var(--s)), 11px)/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  .hud {
+    position: fixed;
+    left: 50%;
+    bottom: clamp(8px, 1.6vh, 16px);
+    transform: translate(-50%, .4rem);
+    display: flex;
+    align-items: center;
+    gap: .85em;
+    padding: .5em .9em .5em .6em;
+    border-radius: 999px;
+    background: rgb(18 18 18 / .82);
+    border: 1px solid rgb(255 255 255 / .1);
+    box-shadow: 0 1rem 2.4rem -1rem rgb(0 0 0 / .9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: clamp(11px, calc(.23 * var(--s)), 14px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    white-space: nowrap;
+  }
+  body.inspecting .hud { opacity: 1; transform: translate(-50%, 0); }
+
+  .hud .swatch {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: .32em;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .22);
+  }
+  .hud .code {
+    color: var(--dim);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: .95em;
+  }
+  .hud .note {
+    padding-left: .7em;
+    border-left: 1px solid rgb(255 255 255 / .14);
+    color: #b9b9b9;
+    font-size: .92em;
+  }
+  .hud .note:empty { display: none; }
+  .hud.copied .code { color: #8ee6a8; }
+
+  .hint {
+    position: fixed;
+    top: clamp(10px, 2.2vh, 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--dim);
+    font-size: clamp(10px, calc(.19 * var(--s)), 12px);
+    letter-spacing: .02em;
+    opacity: 0;
+    animation: hint 9s ease forwards;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  @keyframes hint {
+    0% { opacity: 0; }
+    7%, 74% { opacity: .85; }
+    100% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .patch, .hud { transition: none; }
+    .hint { animation: none; opacity: .7; }
+  }
+</style>
+</head>
+<body class="extended">
+
+<main class="chart" id="chart-24" aria-label="ColorChecker Classic, 24 patches">
+  <div class="patch" tabindex="0" role="img" data-n="1" data-name="Dark Skin" data-hex="#735244" data-rgb="115 82 68" aria-label="Patch 1: Dark Skin, #735244, sRGB 115 82 68" style="--c: rgb(115 82 68)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="2" data-name="Light Skin" data-hex="#C29682" data-rgb="194 150 130" aria-label="Patch 2: Light Skin, #C29682, sRGB 194 150 130" style="--c: rgb(194 150 130)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="3" data-name="Blue Sky" data-hex="#627A9D" data-rgb="98 122 157" aria-label="Patch 3: Blue Sky, #627A9D, sRGB 98 122 157" style="--c: rgb(98 122 157)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="4" data-name="Foliage" data-hex="#576C43" data-rgb="87 108 67" aria-label="Patch 4: Foliage, #576C43, sRGB 87 108 67" style="--c: rgb(87 108 67)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="5" data-name="Blue Flower" data-hex="#8580B1" data-rgb="133 128 177" aria-label="Patch 5: Blue Flower, #8580B1, sRGB 133 128 177" style="--c: rgb(133 128 177)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="6" data-name="Bluish Green" data-hex="#67BDAA" data-rgb="103 189 170" aria-label="Patch 6: Bluish Green, #67BDAA, sRGB 103 189 170" style="--c: rgb(103 189 170)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="7" data-name="Orange" data-hex="#D67E2C" data-rgb="214 126 44" aria-label="Patch 7: Orange, #D67E2C, sRGB 214 126 44" style="--c: rgb(214 126 44)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="8" data-name="Purplish Blue" data-hex="#505BA6" data-rgb="80 91 166" aria-label="Patch 8: Purplish Blue, #505BA6, sRGB 80 91 166" style="--c: rgb(80 91 166)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="9" data-name="Moderate Red" data-hex="#C15A63" data-rgb="193 90 99" aria-label="Patch 9: Moderate Red, #C15A63, sRGB 193 90 99" style="--c: rgb(193 90 99)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="10" data-name="Purple" data-hex="#5E3C6C" data-rgb="94 60 108" aria-label="Patch 10: Purple, #5E3C6C, sRGB 94 60 108" style="--c: rgb(94 60 108)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="11" data-name="Yellow Green" data-hex="#9DBC40" data-rgb="157 188 64" aria-label="Patch 11: Yellow Green, #9DBC40, sRGB 157 188 64" style="--c: rgb(157 188 64)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="12" data-name="Orange Yellow" data-hex="#E0A32E" data-rgb="224 163 46" aria-label="Patch 12: Orange Yellow, #E0A32E, sRGB 224 163 46" style="--c: rgb(224 163 46)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="13" data-name="Blue" data-hex="#383D96" data-rgb="56 61 150" aria-label="Patch 13: Blue, #383D96, sRGB 56 61 150" style="--c: rgb(56 61 150)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="14" data-name="Green" data-hex="#469449" data-rgb="70 148 73" aria-label="Patch 14: Green, #469449, sRGB 70 148 73" style="--c: rgb(70 148 73)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="15" data-name="Red" data-hex="#AF363C" data-rgb="175 54 60" aria-label="Patch 15: Red, #AF363C, sRGB 175 54 60" style="--c: rgb(175 54 60)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="16" data-name="Yellow" data-hex="#E7C71F" data-rgb="231 199 31" aria-label="Patch 16: Yellow, #E7C71F, sRGB 231 199 31" style="--c: rgb(231 199 31)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="17" data-name="Magenta" data-hex="#BB5695" data-rgb="187 86 149" aria-label="Patch 17: Magenta, #BB5695, sRGB 187 86 149" style="--c: rgb(187 86 149)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="18" data-name="Cyan" data-hex="#0885A1" data-rgb="8 133 161" aria-label="Patch 18: Cyan, #0885A1, sRGB 8 133 161" style="--c: rgb(8 133 161)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="19" data-name="White 9.5" data-hex="#F3F3F2" data-rgb="243 243 242" aria-label="Patch 19: White 9.5, #F3F3F2, sRGB 243 243 242" style="--c: rgb(243 243 242)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="20" data-name="Neutral 8" data-hex="#C8C8C8" data-rgb="200 200 200" aria-label="Patch 20: Neutral 8, #C8C8C8, sRGB 200 200 200" style="--c: rgb(200 200 200)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="21" data-name="Neutral 6.5" data-hex="#A0A0A0" data-rgb="160 160 160" aria-label="Patch 21: Neutral 6.5, #A0A0A0, sRGB 160 160 160" style="--c: rgb(160 160 160)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="22" data-name="Neutral 5" data-hex="#7A7A79" data-rgb="122 122 121" aria-label="Patch 22: Neutral 5, #7A7A79, sRGB 122 122 121" style="--c: rgb(122 122 121)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="23" data-name="Neutral 3.5" data-hex="#555555" data-rgb="85 85 85" aria-label="Patch 23: Neutral 3.5, #555555, sRGB 85 85 85" style="--c: rgb(85 85 85)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="24" data-name="Black 2" data-hex="#343434" data-rgb="52 52 52" aria-label="Patch 24: Black 2, #343434, sRGB 52 52 52" style="--c: rgb(52 52 52)"></div>
+</main>
+
+<main class="chart" id="chart-band" aria-label="ColorChecker Classic with a saturated blue bar band">
+  <div class="patch" tabindex="0" role="img" data-n="1" data-name="Dark Skin" data-hex="#735244" data-rgb="115 82 68" aria-label="Patch 1: Dark Skin, #735244, sRGB 115 82 68" style="--c: rgb(115 82 68)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="2" data-name="Light Skin" data-hex="#C29682" data-rgb="194 150 130" aria-label="Patch 2: Light Skin, #C29682, sRGB 194 150 130" style="--c: rgb(194 150 130)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="3" data-name="Blue Sky" data-hex="#627A9D" data-rgb="98 122 157" aria-label="Patch 3: Blue Sky, #627A9D, sRGB 98 122 157" style="--c: rgb(98 122 157)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="4" data-name="Foliage" data-hex="#576C43" data-rgb="87 108 67" aria-label="Patch 4: Foliage, #576C43, sRGB 87 108 67" style="--c: rgb(87 108 67)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="5" data-name="Blue Flower" data-hex="#8580B1" data-rgb="133 128 177" aria-label="Patch 5: Blue Flower, #8580B1, sRGB 133 128 177" style="--c: rgb(133 128 177)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="6" data-name="Bluish Green" data-hex="#67BDAA" data-rgb="103 189 170" aria-label="Patch 6: Bluish Green, #67BDAA, sRGB 103 189 170" style="--c: rgb(103 189 170)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="7" data-name="Orange" data-hex="#D67E2C" data-rgb="214 126 44" aria-label="Patch 7: Orange, #D67E2C, sRGB 214 126 44" style="--c: rgb(214 126 44)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="8" data-name="Purplish Blue" data-hex="#505BA6" data-rgb="80 91 166" aria-label="Patch 8: Purplish Blue, #505BA6, sRGB 80 91 166" style="--c: rgb(80 91 166)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="9" data-name="Moderate Red" data-hex="#C15A63" data-rgb="193 90 99" aria-label="Patch 9: Moderate Red, #C15A63, sRGB 193 90 99" style="--c: rgb(193 90 99)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="10" data-name="Purple" data-hex="#5E3C6C" data-rgb="94 60 108" aria-label="Patch 10: Purple, #5E3C6C, sRGB 94 60 108" style="--c: rgb(94 60 108)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="11" data-name="Yellow Green" data-hex="#9DBC40" data-rgb="157 188 64" aria-label="Patch 11: Yellow Green, #9DBC40, sRGB 157 188 64" style="--c: rgb(157 188 64)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="12" data-name="Orange Yellow" data-hex="#E0A32E" data-rgb="224 163 46" aria-label="Patch 12: Orange Yellow, #E0A32E, sRGB 224 163 46" style="--c: rgb(224 163 46)"></div>
+  <div class="band" role="img" aria-label="45-step saturated blue ramp, sRGB"><i style="--c:#81878D" aria-hidden="true"></i><i style="--c:#798696" aria-hidden="true"></i><i style="--c:#73869C" aria-hidden="true"></i><i style="--c:#6E85A1" aria-hidden="true"></i><i style="--c:#6984A6" aria-hidden="true"></i><i style="--c:#6482AA" aria-hidden="true"></i><i style="--c:#6081AE" aria-hidden="true"></i><i style="--c:#5C80B2" aria-hidden="true"></i><i style="--c:#587EB6" aria-hidden="true"></i><i style="--c:#547DB9" aria-hidden="true"></i><i style="--c:#507BBD" aria-hidden="true"></i><i style="--c:#4D79C0" aria-hidden="true"></i><i style="--c:#4A77C4" aria-hidden="true"></i><i style="--c:#4775C7" aria-hidden="true"></i><i style="--c:#4473CA" aria-hidden="true"></i><i style="--c:#4271CD" aria-hidden="true"></i><i style="--c:#406FD0" aria-hidden="true"></i><i style="--c:#3E6CD3" aria-hidden="true"></i><i style="--c:#3C6AD5" aria-hidden="true"></i><i style="--c:#3B67D8" aria-hidden="true"></i><i style="--c:#3A64DB" aria-hidden="true"></i><i style="--c:#3A61DD" aria-hidden="true"></i><i style="--c:#395EE0" aria-hidden="true"></i><i style="--c:#395BE2" aria-hidden="true"></i><i style="--c:#3958E5" aria-hidden="true"></i><i style="--c:#3A54E7" aria-hidden="true"></i><i style="--c:#3B51E9" aria-hidden="true"></i><i style="--c:#3C4DEB" aria-hidden="true"></i><i style="--c:#3D49EE" aria-hidden="true"></i><i style="--c:#3E44F0" aria-hidden="true"></i><i style="--c:#3F3FF2" aria-hidden="true"></i><i style="--c:#413AF4" aria-hidden="true"></i><i style="--c:#4234F5" aria-hidden="true"></i><i style="--c:#442EF7" aria-hidden="true"></i><i style="--c:#4626F9" aria-hidden="true"></i><i style="--c:#481CFB" aria-hidden="true"></i><i style="--c:#490DFC" aria-hidden="true"></i><i style="--c:#4B03FB" aria-hidden="true"></i><i style="--c:#4C03F7" aria-hidden="true"></i><i style="--c:#4D03F3" aria-hidden="true"></i><i style="--c:#4D03EF" aria-hidden="true"></i><i style="--c:#4E03EC" aria-hidden="true"></i><i style="--c:#4F03E8" aria-hidden="true"></i><i style="--c:#4F03E4" aria-hidden="true"></i><i style="--c:#5002E1" aria-hidden="true"></i></div>
+  <div class="patch" tabindex="0" role="img" data-n="13" data-name="Blue" data-hex="#383D96" data-rgb="56 61 150" aria-label="Patch 13: Blue, #383D96, sRGB 56 61 150" style="--c: rgb(56 61 150)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="14" data-name="Green" data-hex="#469449" data-rgb="70 148 73" aria-label="Patch 14: Green, #469449, sRGB 70 148 73" style="--c: rgb(70 148 73)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="15" data-name="Red" data-hex="#AF363C" data-rgb="175 54 60" aria-label="Patch 15: Red, #AF363C, sRGB 175 54 60" style="--c: rgb(175 54 60)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="16" data-name="Yellow" data-hex="#E7C71F" data-rgb="231 199 31" aria-label="Patch 16: Yellow, #E7C71F, sRGB 231 199 31" style="--c: rgb(231 199 31)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="17" data-name="Magenta" data-hex="#BB5695" data-rgb="187 86 149" aria-label="Patch 17: Magenta, #BB5695, sRGB 187 86 149" style="--c: rgb(187 86 149)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="18" data-name="Cyan" data-hex="#0885A1" data-rgb="8 133 161" aria-label="Patch 18: Cyan, #0885A1, sRGB 8 133 161" style="--c: rgb(8 133 161)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="19" data-name="White 9.5" data-hex="#F3F3F2" data-rgb="243 243 242" aria-label="Patch 19: White 9.5, #F3F3F2, sRGB 243 243 242" style="--c: rgb(243 243 242)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="20" data-name="Neutral 8" data-hex="#C8C8C8" data-rgb="200 200 200" aria-label="Patch 20: Neutral 8, #C8C8C8, sRGB 200 200 200" style="--c: rgb(200 200 200)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="21" data-name="Neutral 6.5" data-hex="#A0A0A0" data-rgb="160 160 160" aria-label="Patch 21: Neutral 6.5, #A0A0A0, sRGB 160 160 160" style="--c: rgb(160 160 160)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="22" data-name="Neutral 5" data-hex="#7A7A79" data-rgb="122 122 121" aria-label="Patch 22: Neutral 5, #7A7A79, sRGB 122 122 121" style="--c: rgb(122 122 121)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="23" data-name="Neutral 3.5" data-hex="#555555" data-rgb="85 85 85" aria-label="Patch 23: Neutral 3.5, #555555, sRGB 85 85 85" style="--c: rgb(85 85 85)"></div>
+  <div class="patch" tabindex="0" role="img" data-n="24" data-name="Black 2" data-hex="#343434" data-rgb="52 52 52" aria-label="Patch 24: Black 2, #343434, sRGB 52 52 52" style="--c: rgb(52 52 52)"></div>
+</main>
+
+<div class="hud" id="hud" aria-live="polite">
+  <span class="swatch" id="hud-swatch"></span>
+  <span id="hud-name"></span>
+  <span class="code" id="hud-code"></span>
+  <span class="note" id="hud-note"></span>
+</div>
+
+<div class="hint">hover a patch &middot; click to copy &middot; N numbers &middot; B blue band &middot; F fullscreen</div>
+
+<script>
+const hud = document.getElementById('hud');
+const hudSwatch = document.getElementById('hud-swatch');
+const hudName = document.getElementById('hud-name');
+const hudCode = document.getElementById('hud-code');
+const hudNote = document.getElementById('hud-note');
+
+let flashTimer = 0;
+
+const describe = cell => {
+  const [r, g, b] = cell.dataset.rgb.split(' ');
+  hudSwatch.style.background = `rgb(${r} ${g} ${b})`;
+  hudName.textContent = cell.dataset.name;
+  hudCode.textContent = `${cell.dataset.hex}   ${r} ${g} ${b}`;
+  hudNote.textContent = cell.dataset.note || '';
+  document.body.classList.add('inspecting');
+};
+
+const hide = () => {
+  document.body.classList.remove('inspecting');
+  hud.classList.remove('copied');
+};
+
+const glow = text => {
+  hud.classList.add('copied');
+  hudCode.textContent = text;
+  clearTimeout(flashTimer);
+  flashTimer = setTimeout(() => hud.classList.remove('copied'), 1100);
+};
+
+for (const cell of document.querySelectorAll('.patch')) {
+  cell.addEventListener('pointerenter', () => describe(cell));
+  cell.addEventListener('focus', () => describe(cell));
+  cell.addEventListener('pointerleave', hide);
+  cell.addEventListener('blur', hide);
+
+  cell.addEventListener('click', async () => {
+    const value = cell.dataset.hex;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const t = document.createElement('textarea');
+      t.value = value;
+      t.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand('copy');
+      t.remove();
+    }
+    describe(cell);
+    glow(`copied ${value}`);
+  });
+}
+
+addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === 'b') { hide(); document.body.classList.toggle('extended'); }
+  if (k === 'n') { document.body.classList.toggle('numbers'); }
+  if (k === 'f') {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen?.();
+  }
+});
+</script>
+</body>
+</html>
