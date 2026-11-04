@@ -2,20 +2,21 @@
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
   "version": "18.3.1",
-  "title": "JSR_V18.3.1",
+  "title": "JSR_V18.3.1 · RAW 兼容修复",
   "notes": [
-    "接入 Jiangtherapee DNG Converter，继承原相机色彩及畸变矫正。",
-    "加回 V5B1 的非学习式高帧数累积高倍率算法。"
+    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.3.1/JSR_V18.3.1.zip",
+    "修复 RAW 支持问题：JDC 不支持或转换失败时自动回退原有 RAW 解码路径；黑场同样适用。",
+    "两条解码路径都失败时，会显示双方的原因。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 664833345,
-    "sha256": "dd90a168241af1e1cec2d5d0f8c456c61742ddf3db73977e56789f98f893120c",
+    "size": 664859780,
+    "sha256": "8823227d24198f8255d2f6cbc96f24ad4b82d44f45fc317cacae08b831648e9c",
     "action": "author_support"
   },
   "package": {
     "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.3.1/JSR_V18.3.1.zip",
-    "size": 664833345,
-    "sha256": "dd90a168241af1e1cec2d5d0f8c456c61742ddf3db73977e56789f98f893120c"
+    "size": 664859780,
+    "sha256": "8823227d24198f8255d2f6cbc96f24ad4b82d44f45fc317cacae08b831648e9c"
   }
 }
