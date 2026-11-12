@@ -1,21 +1,22 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "18.3.1",
-  "title": "JSR_V18.3.1 · 高光偏色修复",
+  "version": "18.2.1",
+  "title": "JSR_V18.2.1 · 原生 RAW 版（无 JDC）",
   "notes": [
-    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.3.1/JSR_V18.3.1.zip",
-    "解决了高光偏色问题。"
+    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.2.1/JSR_V18.2.1.zip",
+    "恢复 JDC 接入前的 18.2.1，RAW 由原后端直接读取。",
+    "保留 Stormer、Fast K14、K14 及传统模式 3×/4×。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 664902544,
-    "sha256": "ce517cf71a19314689ffe098360eacf444d260603e5fc40e9deff3e9ca293207",
+    "size": 614571943,
+    "sha256": "5cf7db089e8c053d9f0730f891aa26bd458b7724f59b66e49ac3a6c038d275cb",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.3.1/JSR_V18.3.1.zip",
-    "size": 664902544,
-    "sha256": "ce517cf71a19314689ffe098360eacf444d260603e5fc40e9deff3e9ca293207"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.2.1/JSR_V18.2.1.zip",
+    "size": 614571943,
+    "sha256": "5cf7db089e8c053d9f0730f891aa26bd458b7724f59b66e49ac3a6c038d275cb"
   }
 }
