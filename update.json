@@ -1,12 +1,12 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "18.2.1",
-  "title": "JSR_V18.2.1 · 原生 RAW 版（无 JDC）",
+  "version": "18.4.1",
+  "title": "JSR_V18.4.1 · 撤销 JDN 适配",
   "notes": [
-    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.2.1/JSR_V18.2.1.zip",
-    "恢复 JDC 接入前的 18.2.1，RAW 由原后端直接读取。",
-    "保留 Stormer、Fast K14、K14 及传统模式 3×/4×。"
+    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.4.1/JSR_V18.4.1.zip",
+    "取消 JDN 适配，避免可能出现的高光偏紫问题。",
+    "18.2.1、18.3.1、18.4.1 下载内容相同，均为撤销 JDN/JDC 适配后的版本。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
@@ -15,7 +15,7 @@
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.2.1/JSR_V18.2.1.zip",
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.4.1/JSR_V18.4.1.zip",
     "size": 614571943,
     "sha256": "5cf7db089e8c053d9f0730f891aa26bd458b7724f59b66e49ac3a6c038d275cb"
   }
