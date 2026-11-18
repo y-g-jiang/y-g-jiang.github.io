@@ -3,15 +3,16 @@
   "product": "JCam",
   "channel": "beta",
   "release": {
-    "version": "0.12.5",
-    "title": "JCam 0.12.5 内测更新",
+    "version": "0.12.6",
+    "title": "JCam 0.12.6 内测更新",
     "notes": [
-      "ToLeica 会在所选原片上逐块显示真实显影结果。保存后轻点照片可以重看显影。",
-      "请向发码人领取新版，在原手机上覆盖安装。"
+      "新开相机默认单帧 DNG，按一次快门保存一张原片。",
+      "改进了物理镜头、预览尺寸与 RAW10 检测。可从 GitHub 下载新版并覆盖安装。"
     ],
     "package": {
-      "size": 106270204,
-      "sha256": "0097398feb2a4159b364fc99a3255da2704cf263ee04aa1da255dea8b5722918"
+      "url": "https://github.com/y-g-jiang/Jiangtherapee-Cam/releases/download/v0.12.6-beta/JCam-0.12.6-beta-arm64.apk",
+      "size": 106274300,
+      "sha256": "6feed35577a2cdfd8180c46759a4038b28321030e2d74aeae2e9150b6268acd0"
     }
   }
 }
