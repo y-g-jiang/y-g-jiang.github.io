@@ -1,22 +1,21 @@
 {
   "product": "Jiangtherapee Bridge",
   "channel": "stable",
-  "version": "18.2.1",
-  "title": "JSR_V18.4.1 · 撤销 JDN 适配",
+  "version": "18.5.1",
+  "title": "JSR_V18.5.1 · K14 月亮拍摄提示",
   "notes": [
-    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.4.1/JSR_V18.4.1.zip",
-    "取消 JDN 适配，避免可能出现的高光偏紫问题。",
-    "18.2.1、18.3.1、18.4.1 下载内容相同，均为撤销 JDN/JDC 适配后的版本。"
+    "新版下载：https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.5.1/JSR_V18.5.1.zip",
+    "K14 · 14 张新增提示：“月亮视宁度差勿此模式”。"
   ],
   "installer": {
     "url": "https://y-g-jiang.github.io/bridge-support.html",
-    "size": 614571943,
-    "sha256": "5cf7db089e8c053d9f0730f891aa26bd458b7724f59b66e49ac3a6c038d275cb",
+    "size": 614542631,
+    "sha256": "8d3e250255ca9b2fb593ac0c396da365eb6bfc991c7c822b7401ebf029c7fb4e",
     "action": "author_support"
   },
   "package": {
-    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.4.1/JSR_V18.4.1.zip",
-    "size": 614571943,
-    "sha256": "5cf7db089e8c053d9f0730f891aa26bd458b7724f59b66e49ac3a6c038d275cb"
+    "url": "https://github.com/y-g-jiang/Jiangtherapee-Super-Resolution-World-Best/releases/download/jsr-v18.5.1/JSR_V18.5.1.zip",
+    "size": 614542631,
+    "sha256": "8d3e250255ca9b2fb593ac0c396da365eb6bfc991c7c822b7401ebf029c7fb4e"
   }
 }
